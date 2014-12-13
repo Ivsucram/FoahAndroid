@@ -3,6 +3,10 @@ package com.obdo.controllers;
 import android.test.InstrumentationTestCase;
 
 /**
- * Created by Marcus Vinícius de Carvalho on 12/11/2014.
+ * Unit tests for class HTTPRequestController
+ * @author Marcus Vinícius de Carvalho
+ * @since 12/13/2014
+ * @version 1.0
+ * @see com.obdo.controllers.HTTPRequestController
  */
 public class HTTPRequestControllerTest extends InstrumentationTestCase {}

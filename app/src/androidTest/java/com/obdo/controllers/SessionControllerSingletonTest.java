@@ -6,7 +6,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 
 /**
- * Created by Marcus Vinícius de Carvalho on 12/11/2014.
+ * Unit tests for class SessionControllerSingleton
+ * @author Marcus Vinícius de Carvalho
+ * @since 12/13/2014
+ * @version 1.0
+ * @see com.obdo.controllers.SessionControllerSingleton
  */
 public class SessionControllerSingletonTest extends InstrumentationTestCase {
     private SessionControllerSingleton sone = null, stwo = null;

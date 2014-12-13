@@ -157,6 +157,7 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private void onCreateButton() {
+        //TODO: Deal when the texdtfield was not edited
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
