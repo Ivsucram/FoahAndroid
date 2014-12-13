@@ -16,6 +16,7 @@ import com.litesuits.http.response.Response;
  */
 public class HTTPRequestController  {
     private LiteHttpClient liteHttpClient;
+    private String server = "http://www.obdo.com";
 
     public HTTPRequestController(Context context) {
         liteHttpClient = LiteHttpClient.newApacheHttpClient(context);
@@ -23,5 +24,25 @@ public class HTTPRequestController  {
 
     private Response SynchronousRequest(String url) {
         return liteHttpClient.execute(new Request(url));
+    }
+
+    public boolean checkUserExists(String phoneNumber, String uid) {
+        return true;
+    }
+
+    public boolean registerUser(String phoneNumber, String uid) {
+        return true;
+    }
+
+    public boolean loginUser(String phoneNumber, String uid) {
+        return true;
+    }
+
+    public boolean updateNickUser(String phoneNumber, String uid, String nick) {
+        return true;
+    }
+
+    public boolean checkSMS(String phoneNumber, String uid, String sms) {
+        return true;
     }
 }

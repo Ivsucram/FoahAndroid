@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.obdo.controllers.SessionControllerSingleton;
 
@@ -68,6 +69,7 @@ public class LoginRegistrationActivity extends ActionBarActivity {
         onCreateButton();
     }
 
+
     //TODO: Complete javadoc with name of application activity
     /**
      * Register user if he have no account yet, Login user if he have already have account. Call NickActivity after it.
@@ -77,7 +79,7 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @see com.obdo.NickActivity
      */
     private void loginRegisterUser() {
-        SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance();
+        SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(getApplicationContext());
         sessionControllerSingleton.setPhoneNumber(editText.getText().toString());
         sessionControllerSingleton.setUID(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
         sessionControllerSingleton.createSMSBroadcastReceiver(getApplicationContext(), getIntent());
@@ -157,11 +159,14 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private void onCreateButton() {
-        //TODO: Deal when the texdtfield was not edited
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginRegisterUser();
+                if (editText.getText() == null || editText.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter your phone number before proceed", Toast.LENGTH_LONG).show();
+                } else {
+                    loginRegisterUser();
+                }
             }
         });
     }

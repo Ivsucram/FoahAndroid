@@ -1,4 +1,4 @@
-package com.obdo.views;
+package com.obdo;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

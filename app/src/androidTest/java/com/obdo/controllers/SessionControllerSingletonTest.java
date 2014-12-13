@@ -26,20 +26,31 @@ public class SessionControllerSingletonTest extends InstrumentationTestCase {
         init();
     }
 
+    /**
+     * Initialize parameters for test
+     * @since 12/13/2014
+     */
     private void init() {
-        sessionControllerSingleton = SessionControllerSingleton.getInstance();
+        sessionControllerSingleton = SessionControllerSingleton.getInstance(getInstrumentation().getContext());
         sessionControllerSingleton.setPhoneNumber(phoneNumber);
         sessionControllerSingleton.setUID(uid);
         sessionControllerSingleton.setNick(nick);
     }
 
+    /**
+     * Test is class is creating a singleton
+     * @since 12/13/2014
+     */
     @SmallTest
     public void testSingleton() throws Exception {
-        sone = SessionControllerSingleton.getInstance();
-        stwo = SessionControllerSingleton.getInstance();
+        sone = SessionControllerSingleton.getInstance(getInstrumentation().getContext());
+        stwo = SessionControllerSingleton.getInstance(getInstrumentation().getContext());
         assertSame(sone, stwo);
     }
 
+    /**
+     * @since 12/13/2014
+     */
     @MediumTest
     public void testUserExists() throws Exception {
         try {
@@ -77,6 +88,9 @@ public class SessionControllerSingletonTest extends InstrumentationTestCase {
         assertTrue(sessionControllerSingleton.checkUserExists());
     }
 
+    /**
+     * @since 12/13/2014
+     */
     @MediumTest
     public void testRegisterUser() throws Exception {
         try {
@@ -114,6 +128,9 @@ public class SessionControllerSingletonTest extends InstrumentationTestCase {
         assertTrue(sessionControllerSingleton.registerUser());
     }
 
+    /**
+     * @since 12/13/2014
+     */
     @MediumTest
     public void testLoginUser() throws Exception {
         try {
@@ -151,6 +168,9 @@ public class SessionControllerSingletonTest extends InstrumentationTestCase {
         assertTrue(sessionControllerSingleton.loginUser());
     }
 
+    /**
+     * @since 12/13/2014
+     */
     @MediumTest
     public void testUpdateNickUser() throws Exception {
         try {

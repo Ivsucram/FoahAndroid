@@ -43,17 +43,23 @@ public class SessionControllerSingleton {
      * @since 12/12/2014
      */
     private String nick;
-    private boolean smsCheck = false;
+    //TODO: javadoc
+    private boolean smsCheck = true;
+    /**
+     * Application context
+     * @since 12/13/2014
+     */
+    private Context context;
 
-    public SessionControllerSingleton() {}
+    public SessionControllerSingleton(Context context) {}
 
     /**
      * @return the same instance of the current object every time
      * @since 12/12/2014
      */
-    public static SessionControllerSingleton getInstance() {
+    public static SessionControllerSingleton getInstance(Context context) {
         if(instance == null)
-            instance = new SessionControllerSingleton();
+            instance = new SessionControllerSingleton(context);
         return instance;
     }
 
@@ -67,9 +73,8 @@ public class SessionControllerSingleton {
     public boolean checkUserExists() throws NullPhoneNumberException, NullUIDException {
         if (phoneNumber == null || phoneNumber.isEmpty()) throw new NullPhoneNumberException();
         if (uid == null || uid.isEmpty()) throw new NullUIDException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
-        //TODO: return httpRequestController.checkUserExists(phoneNumber,uid);
-        return true;
+        HTTPRequestController httpRequestController = new HTTPRequestController(context);
+        return httpRequestController.checkUserExists(phoneNumber,uid);
     }
 
     /**
@@ -82,9 +87,8 @@ public class SessionControllerSingleton {
     public boolean registerUser() throws NullPhoneNumberException, NullUIDException {
         if (phoneNumber == null || phoneNumber.isEmpty()) throw new NullPhoneNumberException();
         if (uid == null || uid.isEmpty()) throw new NullUIDException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
-        //TODO: return httpRequestController.registerUser(phoneNumber,uid);
-        return true;
+        HTTPRequestController httpRequestController = new HTTPRequestController(context);
+        return httpRequestController.registerUser(phoneNumber,uid);
     }
 
     /**
@@ -97,9 +101,8 @@ public class SessionControllerSingleton {
     public boolean loginUser() throws NullPhoneNumberException, NullUIDException {
         if (phoneNumber == null || phoneNumber.isEmpty()) throw new NullPhoneNumberException();
         if (uid == null || uid.isEmpty()) throw new NullUIDException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
-        //TODO: return httpRequestController.loginUser(phoneNumber,uid);
-        return true;
+        HTTPRequestController httpRequestController = new HTTPRequestController(context);
+        return httpRequestController.loginUser(phoneNumber,uid);
     }
 
     /**
@@ -114,9 +117,8 @@ public class SessionControllerSingleton {
         if (phoneNumber == null || phoneNumber.isEmpty()) throw new NullPhoneNumberException();
         if (uid == null || uid.isEmpty()) throw new NullUIDException();
         if (nick == null || nick.isEmpty()) throw new NullNicknameException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
-        //TODO: return httpRequestController.updateNickUser(phoneNumber,uid,nick);
-        return true;
+        HTTPRequestController httpRequestController = new HTTPRequestController(context);
+        return httpRequestController.updateNickUser(phoneNumber,uid,nick);
     }
 
     /**
@@ -128,8 +130,8 @@ public class SessionControllerSingleton {
      */
     public boolean checkSMS(String sms) throws NullSMSException {
         if (sms == null || sms.isEmpty()) throw new NullSMSException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
-        //TODO: smsCheck = httpRequestController.checkSMS(phoneNumber,uid,sms);
+        HTTPRequestController httpRequestController = new HTTPRequestController(context);
+        smsCheck = httpRequestController.checkSMS(phoneNumber,uid,sms);
         return smsCheck;
     }
 
@@ -168,6 +170,7 @@ public class SessionControllerSingleton {
         this.nick = nick;
     }
 
+    //TODO: javadoc
     public boolean isSmsCheck() {
         return smsCheck;
     }
@@ -183,6 +186,7 @@ public class SessionControllerSingleton {
 class IncomingSMS extends BroadcastReceiver {
     final SmsManager sms = SmsManager.getDefault();
 
+    //TODO: javadoc
     public void onReceive(Context context, Intent intent) {
         final Bundle bundle = intent.getExtras();
 
@@ -197,7 +201,7 @@ class IncomingSMS extends BroadcastReceiver {
 
                     //TODO: put real obdoNumber
                     if (senderNumber == "obdoNumber") {
-                        SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance();
+                        SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(context);
                         sessionControllerSingleton.checkSMS(message);
                     }
                 }

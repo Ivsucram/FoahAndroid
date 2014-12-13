@@ -46,7 +46,7 @@ public class NickActivity extends ActionBarActivity {
      * @see ... main application ...
      */
     public void updateUserNickname() {
-        SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance();
+        SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(getApplicationContext());
         sessionControllerSingleton.setNick(editText.getText().toString());
         sessionControllerSingleton.updateNickUser();
         Intent intent = new Intent(NickActivity.this, MainActivity.class);
