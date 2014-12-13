@@ -12,15 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.obdo.controllers.SessionControllerSingleton;
-
 /**
  * The user will be able to update his nickname information this screen
  *
  * @author Marcus Vinícius de Carvalho
  * @since 12/12/2014
  * @version 1.0
- * @see com.obdo.controllers.SessionControllerSingleton
  */
 public class NickActivity extends ActionBarActivity {
     /**
@@ -51,13 +48,13 @@ public class NickActivity extends ActionBarActivity {
      * @see com.obdo.controllers.SessionControllerSingleton
      * @see com.obdo.ObdoActivity
      */
-    public void updateUserNickname() {
+    /*public void updateUserNickname() {
         SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(getApplicationContext());
         sessionControllerSingleton.setNick(editTextNickname.getText().toString());
         sessionControllerSingleton.updateNickUser();
         Intent intent = new Intent(NickActivity.this, ObdoActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     /**
      * Initialize EditText and its behaviors.
@@ -75,7 +72,7 @@ public class NickActivity extends ActionBarActivity {
                 boolean handled = false;
 
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    updateUserNickname();
+                    //updateUserNickname();
                     handled = true;
                 }
 
@@ -125,7 +122,7 @@ public class NickActivity extends ActionBarActivity {
         buttonUpdateNick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateUserNickname();
+                //updateUserNickname();
             }
         });
     }

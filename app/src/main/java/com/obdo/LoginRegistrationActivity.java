@@ -1,5 +1,7 @@
 package com.obdo;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -15,7 +17,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.obdo.controllers.SessionControllerSingleton;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.litesuits.http.LiteHttpClient;
+import com.litesuits.http.async.HttpAsyncExecutor;
+import com.litesuits.http.data.HttpStatus;
+import com.litesuits.http.data.NameValuePair;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.request.Request;
+import com.litesuits.http.request.param.HttpMethod;
+import com.litesuits.http.response.Response;
+import com.litesuits.http.response.handler.HttpResponseHandler;
 
 /**
  * This is the main activity of the application. It have 3 main behaviors:
@@ -39,7 +51,6 @@ import com.obdo.controllers.SessionControllerSingleton;
  * @author Marcus Vinícius de Carvalho
  * @since 12/10/2014
  * @version 1.0
- * @see com.obdo.controllers.SessionControllerSingleton
  * @see com.obdo.NickActivity
  * @see com.obdo.ObdoActivity
  */
@@ -56,45 +67,16 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private Button buttonLoginRegister;
+    private HTTPRequestController httpRequestController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_registration);
-
-
-
+        httpRequestController = new HTTPRequestController(this);
 
         onCreateEditTextPhoneNumber();
         onCreateButtonLoginRegister();
-    }
-
-    /**
-     * Register user if he have no account yet, Login user if he have already have account. Call NickActivity after it.
-     * If user already have account, login it. Call Obdo Activity after it
-     * @since 12/10/2014
-     * @see com.obdo.controllers.SessionControllerSingleton
-     * @see com.obdo.NickActivity
-     * @see com.obdo.ObdoActivity
-     */
-    private void loginRegisterUser() {
-        SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(getApplicationContext());
-        sessionControllerSingleton.setPhoneNumber(editTextPhoneNumber.getText().toString());
-        sessionControllerSingleton.setUID(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
-        sessionControllerSingleton.createSMSBroadcastReceiver(getApplicationContext(), getIntent());
-        if (sessionControllerSingleton.checkUserExists()) {
-            sessionControllerSingleton.loginUser();
-            if (sessionControllerSingleton.isSmsCheck()) {
-                Intent intent = new Intent(LoginRegistrationActivity.this, ObdoActivity.class);
-                startActivity(intent);
-            }
-        } else {
-            sessionControllerSingleton.registerUser();
-            if (sessionControllerSingleton.isSmsCheck()) {
-                Intent intent = new Intent(LoginRegistrationActivity.this, NickActivity.class);
-                startActivity(intent);
-            }
-        }
     }
 
     /**
@@ -116,7 +98,9 @@ public class LoginRegistrationActivity extends ActionBarActivity {
                 boolean handled = false;
 
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    loginRegisterUser();
+                    String phoneNumber = editTextPhoneNumber.getText().toString();
+                    String uid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+                    httpRequestController.checkUserExists(phoneNumber, uid);
                     handled = true;
                 }
 
@@ -172,10 +156,121 @@ public class LoginRegistrationActivity extends ActionBarActivity {
                 if (editTextPhoneNumber.getText() == null || editTextPhoneNumber.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter your phone number before proceed", Toast.LENGTH_LONG).show();
                 } else {
-                    loginRegisterUser();
+                    //loginRegisterUser();
+                    String phoneNumber = editTextPhoneNumber.getText().toString();
+                    String uid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+                    httpRequestController.checkUserExists(phoneNumber, uid);
                 }
             }
         });
     }
+}
 
+/**
+ *
+ */
+class HTTPRequestController  {
+    private LiteHttpClient liteHttpClient;
+    private HttpAsyncExecutor asyncExecutor;
+    private Activity activity;
+    private String serverAddress;
+
+    public HTTPRequestController(Activity activity) {
+        this.activity = activity;
+        liteHttpClient = LiteHttpClient.newApacheHttpClient(activity.getApplicationContext());
+        asyncExecutor = HttpAsyncExecutor.newInstance(liteHttpClient);
+        serverAddress = activity.getApplicationContext().getString(R.string.server_address);
+    }
+
+    public void checkUserExists(final String phoneNumber, final String uid) {
+        Request request = new Request(serverAddress)
+                .setMethod(HttpMethod.Get)
+                .addUrlPrifix("http://")
+                .addUrlSuffix(activity.getApplicationContext().getString(R.string.url_check_user_exists_GET))
+                .addUrlParam("number", phoneNumber)
+                .addHeader("Accept", "application/json");
+
+        asyncExecutor.execute(request, new HttpResponseHandler() {
+            @Override
+            protected void onSuccess(Response res, HttpStatus status, NameValuePair[] headers) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jsonObject = jsonParser.parse(res.getString()).getAsJsonObject();
+                if (jsonObject.get("success").getAsBoolean()) {
+                    loginUser(phoneNumber, uid);
+                } else {
+                    registerUser(phoneNumber,uid);
+                }
+            }
+
+            @Override
+            protected void onFailure(Response res, HttpException e) {
+                //TODO: handle failure
+                Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void registerUser(String phoneNumber, String uid) {
+        Request request = new Request(serverAddress)
+                .setMethod(HttpMethod.Post)
+                .addUrlPrifix("http://")
+                .addUrlSuffix(activity.getApplicationContext().getString(R.string.url_register_user_POST))
+                .addUrlParam("number", phoneNumber)
+                .addUrlParam("uid", uid)
+                .addHeader("Accept", "application/json");
+
+        asyncExecutor.execute(request, new HttpResponseHandler() {
+            @Override
+            protected void onSuccess(Response res, HttpStatus status, NameValuePair[] headers) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jsonObject = jsonParser.parse(res.getString()).getAsJsonObject();
+                if (jsonObject.get("success").getAsBoolean()) {
+                    //TODO: check SMS
+                    Intent intent = new Intent(activity, NickActivity.class);
+                    activity.startActivity(intent);
+                } else {
+                    //TODO: handle failure
+                    Toast.makeText(activity.getApplicationContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected void onFailure(Response res, HttpException e) {
+                //TODO: handle failure
+                Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void loginUser(String phoneNumber, String uid) {
+        Request request = new Request(serverAddress)
+                .setMethod(HttpMethod.Post)
+                .addUrlPrifix("http://")
+                .addUrlSuffix(activity.getApplicationContext().getString(R.string.url_user_login_POST))
+                .addUrlParam("number", phoneNumber)
+                .addUrlParam("uid", uid)
+                .addHeader("Accept", "application/json");
+
+        asyncExecutor.execute(request, new HttpResponseHandler() {
+            @Override
+            protected void onSuccess(Response res, HttpStatus status, NameValuePair[] headers) {
+                JsonParser jsonParser = new JsonParser();
+                JsonObject jsonObject = jsonParser.parse(res.getString()).getAsJsonObject();
+                if (jsonObject.get("success").getAsBoolean()) {
+                    //TODO: check SMS
+                    Intent intent = new Intent(activity, ObdoActivity.class);
+                    activity.startActivity(intent);
+                } else {
+                    //TODO: handle failure
+                    Toast.makeText(activity.getApplicationContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            protected void onFailure(Response res, HttpException e) {
+                //TODO: handle failure
+                Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }
