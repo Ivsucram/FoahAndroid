@@ -52,7 +52,7 @@ public final class JsonTreeWriter extends JsonWriter {
   private String pendingName;
 
   /** the JSON element constructed by this writer. */
-  private JsonElement product = JsonNull.INSTANCE; // TODO: is this really what we want?;
+  private JsonElement product = JsonNull.INSTANCE;
 
   public JsonTreeWriter() {
     super(UNWRITABLE_WRITER);

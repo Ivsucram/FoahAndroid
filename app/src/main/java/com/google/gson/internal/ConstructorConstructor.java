@@ -103,11 +103,8 @@ public final class ConstructorConstructor {
             Object[] args = null;
             return (T) constructor.newInstance(args);
           } catch (InstantiationException e) {
-            // TODO: JsonParseException ?
             throw new RuntimeException("Failed to invoke " + constructor + " with no args", e);
           } catch (InvocationTargetException e) {
-            // TODO: don't wrap if cause is unchecked!
-            // TODO: JsonParseException ?
             throw new RuntimeException("Failed to invoke " + constructor + " with no args",
                 e.getTargetException());
           } catch (IllegalAccessException e) {

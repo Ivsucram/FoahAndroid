@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_address">140.113.217.38:3000</string>
+    <string name="url_check_user_exists_GET">/user/check</string><!-- params => "number" -->
+    <string name="url_user_login_POST">/user/login</string><!-- params => "number","uid" -->
+    <string name="url_check_phone_activated_GET">/user/phone/activated?number=</string><!-- params => "number", "uid" -->
+    <string name="url_register_user_POST">/user/register</string><!-- params => "number", "uid" -->
+    <string name="url_update_user_nickname_POST">/user/name</string><!-- params => "number", "name" -->
+</resources>
