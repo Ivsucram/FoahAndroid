@@ -238,6 +238,7 @@ class HTTPRequestController  {
             protected void onFailure(Response res, HttpException e) {
                 //TODO: handle failure
                 Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+
             }
         });
     }
