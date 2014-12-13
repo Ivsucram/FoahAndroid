@@ -49,21 +49,21 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @since 12/10/2014
      * @see android.widget.EditText
      */
-    private EditText editText;
+    private EditText editTextPhoneNumber;
     /**
      * Button to confirm Login/Registration task
      * @since 12/10/2014
      * @see android.widget.Button
      */
-    private Button button;
+    private Button buttonLonginRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_registration);
 
-        editText = (EditText) findViewById(R.id.editText);
-        button = (Button) findViewById(R.id.button);
+        editTextPhoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
+        buttonLonginRegister = (Button) findViewById(R.id.buttonLoginRegister);
 
         onCreateEditText();
         onCreateButton();
@@ -80,7 +80,7 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      */
     private void loginRegisterUser() {
         SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(getApplicationContext());
-        sessionControllerSingleton.setPhoneNumber(editText.getText().toString());
+        sessionControllerSingleton.setPhoneNumber(editTextPhoneNumber.getText().toString());
         sessionControllerSingleton.setUID(Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
         sessionControllerSingleton.createSMSBroadcastReceiver(getApplicationContext(), getIntent());
         if (sessionControllerSingleton.checkUserExists()) {
@@ -107,9 +107,9 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      */
     private void onCreateEditText() {
         TelephonyManager telephonyManager = (TelephonyManager)getApplicationContext().getSystemService(getApplicationContext().TELEPHONY_SERVICE);
-        editText.setText(telephonyManager.getLine1Number());
+        editTextPhoneNumber.setText(telephonyManager.getLine1Number());
 
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editTextPhoneNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
@@ -123,33 +123,35 @@ public class LoginRegistrationActivity extends ActionBarActivity {
             }
         });
 
-        editText.addTextChangedListener(new TextWatcher() {
+        editTextPhoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String possibleValues = "+0123456789";
 
-                if (!possibleValues.contains(String.valueOf(s.charAt(s.length()-1)))) {
-                    editText.setText(editText.getText());
-                } else if (!s.toString().isEmpty() && s.charAt(0)!='+') {
-                    editText.setText("+"+s.toString());
-                } else if (s.toString().contains("+"))  {
+                if (!possibleValues.contains(String.valueOf(s.charAt(s.length() - 1)))) {
+                    editTextPhoneNumber.setText(editTextPhoneNumber.getText());
+                } else if (!s.toString().isEmpty() && s.charAt(0) != '+') {
+                    editTextPhoneNumber.setText("+" + s.toString());
+                } else if (s.toString().contains("+")) {
                     int j = 0;
                     for (int i = 0; i < s.length(); i++) {
-                        j = s.charAt(i)=='+'?j+1:j;
+                        j = s.charAt(i) == '+' ? j + 1 : j;
                         if (j > 1) {
-                            editText.setText(s.subSequence(0,s.toString().length()-1));
+                            editTextPhoneNumber.setText(s.subSequence(0, s.toString().length() - 1));
                             break;
                         }
                     }
                 }
-                editText.setSelection(editText.getText().length());
+                editTextPhoneNumber.setSelection(editTextPhoneNumber.getText().length());
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -159,10 +161,10 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private void onCreateButton() {
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonLonginRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (editText.getText() == null || editText.getText().toString().isEmpty()) {
+                if (editTextPhoneNumber.getText() == null || editTextPhoneNumber.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter your phone number before proceed", Toast.LENGTH_LONG).show();
                 } else {
                     loginRegisterUser();

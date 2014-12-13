@@ -32,8 +32,8 @@ public class LoginRegistrationActivityTest extends ActivityInstrumentationTestCa
 
         loginRegistrationActivity = getActivity();
         assertNotNull(loginRegistrationActivity);
-        editText = (EditText) loginRegistrationActivity.findViewById(R.id.editText);
-        button = (Button) loginRegistrationActivity.findViewById(R.id.button);
+        editText = (EditText) loginRegistrationActivity.findViewById(R.id.editTextPhoneNumber);
+        button = (Button) loginRegistrationActivity.findViewById(R.id.buttonLoginRegister);
     }
 
     /**
