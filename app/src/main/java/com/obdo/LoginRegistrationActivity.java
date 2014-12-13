@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.obdo.com.obdo.controllers.SessionControllerSingleton;
+import com.obdo.controllers.SessionControllerSingleton;
 
 //TODO: Complete javadoc with name of application activity
 /**
@@ -39,7 +39,7 @@ import com.obdo.com.obdo.controllers.SessionControllerSingleton;
  * @author Marcus Vinícius de Carvalho
  * @since 12/10/2014
  * @version 1.0
- * @see com.obdo.com.obdo.controllers.SessionControllerSingleton
+ * @see com.obdo.controllers.SessionControllerSingleton
  * @see com.obdo.NickActivity
  */
 public class LoginRegistrationActivity extends ActionBarActivity {
@@ -73,7 +73,7 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * Register user if he have no account yet, Login user if he have already have account. Call NickActivity after it.
      * If user already have account, login it. Call ... application main activity ... after it
      * @since 12/10/2014
-     * @see com.obdo.com.obdo.controllers.SessionControllerSingleton
+     * @see com.obdo.controllers.SessionControllerSingleton
      * @see com.obdo.NickActivity
      */
     private void loginRegisterUser() {

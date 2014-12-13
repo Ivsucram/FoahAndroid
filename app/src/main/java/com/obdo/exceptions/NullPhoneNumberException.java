@@ -1,4 +1,4 @@
-package com.obdo.com.obdo.com.obdo.exceptions;
+package com.obdo.exceptions;
 
 /**
  * Custom Exception for when some method try to use an empty or null phone number
