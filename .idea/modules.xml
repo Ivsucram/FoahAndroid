@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Obdo.iml" filepath="$PROJECT_DIR$/Obdo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Obdo_Android.iml" filepath="$PROJECT_DIR$/Obdo_Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

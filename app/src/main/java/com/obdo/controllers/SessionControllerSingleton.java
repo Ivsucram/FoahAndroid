@@ -67,7 +67,7 @@ public class SessionControllerSingleton {
     public boolean checkUserExists() throws NullPhoneNumberException, NullUIDException {
         if (phoneNumber == null || phoneNumber.isEmpty()) throw new NullPhoneNumberException();
         if (uid == null || uid.isEmpty()) throw new NullUIDException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
+        //HTTPRequestController httpRequestController = new HTTPRequestController();
         //TODO: return httpRequestController.checkUserExists(phoneNumber,uid);
         return true;
     }
@@ -82,7 +82,7 @@ public class SessionControllerSingleton {
     public boolean registerUser() throws NullPhoneNumberException, NullUIDException {
         if (phoneNumber == null || phoneNumber.isEmpty()) throw new NullPhoneNumberException();
         if (uid == null || uid.isEmpty()) throw new NullUIDException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
+        //HTTPRequestController httpRequestController = new HTTPRequestController();
         //TODO: return httpRequestController.registerUser(phoneNumber,uid);
         return true;
     }
@@ -97,7 +97,7 @@ public class SessionControllerSingleton {
     public boolean loginUser() throws NullPhoneNumberException, NullUIDException {
         if (phoneNumber == null || phoneNumber.isEmpty()) throw new NullPhoneNumberException();
         if (uid == null || uid.isEmpty()) throw new NullUIDException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
+        //HTTPRequestController httpRequestController = new HTTPRequestController();
         //TODO: return httpRequestController.loginUser(phoneNumber,uid);
         return true;
     }
@@ -114,7 +114,7 @@ public class SessionControllerSingleton {
         if (phoneNumber == null || phoneNumber.isEmpty()) throw new NullPhoneNumberException();
         if (uid == null || uid.isEmpty()) throw new NullUIDException();
         if (nick == null || nick.isEmpty()) throw new NullNicknameException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
+        //HTTPRequestController httpRequestController = new HTTPRequestController();
         //TODO: return httpRequestController.updateNickUser(phoneNumber,uid,nick);
         return true;
     }
@@ -128,7 +128,7 @@ public class SessionControllerSingleton {
      */
     public boolean checkSMS(String sms) throws NullSMSException {
         if (sms == null || sms.isEmpty()) throw new NullSMSException();
-        HTTPRequestController httpRequestController = new HTTPRequestController();
+        //HTTPRequestController httpRequestController = new HTTPRequestController();
         //TODO: smsCheck = httpRequestController.checkSMS(phoneNumber,uid,sms);
         return smsCheck;
     }
