@@ -3,7 +3,6 @@ package com.obdo.controllers;
 import android.content.Context;
 
 import com.litesuits.http.LiteHttpClient;
-import com.litesuits.http.async.HttpAsyncExecutor;
 import com.litesuits.http.request.Request;
 import com.litesuits.http.response.Response;
 

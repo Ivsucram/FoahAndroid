@@ -102,6 +102,8 @@ public class NickActivity extends ActionBarActivity {
                     editTextNickname.setText(editTextNickname.getText());
                 } else if (!s.toString().isEmpty() && letters.toLowerCase().contains(String.valueOf(s.charAt(0)))) {
                     editTextNickname.setText(s.toString().toUpperCase());
+                } else if (editTextNickname.getText().length() > 30) {
+                    editTextNickname.setText(editTextNickname.getText());
                 }
 
                 editTextNickname.setSelection(editTextNickname.getText().length());

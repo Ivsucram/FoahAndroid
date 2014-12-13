@@ -135,6 +135,8 @@ public class LoginRegistrationActivity extends ActionBarActivity {
                     editTextPhoneNumber.setText(editTextPhoneNumber.getText());
                 } else if (!s.toString().isEmpty() && s.charAt(0) != '+') {
                     editTextPhoneNumber.setText("+" + s.toString());
+                } else if (editTextPhoneNumber.getText().length() > 15){
+                    editTextPhoneNumber.setText(editTextPhoneNumber.getText());
                 } else if (s.toString().contains("+")) {
                     int j = 0;
                     for (int i = 0; i < s.length(); i++) {
