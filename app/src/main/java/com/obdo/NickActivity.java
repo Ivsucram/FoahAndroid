@@ -24,7 +24,7 @@ import com.obdo.controllers.SessionControllerSingleton;
  */
 public class NickActivity extends ActionBarActivity {
     /**
-     * EditText that will hold user nickname
+     * EditText that hold user nickname
      * @since 12/13/2014
      * @see android.widget.EditText
      */
@@ -41,11 +41,8 @@ public class NickActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nick);
 
-        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
-        buttonUpdateNick = (Button) findViewById(R.id.buttonUpdateNick);
-
-        onCreateEditText();
-        onCreateButton();
+        onCreateEditTextNickname();
+        onCreateButtonUpdateNick();
     }
 
     /**
@@ -67,7 +64,9 @@ public class NickActivity extends ActionBarActivity {
      * @since 12/12/2014
      * @see android.widget.EditText
      */
-    public void onCreateEditText() {
+    public void onCreateEditTextNickname() {
+        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
+
         editTextNickname.setHint("Type your name");
 
         editTextNickname.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -120,7 +119,9 @@ public class NickActivity extends ActionBarActivity {
      * @since 12/12/2014
      * @see android.widget.Button
      */
-    public void onCreateButton() {
+    public void onCreateButtonUpdateNick() {
+        buttonUpdateNick = (Button) findViewById(R.id.buttonUpdateNick);
+
         buttonUpdateNick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

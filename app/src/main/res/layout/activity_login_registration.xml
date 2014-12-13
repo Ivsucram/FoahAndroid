@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="@string/ok"
         android:id="@+id/buttonLoginRegister"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/editTextPhoneNumber"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

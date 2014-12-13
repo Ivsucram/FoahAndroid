@@ -55,18 +55,18 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @since 12/10/2014
      * @see android.widget.Button
      */
-    private Button buttonLonginRegister;
+    private Button buttonLoginRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_registration);
 
-        editTextPhoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
-        buttonLonginRegister = (Button) findViewById(R.id.buttonLoginRegister);
 
-        onCreateEditText();
-        onCreateButton();
+
+
+        onCreateEditTextPhoneNumber();
+        onCreateButtonLoginRegister();
     }
 
     /**
@@ -104,7 +104,9 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @see android.widget.EditText
      * @see android.telephony.TelephonyManager
      */
-    private void onCreateEditText() {
+    private void onCreateEditTextPhoneNumber() {
+        editTextPhoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
+
         TelephonyManager telephonyManager = (TelephonyManager)getApplicationContext().getSystemService(getApplicationContext().TELEPHONY_SERVICE);
         editTextPhoneNumber.setText(telephonyManager.getLine1Number());
 
@@ -161,8 +163,10 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @since 12/10/2014
      * @see android.widget.Button
      */
-    private void onCreateButton() {
-        buttonLonginRegister.setOnClickListener(new View.OnClickListener() {
+    private void onCreateButtonLoginRegister() {
+        buttonLoginRegister = (Button) findViewById(R.id.buttonLoginRegister);
+
+        buttonLoginRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (editTextPhoneNumber.getText() == null || editTextPhoneNumber.getText().toString().isEmpty()) {
