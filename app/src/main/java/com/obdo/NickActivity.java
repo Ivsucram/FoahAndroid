@@ -23,7 +23,17 @@ import com.obdo.controllers.SessionControllerSingleton;
  * @see com.obdo.controllers.SessionControllerSingleton
  */
 public class NickActivity extends ActionBarActivity {
+    /**
+     * EditText that will hold user nickname
+     * @since 12/13/2014
+     * @see android.widget.EditText
+     */
     private EditText editTextNickname;
+    /**
+     * Button to confirm nickname update
+     * @since 12/13/2014
+     * @see android.widget.Button
+     */
     private Button buttonUpdateNick;
 
     @Override
@@ -38,18 +48,17 @@ public class NickActivity extends ActionBarActivity {
         onCreateButton();
     }
 
-    //TODO: Complete javadoc with name of application activity
     /**
-     * Update User nickname. Call ... application main activitity ... after it
+     * Update User nickname. Call Obdo Activity after it
      * @since 12/12/2014
      * @see com.obdo.controllers.SessionControllerSingleton
-     * @see ... main application ...
+     * @see com.obdo.ObdoActivity
      */
     public void updateUserNickname() {
         SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(getApplicationContext());
         sessionControllerSingleton.setNick(editTextNickname.getText().toString());
         sessionControllerSingleton.updateNickUser();
-        Intent intent = new Intent(NickActivity.this, MainActivity.class);
+        Intent intent = new Intent(NickActivity.this, ObdoActivity.class);
         startActivity(intent);
     }
 

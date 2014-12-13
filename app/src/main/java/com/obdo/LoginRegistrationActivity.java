@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.obdo.controllers.SessionControllerSingleton;
 
-//TODO: Complete javadoc with name of application activity
 /**
  * This is the main activity of the application. It have 3 main behaviors:
  * 1. It is the first time the application be opened and the user is not registered
@@ -32,16 +31,17 @@ import com.obdo.controllers.SessionControllerSingleton;
  * b) Send cellphone number + Smartphone UID to server
  * c) Receive SMS from server
  * d) Confirm login
- * e) Transfer to ... application acvitity ...
+ * e) Transfer to Obdo Activity
  *
  * 3. It is not the first time the application be opened and user is already logged
- * a) Transfer to ...  application activity ...
+ * a) Transfer to Obdo Activity
  *
  * @author Marcus Vinícius de Carvalho
  * @since 12/10/2014
  * @version 1.0
  * @see com.obdo.controllers.SessionControllerSingleton
  * @see com.obdo.NickActivity
+ * @see com.obdo.ObdoActivity
  */
 public class LoginRegistrationActivity extends ActionBarActivity {
     /**
@@ -69,14 +69,13 @@ public class LoginRegistrationActivity extends ActionBarActivity {
         onCreateButton();
     }
 
-
-    //TODO: Complete javadoc with name of application activity
     /**
      * Register user if he have no account yet, Login user if he have already have account. Call NickActivity after it.
-     * If user already have account, login it. Call ... application main activity ... after it
+     * If user already have account, login it. Call Obdo Activity after it
      * @since 12/10/2014
      * @see com.obdo.controllers.SessionControllerSingleton
      * @see com.obdo.NickActivity
+     * @see com.obdo.ObdoActivity
      */
     private void loginRegisterUser() {
         SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(getApplicationContext());
@@ -86,7 +85,7 @@ public class LoginRegistrationActivity extends ActionBarActivity {
         if (sessionControllerSingleton.checkUserExists()) {
             sessionControllerSingleton.loginUser();
             if (sessionControllerSingleton.isSmsCheck()) {
-                Intent intent = new Intent(LoginRegistrationActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginRegistrationActivity.this, ObdoActivity.class);
                 startActivity(intent);
             }
         } else {

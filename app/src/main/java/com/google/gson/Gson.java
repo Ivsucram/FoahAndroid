@@ -814,7 +814,6 @@ public final class Gson {
     } catch (IllegalStateException e) {
       throw new JsonSyntaxException(e);
     } catch (IOException e) {
-      // TODO(inder): Figure out whether it is indeed right to rethrow this as JsonSyntaxException
       throw new JsonSyntaxException(e);
     } finally {
       reader.setLenient(oldLenient);

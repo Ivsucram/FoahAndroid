@@ -34,8 +34,6 @@ import java.util.TimeZone;
  */
 final class DefaultDateTypeAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
 
-  // TODO: migrate to streaming adapter
-
   private final DateFormat enUsFormat;
   private final DateFormat localFormat;
   private final DateFormat iso8601Format;
