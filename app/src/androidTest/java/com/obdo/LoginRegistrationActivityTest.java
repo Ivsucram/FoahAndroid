@@ -6,9 +6,6 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.obdo.LoginRegistrationActivity;
-import com.obdo.R;
-
 /**
  * Unit tests for class LoginRegistrationAcvitity
  * @author Marcus Vinícius de Carvalho
@@ -18,8 +15,8 @@ import com.obdo.R;
  */
 public class LoginRegistrationActivityTest extends ActivityInstrumentationTestCase2<LoginRegistrationActivity> {
     private LoginRegistrationActivity loginRegistrationActivity;
-    private EditText editText;
-    private Button button;
+    private EditText editTextPhoneNumber;
+    private Button buttonLoginRegister;
 
     public LoginRegistrationActivityTest() {
         super(LoginRegistrationActivity.class);
@@ -32,31 +29,31 @@ public class LoginRegistrationActivityTest extends ActivityInstrumentationTestCa
 
         loginRegistrationActivity = getActivity();
         assertNotNull(loginRegistrationActivity);
-        editText = (EditText) loginRegistrationActivity.findViewById(R.id.editTextPhoneNumber);
-        button = (Button) loginRegistrationActivity.findViewById(R.id.buttonLoginRegister);
+        editTextPhoneNumber = (EditText) loginRegistrationActivity.findViewById(R.id.editTextPhoneNumber);
+        buttonLoginRegister = (Button) loginRegistrationActivity.findViewById(R.id.buttonLoginRegister);
     }
 
     /**
-     * Verify that the editText is initialized with the correct default values
+     * Verify that the editTextPhoneNumber is initialized with the correct default values
      * @since 12/11/2014
      */
     @SmallTest
     public void testInfoEditTextDefault() {
-        assertTrue(editText.getText().toString().isEmpty());
-        assertEquals("+91 123456789", editText.getHint());
+        assertTrue(editTextPhoneNumber.getText().toString().isEmpty());
+        assertEquals("+91 123456789", editTextPhoneNumber.getHint());
     }
 
     /**
-     * Verify that the button is initialized with the correct default values
+     * Verify that the buttonLoginRegister is initialized with the correct default values
      * @since 12/11/2014
      */
     @SmallTest
     public void testInfoButtonDefault() {
-        assertEquals("OK", button.getText());
+        assertEquals("OK", buttonLoginRegister.getText());
     }
 
     /**
-     * Verify that the editText is behaving correctly to the user inputs
+     * Verify that the editTextPhoneNumber is behaving correctly to the user inputs
      * @since 12/11/2014
      */
     //TODO: Test is disable for now because it is causing StackOverflowError and I do not know the reason
@@ -65,22 +62,22 @@ public class LoginRegistrationActivityTest extends ActivityInstrumentationTestCa
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                editText.requestFocus();
+                editTextPhoneNumber.requestFocus();
             }
         });
 
         getInstrumentation().waitForIdleSync();
         getInstrumentation().sendStringSync("+++");
         getInstrumentation().waitForIdleSync();
-        assertEquals("+", editText.getText().toString().trim());
+        assertEquals("+", editTextPhoneNumber.getText().toString().trim());
 
         getInstrumentation().sendStringSync("123");
         getInstrumentation().waitForIdleSync();
-        assertEquals("+123", editText.getText().toString().trim());
+        assertEquals("+123", editTextPhoneNumber.getText().toString().trim());
 
         getInstrumentation().sendStringSync("a");
         getInstrumentation().waitForIdleSync();
-        assertEquals("+123", editText.getText().toString().trim());
+        assertEquals("+123", editTextPhoneNumber.getText().toString().trim());
     }
 
     //TODO: test SMS received

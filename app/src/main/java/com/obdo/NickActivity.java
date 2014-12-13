@@ -23,16 +23,16 @@ import com.obdo.controllers.SessionControllerSingleton;
  * @see com.obdo.controllers.SessionControllerSingleton
  */
 public class NickActivity extends ActionBarActivity {
-    private EditText editText;
-    private Button button;
+    private EditText editTextNickname;
+    private Button buttonUpdateNick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nick);
 
-        editText = (EditText) findViewById(R.id.editText2);
-        button = (Button) findViewById(R.id.button2);
+        editTextNickname = (EditText) findViewById(R.id.editTextNickname);
+        buttonUpdateNick = (Button) findViewById(R.id.buttonUpdateNick);
 
         onCreateEditText();
         onCreateButton();
@@ -47,7 +47,7 @@ public class NickActivity extends ActionBarActivity {
      */
     public void updateUserNickname() {
         SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(getApplicationContext());
-        sessionControllerSingleton.setNick(editText.getText().toString());
+        sessionControllerSingleton.setNick(editTextNickname.getText().toString());
         sessionControllerSingleton.updateNickUser();
         Intent intent = new Intent(NickActivity.this, MainActivity.class);
         startActivity(intent);
@@ -59,9 +59,9 @@ public class NickActivity extends ActionBarActivity {
      * @see android.widget.EditText
      */
     public void onCreateEditText() {
-        editText.setHint("Type your name");
+        editTextNickname.setHint("Type your name");
 
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editTextNickname.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
@@ -75,9 +75,10 @@ public class NickActivity extends ActionBarActivity {
             }
         });
 
-        editText.addTextChangedListener(new TextWatcher() {
+        editTextNickname.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -86,19 +87,20 @@ public class NickActivity extends ActionBarActivity {
                 String numbers = "0123456789";
                 String possibleValues = letters.toLowerCase() + letters.toUpperCase() + numbers;
 
-                if (!possibleValues.contains(String.valueOf(s.charAt(s.length()-1)))) {
-                    editText.setText(editText.getText());
+                if (!possibleValues.contains(String.valueOf(s.charAt(s.length() - 1)))) {
+                    editTextNickname.setText(editTextNickname.getText());
                 } else if (!s.toString().isEmpty() && numbers.contains(String.valueOf(s.charAt(0)))) {
-                    editText.setText(editText.getText());
+                    editTextNickname.setText(editTextNickname.getText());
                 } else if (!s.toString().isEmpty() && letters.toLowerCase().contains(String.valueOf(s.charAt(0)))) {
-                    editText.setText(s.toString().toUpperCase());
+                    editTextNickname.setText(s.toString().toUpperCase());
                 }
 
-                editText.setSelection(editText.getText().length());
+                editTextNickname.setSelection(editTextNickname.getText().length());
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -108,7 +110,7 @@ public class NickActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     public void onCreateButton() {
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonUpdateNick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateUserNickname();
