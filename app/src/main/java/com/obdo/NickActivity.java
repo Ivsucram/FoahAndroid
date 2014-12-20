@@ -102,26 +102,44 @@ public class NickActivity extends ActionBarActivity {
         editTextNickname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (after<0)
+                    editTextNickname.setText("");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //TODO: refactor with regular expressions
+                String newText = s.toString();
                 String letters = "abcdefghijklmnopqrstuvwxyz";
                 String numbers = "0123456789";
                 String possibleValues = letters.toLowerCase() + letters.toUpperCase() + numbers;
 
-                if (!s.toString().isEmpty() && !possibleValues.contains(String.valueOf(s.charAt(s.length() - 1)))) {
-                    editTextNickname.setText(editTextNickname.getText());
-                } else if (!s.toString().isEmpty() && numbers.contains(String.valueOf(s.charAt(0)))) {
-                    editTextNickname.setText(editTextNickname.getText());
-                } else if (!s.toString().isEmpty() && letters.toLowerCase().contains(String.valueOf(s.charAt(0)))) {
-                    editTextNickname.setText(s.toString().toUpperCase());
-                } else if (editTextNickname.getText().length() > 30) {
-                    editTextNickname.setText(editTextNickname.getText());
+                //If typed value is null or empty, do nothing
+                if (newText == null || newText.isEmpty()) return;
+
+                //Make sure that we only have valid characters
+                for (int i = 0; i < newText.length() && i <= 30 ; i++) {
+                    if (!possibleValues.contains(String.valueOf(s.charAt(i)))) {
+                        String beforeText = newText.substring(0,i==0?0:i);
+                        String afterText = i+1>=newText.length()?"":newText.substring(i+1);
+                        newText = beforeText+afterText;
+                    }
                 }
 
-                editTextNickname.setSelection(editTextNickname.getText().length());
+                //Make sure that we do not have a number as the first character
+                while (!newText.isEmpty() && numbers.contains(String.valueOf(newText.charAt(0)))) {
+                    newText = newText.length()>1?newText.substring(1):"";
+                }
+
+                //Make sure that the first character is always Upper case
+                newText = String.valueOf(newText.charAt(0)).toUpperCase() + (newText.length()>1?newText.substring(1):"");
+
+                //Make sure that we always have a limit of 30 characters
+                newText=newText.length()>30?newText.substring(0,30):newText;
+
+
+                if (!newText.equals(editTextNickname.getText().toString())) editTextNickname.setText(newText);
+                editTextNickname.setSelection(newText.length());
             }
 
             @Override
