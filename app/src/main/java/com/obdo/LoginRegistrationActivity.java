@@ -54,6 +54,7 @@ import com.litesuits.http.response.handler.HttpResponseHandler;
  * @see com.obdo.NickActivity
  * @see com.obdo.ObdoActivity
  */
+//TODO: Check if user is already logged
 public class LoginRegistrationActivity extends ActionBarActivity {
     /**
      * EditText that will hold user cellphone number
@@ -67,13 +68,14 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private Button buttonLoginRegister;
-    private HTTPRequestController httpRequestController;
+    private HTTPRequestLoginRegisrationController httpRequestController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_registration);
-        httpRequestController = new HTTPRequestController(this);
+
+        httpRequestController = new HTTPRequestLoginRegisrationController(this);
 
         onCreateEditTextPhoneNumber();
         onCreateButtonLoginRegister();
@@ -111,13 +113,15 @@ public class LoginRegistrationActivity extends ActionBarActivity {
         editTextPhoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (after<0)
+                    editTextPhoneNumber.setText("");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String possibleValues = "+0123456789";
 
-                if (!possibleValues.contains(String.valueOf(s.charAt(s.length() - 1)))) {
+                if (!s.toString().isEmpty() && !possibleValues.contains(String.valueOf(s.charAt(s.length() - 1)))) {
                     editTextPhoneNumber.setText(editTextPhoneNumber.getText());
                 } else if (!s.toString().isEmpty() && s.charAt(0) != '+') {
                     editTextPhoneNumber.setText("+" + s.toString());
@@ -169,13 +173,13 @@ public class LoginRegistrationActivity extends ActionBarActivity {
 /**
  *
  */
-class HTTPRequestController  {
+class HTTPRequestLoginRegisrationController  {
     private LiteHttpClient liteHttpClient;
     private HttpAsyncExecutor asyncExecutor;
     private Activity activity;
     private String serverAddress;
 
-    public HTTPRequestController(Activity activity) {
+    public HTTPRequestLoginRegisrationController(Activity activity) {
         this.activity = activity;
         liteHttpClient = LiteHttpClient.newApacheHttpClient(activity.getApplicationContext());
         asyncExecutor = HttpAsyncExecutor.newInstance(liteHttpClient);
@@ -210,7 +214,7 @@ class HTTPRequestController  {
         });
     }
 
-    public void registerUser(String phoneNumber, String uid) {
+    public void registerUser(final String phoneNumber, String uid) {
         Request request = new Request(serverAddress)
                 .setMethod(HttpMethod.Post)
                 .addUrlPrifix("http://")
@@ -227,6 +231,7 @@ class HTTPRequestController  {
                 if (jsonObject.get("success").getAsBoolean()) {
                     //TODO: check SMS
                     Intent intent = new Intent(activity, NickActivity.class);
+                    intent.putExtra("EXTRA_PHONE_NUMBER", phoneNumber);
                     activity.startActivity(intent);
                 } else {
                     //TODO: handle failure

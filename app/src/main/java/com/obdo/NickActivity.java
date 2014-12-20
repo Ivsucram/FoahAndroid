@@ -1,5 +1,6 @@
 package com.obdo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +12,19 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.litesuits.http.LiteHttpClient;
+import com.litesuits.http.async.HttpAsyncExecutor;
+import com.litesuits.http.data.HttpStatus;
+import com.litesuits.http.data.NameValuePair;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.request.Request;
+import com.litesuits.http.request.param.HttpMethod;
+import com.litesuits.http.response.Response;
+import com.litesuits.http.response.handler.HttpResponseHandler;
 
 /**
  * The user will be able to update his nickname information this screen
@@ -32,11 +46,16 @@ public class NickActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private Button buttonUpdateNick;
+    private HTTPRequestNickController httpRequestController;
+    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nick);
+        phoneNumber = getIntent().getStringExtra("EXTRA_PHONE_NUMBER");
+
+        httpRequestController = new HTTPRequestNickController(this);
 
         onCreateEditTextNickname();
         onCreateButtonUpdateNick();
@@ -122,9 +141,46 @@ public class NickActivity extends ActionBarActivity {
         buttonUpdateNick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //updateUserNickname();
+                httpRequestController.updateUserNickname(phoneNumber,editTextNickname.getText().toString());
             }
         });
     }
+}
 
+class HTTPRequestNickController  {
+    private LiteHttpClient liteHttpClient;
+    private HttpAsyncExecutor asyncExecutor;
+    private Activity activity;
+    private String serverAddress;
+
+    public HTTPRequestNickController(Activity activity) {
+        this.activity = activity;
+        liteHttpClient = LiteHttpClient.newApacheHttpClient(activity.getApplicationContext());
+        asyncExecutor = HttpAsyncExecutor.newInstance(liteHttpClient);
+        serverAddress = activity.getApplicationContext().getString(R.string.server_address);
+    }
+
+    public void updateUserNickname(String phoneNumber, String nick) {
+        Request request = new Request(serverAddress)
+                .setMethod(HttpMethod.Post)
+                .addUrlPrifix("http://")
+                .addUrlSuffix(activity.getApplicationContext().getString(R.string.url_update_user_nickname_POST))
+                .addUrlParam("number", phoneNumber)
+                .addUrlParam("name", nick)
+                .addHeader("Accept", "application/json");
+
+        asyncExecutor.execute(request, new HttpResponseHandler() {
+            @Override
+            protected void onSuccess(Response res, HttpStatus status, NameValuePair[] headers) {
+                Intent intent = new Intent(activity, ObdoActivity.class);
+                activity.startActivity(intent);
+            }
+
+            @Override
+            protected void onFailure(Response res, HttpException e) {
+                //TODO: handle failure
+                Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }
