@@ -1,5 +1,6 @@
 package com.obdo;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -11,9 +12,22 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.litesuits.http.LiteHttpClient;
+import com.litesuits.http.async.HttpAsyncExecutor;
+import com.litesuits.http.data.HttpStatus;
+import com.litesuits.http.data.NameValuePair;
+import com.litesuits.http.exception.HttpException;
+import com.litesuits.http.request.Request;
+import com.litesuits.http.request.param.HttpMethod;
+import com.litesuits.http.response.Response;
+import com.litesuits.http.response.handler.HttpResponseHandler;
 
 /**
- * The user will be able to update his nickname information this screen
+ * The user will be able to update his nickname information at this screen
  *
  * @author Marcus Vinícius de Carvalho
  * @since 12/12/2014
@@ -32,11 +46,16 @@ public class NickActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private Button buttonUpdateNick;
+    private HTTPRequestNickController httpRequestController;
+    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nick);
+        phoneNumber = getIntent().getStringExtra("EXTRA_PHONE_NUMBER");
+
+        httpRequestController = new HTTPRequestNickController(this);
 
         onCreateEditTextNickname();
         onCreateButtonUpdateNick();
@@ -83,26 +102,44 @@ public class NickActivity extends ActionBarActivity {
         editTextNickname.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (after<0)
+                    editTextNickname.setText("");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //TODO: refactor with regular expressions
+                String newText = s.toString();
                 String letters = "abcdefghijklmnopqrstuvwxyz";
                 String numbers = "0123456789";
                 String possibleValues = letters.toLowerCase() + letters.toUpperCase() + numbers;
 
-                if (!possibleValues.contains(String.valueOf(s.charAt(s.length() - 1)))) {
-                    editTextNickname.setText(editTextNickname.getText());
-                } else if (!s.toString().isEmpty() && numbers.contains(String.valueOf(s.charAt(0)))) {
-                    editTextNickname.setText(editTextNickname.getText());
-                } else if (!s.toString().isEmpty() && letters.toLowerCase().contains(String.valueOf(s.charAt(0)))) {
-                    editTextNickname.setText(s.toString().toUpperCase());
-                } else if (editTextNickname.getText().length() > 30) {
-                    editTextNickname.setText(editTextNickname.getText());
+                //If typed value is null or empty, do nothing
+                if (newText == null || newText.isEmpty()) return;
+
+                //Make sure that we only have valid characters
+                for (int i = 0; i < newText.length() && i <= 30 ; i++) {
+                    if (!possibleValues.contains(String.valueOf(s.charAt(i)))) {
+                        String beforeText = newText.substring(0,i==0?0:i);
+                        String afterText = i+1>=newText.length()?"":newText.substring(i+1);
+                        newText = beforeText+afterText;
+                    }
                 }
 
-                editTextNickname.setSelection(editTextNickname.getText().length());
+                //Make sure that we do not have a number as the first character
+                while (!newText.isEmpty() && numbers.contains(String.valueOf(newText.charAt(0)))) {
+                    newText = newText.length()>1?newText.substring(1):"";
+                }
+
+                //Make sure that the first character is always Upper case
+                newText = String.valueOf(newText.charAt(0)).toUpperCase() + (newText.length()>1?newText.substring(1):"");
+
+                //Make sure that we always have a limit of 30 characters
+                newText=newText.length()>30?newText.substring(0,30):newText;
+
+
+                if (!newText.equals(editTextNickname.getText().toString())) editTextNickname.setText(newText);
+                editTextNickname.setSelection(newText.length());
             }
 
             @Override
@@ -122,9 +159,57 @@ public class NickActivity extends ActionBarActivity {
         buttonUpdateNick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //updateUserNickname();
+                httpRequestController.updateUserNickname(phoneNumber,editTextNickname.getText().toString());
             }
         });
     }
+}
 
+/**
+ * HTTP Request Controller for the NickActivity
+ * This class will handle every HTTP Request that the NickActivity needs, as well as UI manipulation
+ * @author Marcus Vinícius de Carvalho
+ * @since 12/20/2014
+ * @version 1.0
+ */
+class HTTPRequestNickController  {
+    private LiteHttpClient liteHttpClient;
+    private HttpAsyncExecutor asyncExecutor;
+    private Activity activity;
+    private String serverAddress;
+
+    public HTTPRequestNickController(Activity activity) {
+        this.activity = activity;
+        liteHttpClient = LiteHttpClient.newApacheHttpClient(activity.getApplicationContext());
+        asyncExecutor = HttpAsyncExecutor.newInstance(liteHttpClient);
+        serverAddress = activity.getApplicationContext().getString(R.string.server_address);
+    }
+
+    /**
+     * Update user's name at the server
+     * @param phoneNumber User cellphone number
+     * @param nick new nickname
+     */
+    public void updateUserNickname(String phoneNumber, String nick) {
+        Request request = new Request(serverAddress)
+                .setMethod(HttpMethod.Post)
+                .addUrlPrifix("http://")
+                .addUrlSuffix(activity.getApplicationContext().getString(R.string.url_update_user_nickname_POST))
+                .addUrlParam("number", phoneNumber)
+                .addUrlParam("name", nick)
+                .addHeader("Accept", "application/json");
+
+        asyncExecutor.execute(request, new HttpResponseHandler() {
+            @Override
+            protected void onSuccess(Response res, HttpStatus status, NameValuePair[] headers) {
+                Intent intent = new Intent(activity, ObdoActivity.class);
+                activity.startActivity(intent);
+            }
+
+            @Override
+            protected void onFailure(Response res, HttpException e) {
+                Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }
