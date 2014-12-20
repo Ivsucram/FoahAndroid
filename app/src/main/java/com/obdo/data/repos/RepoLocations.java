@@ -1,8 +1,9 @@
-package com.obdo.data;
+package com.obdo.data.repos;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.obdo.data.DatabaseHelper;
 import com.obdo.data.models.Location;
 import com.obdo.data.models.User;
 

@@ -10,4 +10,8 @@ public class Asset {
     private String string;
     @DatabaseField(canBeNull = true)
     private String file;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private Post post = new Post();
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private Comment comment = new Comment();
 }

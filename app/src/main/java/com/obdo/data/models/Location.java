@@ -14,4 +14,6 @@ public class Location {
     private float longitude;
     @DatabaseField(canBeNull = true)
     private float radius;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private Post post = new Post();
 }

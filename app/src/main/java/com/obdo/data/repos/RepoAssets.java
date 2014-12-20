@@ -1,8 +1,8 @@
-package com.obdo.data;
+package com.obdo.data.repos;
 
 import com.j256.ormlite.dao.Dao;
+import com.obdo.data.DatabaseHelper;
 import com.obdo.data.models.Asset;
-import com.obdo.data.models.Comment;
 
 import java.sql.SQLException;
 import java.util.List;

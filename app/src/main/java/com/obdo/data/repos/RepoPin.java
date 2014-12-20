@@ -1,9 +1,11 @@
-package com.obdo.data;
+package com.obdo.data.repos;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
-import com.obdo.data.models.User;
+import com.obdo.data.DatabaseHelper;
+import com.obdo.data.models.Location;
+import com.obdo.data.models.Pin;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,39 +13,41 @@ import java.util.List;
 /**
  * Created by Ivsucram on 12/20/2014.
  */
-public class RepoUsers {
+public class RepoPin {
+    Dao<Pin, String> repoDao;
 
-    Dao<User, String> userDao;
-
-    public RepoUsers(DatabaseHelper db) {
+    public RepoPin(DatabaseHelper db) {
         try {
-            userDao = db.getUserDao();
+            repoDao = db.getPinDao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public int create(User user) {
+    public int create(Pin pin)
+    {
         try {
-            return userDao.create(user);
-        } catch (SQLException e) {
-            // TODO: Exception Handling
-            e.printStackTrace();
-        }
-        return 0;
-    }
-    public int update(User user) {
-        try {
-            return userDao.update(user);
+            return repoDao.create(pin);
         } catch (SQLException e) {
             // TODO: Exception Handling
             e.printStackTrace();
         }
         return 0;
     }
-    public int delete(User user) {
+    public int update(Pin pin)
+    {
         try {
-            return userDao.delete(user);
+            return repoDao.update(pin);
+        } catch (SQLException e) {
+            // TODO: Exception Handling
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public int delete(Pin pin)
+    {
+        try {
+            return repoDao.delete(pin);
         } catch (SQLException e) {
             // TODO: Exception Handling
             e.printStackTrace();
@@ -51,24 +55,10 @@ public class RepoUsers {
         return 0;
     }
 
-    public User getByPhoneNumber(String phoneNumber) {
+    public List<Pin> getAll()
+    {
         try {
-            QueryBuilder<User, String> qb = userDao.queryBuilder();
-
-            qb.where().eq("phoneNumber", phoneNumber);
-
-            PreparedQuery<User> pq = qb.prepare();
-            return userDao.queryForFirst(pq);
-        } catch (SQLException e) {
-            // TODO: Exception Handling
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public List<User> getAll() {
-        try {
-            return userDao.queryForAll();
+            return repoDao.queryForAll();
         } catch (SQLException e) {
             // TODO: Exception Handling
             e.printStackTrace();

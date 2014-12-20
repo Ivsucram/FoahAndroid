@@ -1,6 +1,10 @@
 package com.obdo.data.models;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Ivsucram on 12/20/2014.
@@ -14,6 +18,13 @@ public class User {
     private String name;
     @DatabaseField(canBeNull = true)
     private String picture;
+    @ForeignCollectionField(eager = false)
+    private Collection<Post> posts = new ArrayList<Post>();
+    @ForeignCollectionField(eager = false)
+    private Collection<Comment> comments = new ArrayList<Comment>();
+    @ForeignCollectionField(eager = false)
+    private Collection<Pin> pins = new ArrayList<Pin>();
+    //TODO: make friends relationship
 
     public User() {}
     public User(String phoneNumber, String name) {

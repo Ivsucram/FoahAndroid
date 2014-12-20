@@ -1,6 +1,9 @@
-package com.obdo.data;
+package com.obdo.data.repos;
 
 import android.content.Context;
+
+import com.obdo.data.DatabaseHelper;
+import com.obdo.data.DatabaseManager;
 
 /**
  * Created by Ivsucram on 12/20/2014.
