@@ -37,21 +37,20 @@ public class HttpClientException extends HttpException {
     }
 
     public enum ClientException {
-        UrlIsNull("Url Is Null ", "Url 为空 "),
-        OtherException("Unknown Exception", "不可预知错误 "),
-        NetworkOnMainThreadException("NetworkOnMainThread ", "在主线程调用http请求");
+        UrlIsNull("URL is Null"),
+        OtherException("Unknown Exception"),
+        NetworkOnMainThreadException("Network on main thread exception");
 
         public String reason;
         public String chiReason;
 
-        ClientException(String name, String chiName) {
+        ClientException(String name) {
             this.reason = name;
-            this.chiReason = chiName;
         }
 
         @Override
         public String toString() {
-            return (useChinese ? chiReason : reason);
+            return reason;
         }
     }
 }

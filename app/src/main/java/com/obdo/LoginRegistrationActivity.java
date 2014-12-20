@@ -54,7 +54,7 @@ import com.litesuits.http.response.handler.HttpResponseHandler;
  * @see com.obdo.NickActivity
  * @see com.obdo.ObdoActivity
  */
-//TODO: Check if user is already logged
+//TODO: Check if user is already logged - Save instance of the user on the cellphone
 public class LoginRegistrationActivity extends ActionBarActivity {
     /**
      * EditText that will hold user cellphone number
@@ -171,7 +171,11 @@ public class LoginRegistrationActivity extends ActionBarActivity {
 }
 
 /**
- *
+ * HTTP Request Controller for the LoginRegistrationActivity
+ * This class will handle every HTTP Request that the LoginRegistrationActivity needs, as well as UI manipulation
+ * @author Marcus Vinícius de Carvalho
+ * @since 12/20/2014
+ * @version 1.0
  */
 class HTTPRequestLoginRegisrationController  {
     private LiteHttpClient liteHttpClient;
@@ -186,6 +190,13 @@ class HTTPRequestLoginRegisrationController  {
         serverAddress = activity.getApplicationContext().getString(R.string.server_address);
     }
 
+    /**
+     * Check if user cellphone + UID exist on the server database
+     * If yes: login user
+     * If no: register user
+     * @param phoneNumber User cellphone
+     * @param uid smartphone UID
+     */
     public void checkUserExists(final String phoneNumber, final String uid) {
         Request request = new Request(serverAddress)
                 .setMethod(HttpMethod.Get)
@@ -208,12 +219,16 @@ class HTTPRequestLoginRegisrationController  {
 
             @Override
             protected void onFailure(Response res, HttpException e) {
-                //TODO: handle failure
                 Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
+    /**
+     * Register user on the server database and login it on the cellphone
+     * @param phoneNumber user cellphone
+     * @param uid smartphone UID
+     */
     public void registerUser(final String phoneNumber, String uid) {
         Request request = new Request(serverAddress)
                 .setMethod(HttpMethod.Post)
@@ -230,24 +245,27 @@ class HTTPRequestLoginRegisrationController  {
                 JsonObject jsonObject = jsonParser.parse(res.getString()).getAsJsonObject();
                 if (jsonObject.get("success").getAsBoolean()) {
                     //TODO: check SMS
+                    //TODO: Save user information on the cellphone to make it logged
                     Intent intent = new Intent(activity, NickActivity.class);
                     intent.putExtra("EXTRA_PHONE_NUMBER", phoneNumber);
                     activity.startActivity(intent);
                 } else {
-                    //TODO: handle failure
                     Toast.makeText(activity.getApplicationContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             protected void onFailure(Response res, HttpException e) {
-                //TODO: handle failure
                 Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-
             }
         });
     }
 
+    /**
+     * Login user (new cellphone) on the server
+     * @param phoneNumber User cellphone
+     * @param uid Smartphone UID
+     */
     public void loginUser(String phoneNumber, String uid) {
         Request request = new Request(serverAddress)
                 .setMethod(HttpMethod.Post)
@@ -264,17 +282,16 @@ class HTTPRequestLoginRegisrationController  {
                 JsonObject jsonObject = jsonParser.parse(res.getString()).getAsJsonObject();
                 if (jsonObject.get("success").getAsBoolean()) {
                     //TODO: check SMS
+                    //TODO: save user information on the smartphone
                     Intent intent = new Intent(activity, ObdoActivity.class);
                     activity.startActivity(intent);
                 } else {
-                    //TODO: handle failure
                     Toast.makeText(activity.getApplicationContext(), jsonObject.get("message").toString(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             protected void onFailure(Response res, HttpException e) {
-                //TODO: handle failure
                 Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
             }
         });

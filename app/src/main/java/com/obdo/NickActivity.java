@@ -27,7 +27,7 @@ import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpResponseHandler;
 
 /**
- * The user will be able to update his nickname information this screen
+ * The user will be able to update his nickname information at this screen
  *
  * @author Marcus Vinícius de Carvalho
  * @since 12/12/2014
@@ -111,7 +111,7 @@ public class NickActivity extends ActionBarActivity {
                 String numbers = "0123456789";
                 String possibleValues = letters.toLowerCase() + letters.toUpperCase() + numbers;
 
-                if (!possibleValues.contains(String.valueOf(s.charAt(s.length() - 1)))) {
+                if (!s.toString().isEmpty() && !possibleValues.contains(String.valueOf(s.charAt(s.length() - 1)))) {
                     editTextNickname.setText(editTextNickname.getText());
                 } else if (!s.toString().isEmpty() && numbers.contains(String.valueOf(s.charAt(0)))) {
                     editTextNickname.setText(editTextNickname.getText());
@@ -147,6 +147,13 @@ public class NickActivity extends ActionBarActivity {
     }
 }
 
+/**
+ * HTTP Request Controller for the NickActivity
+ * This class will handle every HTTP Request that the NickActivity needs, as well as UI manipulation
+ * @author Marcus Vinícius de Carvalho
+ * @since 12/20/2014
+ * @version 1.0
+ */
 class HTTPRequestNickController  {
     private LiteHttpClient liteHttpClient;
     private HttpAsyncExecutor asyncExecutor;
@@ -160,6 +167,11 @@ class HTTPRequestNickController  {
         serverAddress = activity.getApplicationContext().getString(R.string.server_address);
     }
 
+    /**
+     * Update user's name at the server
+     * @param phoneNumber User cellphone number
+     * @param nick new nickname
+     */
     public void updateUserNickname(String phoneNumber, String nick) {
         Request request = new Request(serverAddress)
                 .setMethod(HttpMethod.Post)
@@ -178,7 +190,6 @@ class HTTPRequestNickController  {
 
             @Override
             protected void onFailure(Response res, HttpException e) {
-                //TODO: handle failure
                 Toast.makeText(activity.getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
             }
         });
