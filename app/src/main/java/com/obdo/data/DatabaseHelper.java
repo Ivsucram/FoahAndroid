@@ -164,7 +164,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Comment DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Comment, String> getCommentDao() throws SQLException {
+    public Dao<Comment, String> getCommentDAO() throws SQLException {
         if (commentDao == null) {
             commentDao = DaoManager.createDao(getConnectionSource(), Comment.class);
         }
@@ -176,7 +176,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Asset DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Asset, String> getAssetDao() throws SQLException {
+    public Dao<Asset, String> getAssetDAO() throws SQLException {
         if (assetDao == null) {
             assetDao = DaoManager.createDao(getConnectionSource(), Asset.class);
         }

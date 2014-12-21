@@ -1,7 +1,5 @@
 package com.obdo.data.repos;
 
-import android.content.Intent;
-
 import com.j256.ormlite.dao.Dao;
 import com.obdo.data.DatabaseHelper;
 import com.obdo.data.models.Asset;
@@ -24,15 +22,15 @@ public class RepoAssets {
     /**
      * Asset DAO - ORMlite version
      */
-    Dao<Asset, String> assetDao;
+    Dao<Asset, String> assetDAO;
 
     public RepoAssets(DatabaseHelper db) {
         try {
-            assetDao = db.getAssetDao();
+            assetDAO = db.getAssetDAO();
         } catch (SQLException e) {
             db.onCreate(db.getReadableDatabase(),db.getConnectionSource());
             try {
-                assetDao = db.getAssetDao();
+                assetDAO = db.getAssetDAO();
             } catch (SQLException e2) {
                 e2.printStackTrace();
             }
@@ -46,7 +44,7 @@ public class RepoAssets {
      */
     public boolean create(Asset asset) {
         try {
-            return assetDao.create(asset)>0?true:false;
+            return assetDAO.create(asset)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,7 +58,7 @@ public class RepoAssets {
      */
     public boolean update(Asset asset) {
         try {
-            return assetDao.update(asset)>0?true:false;
+            return assetDAO.update(asset)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,7 +72,7 @@ public class RepoAssets {
      */
     public boolean delete(Asset asset) {
         try {
-            return assetDao.delete(asset)>0?true:false;
+            return assetDAO.delete(asset)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -89,7 +87,7 @@ public class RepoAssets {
      */
     public List<Asset> getByPost(Post post) {
         try {
-            return assetDao.queryForEq("post", post);
+            return assetDAO.queryForEq("post", post);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,7 +102,7 @@ public class RepoAssets {
      */
     public List<Asset> getByComment(Comment comment) {
         try {
-            return assetDao.queryForEq("comment", comment);
+            return assetDAO.queryForEq("comment", comment);
         } catch (SQLException e) {
             e.printStackTrace();
         }
