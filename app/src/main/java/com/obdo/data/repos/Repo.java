@@ -51,31 +51,31 @@ public class Repo {
      */
     public RepoLocations Locations;
     /**
-     *  Asset DAO
+     *  Pin DAO
      *  @since 12/22/2014
-     *  @see com.obdo.data.repos.RepoAssets
-     *  @see com.obdo.data.models.Asset
+     *  @see com.obdo.data.repos.RepoPins
+     *  @see com.obdo.data.models.Pin
      */
     public RepoPins Pins;
     /**
-     *  Asset DAO
+     *  Post DAO
      *  @since 12/22/2014
-     *  @see com.obdo.data.repos.RepoAssets
-     *  @see com.obdo.data.models.Asset
+     *  @see com.obdo.data.repos.RepoPosts
+     *  @see com.obdo.data.models.Post
      */
     public RepoPosts Posts;
     /**
-     *  Asset DAO
+     *  ReadPost DAO
      *  @since 12/22/2014
-     *  @see com.obdo.data.repos.RepoAssets
-     *  @see com.obdo.data.models.Asset
+     *  @see com.obdo.data.repos.RepoReadPosts
+     *  @see com.obdo.data.models.ReadPost
      */
     public RepoReadPosts ReadPosts;
     /**
-     *  Asset DAO
+     *  User DAO
      *  @since 12/22/2014
-     *  @see com.obdo.data.repos.RepoAssets
-     *  @see com.obdo.data.models.Asset
+     *  @see com.obdo.data.repos.RepoUsers
+     *  @see com.obdo.data.models.User
      */
     public RepoUsers Users;
 
