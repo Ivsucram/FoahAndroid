@@ -1,0 +1,1 @@
+Make sure SDK package 4.4.2(API 19) and Intel x86 Emulator Accelerator (HAXM installer) are installed for the emulator to work properly.
