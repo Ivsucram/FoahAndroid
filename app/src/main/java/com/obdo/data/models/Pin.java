@@ -11,7 +11,7 @@ import java.util.Collection;
  */
 public class Pin {
     @DatabaseField(id = true)
-    private int id;
+    private String id;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private User user = new User();
     @ForeignCollectionField(eager = false)

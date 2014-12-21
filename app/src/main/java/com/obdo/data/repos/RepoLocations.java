@@ -5,78 +5,94 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.obdo.data.DatabaseHelper;
 import com.obdo.data.models.Location;
-import com.obdo.data.models.User;
+import com.obdo.data.models.Post;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
- * Created by Ivsucram on 12/20/2014.
+ * Location custom DAO
+ * @author Marcus Vinícius de Carvalho
+ * @since 12/22/2014
+ * @version 1.0
+ * @see com.obdo.data.repos.Repo
+ * @see com.obdo.data.models.Location
  */
 public class RepoLocations {
-
+    /**
+     * Location DAO - ORMlite version
+     */
     Dao<Location, String> locationDao;
 
     public RepoLocations(DatabaseHelper db) {
         try {
             locationDao = db.getLocationDao();
         } catch (SQLException e) {
-            e.printStackTrace();
+            db.onCreate(db.getReadableDatabase(), db.getConnectionSource());
+            try {
+                locationDao = db.getLocationDao();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
         }
     }
 
-    public int create(Location location)
-    {
+    /**
+     * Create a Location record
+     * @param location record to be created
+     * @return true if success, false if failure
+     */
+    public boolean create(Location location) {
         try {
-            return locationDao.create(location);
+            return locationDao.create(location)>0?true:false;
         } catch (SQLException e) {
-            // TODO: Exception Handling
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
-    public int update(Location location)
-    {
+
+    /**
+     * Update a Location record
+     * @param location record to be updated
+     * @return true if success, false if failure
+     */
+    public boolean update(Location location) {
         try {
-            return locationDao.update(location);
+            return locationDao.update(location)>0?true:false;
         } catch (SQLException e) {
-            // TODO: Exception Handling
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
-    public int delete(Location location)
-    {
+
+    /**
+     * Delete a Location record
+     * @param location record to be deleted
+     * @return true if success, false if failure
+     */
+    public boolean delete(Location location) {
         try {
-            return locationDao.delete(location);
+            return locationDao.delete(location)>0?true:false;
         } catch (SQLException e) {
-            // TODO: Exception Handling
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
-    //TODO: get by latitude and logintude - USE GOOGLE MAP LOCATION OBJECT
-    public Location getByLatitudeLogintude(float latitude, float logintude)
-    {
+
+    /**
+     * Get location of a post
+     * @param post Post to check location
+     * @return Location of the post or null if there is none
+     * @see com.obdo.data.models.Post
+     */
+    public Location getByPost(Post post) {
         try {
             QueryBuilder<Location, String> qb = locationDao.queryBuilder();
 
-            qb.where().eq("latitude", latitude).eq("logintude", logintude);
+            qb.where().eq("post", post);
 
             PreparedQuery<Location> pq = qb.prepare();
             return locationDao.queryForFirst(pq);
         } catch (SQLException e) {
-            // TODO: Exception Handling
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public List<Location> getAll()
-    {
-        try {
-            return locationDao.queryForAll();
-        } catch (SQLException e) {
-            // TODO: Exception Handling
             e.printStackTrace();
         }
         return null;
