@@ -6,11 +6,11 @@ import com.j256.ormlite.field.ForeignCollectionField;
 /**
  * Created by Ivsucram on 12/20/2014.
  */
-public class ReadedPost {
+public class ReadPost {
     @DatabaseField(id = true)
     private String id;
-    @ForeignCollectionField(eager = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Post post = new Post();
-    @ForeignCollectionField(eager = false)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Comment lastComment = new Comment();
 }

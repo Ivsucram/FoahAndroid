@@ -1,11 +1,8 @@
 package com.obdo.data.repos;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.obdo.data.DatabaseHelper;
-import com.obdo.data.models.Location;
-import com.obdo.data.models.Pin;
+import com.obdo.data.models.ReadPost;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,41 +10,41 @@ import java.util.List;
 /**
  * Created by Ivsucram on 12/20/2014.
  */
-public class RepoPin {
-    Dao<Pin, String> repoDao;
+public class RepoReadPosts {
+    Dao<ReadPost, String> readedPostDao;
 
-    public RepoPin(DatabaseHelper db) {
+    public RepoReadPosts(DatabaseHelper db) {
         try {
-            repoDao = db.getPinDao();
+            readedPostDao = db.getReadPostDao();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public int create(Pin pin)
+    public int create(ReadPost readPost)
     {
         try {
-            return repoDao.create(pin);
+            return readedPostDao.create(readPost);
         } catch (SQLException e) {
             // TODO: Exception Handling
             e.printStackTrace();
         }
         return 0;
     }
-    public int update(Pin pin)
+    public int update(ReadPost readPost)
     {
         try {
-            return repoDao.update(pin);
+            return readedPostDao.update(readPost);
         } catch (SQLException e) {
             // TODO: Exception Handling
             e.printStackTrace();
         }
         return 0;
     }
-    public int delete(Pin pin)
+    public int delete(ReadPost readPost)
     {
         try {
-            return repoDao.delete(pin);
+            return readedPostDao.delete(readPost);
         } catch (SQLException e) {
             // TODO: Exception Handling
             e.printStackTrace();
@@ -55,10 +52,10 @@ public class RepoPin {
         return 0;
     }
 
-    public List<Pin> getAll()
+    public List<ReadPost> getAll()
     {
         try {
-            return repoDao.queryForAll();
+            return readedPostDao.queryForAll();
         } catch (SQLException e) {
             // TODO: Exception Handling
             e.printStackTrace();

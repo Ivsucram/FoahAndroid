@@ -21,5 +21,5 @@ public class Comment {
     @ForeignCollectionField(eager = false)
     private Collection<Asset> assets = new ArrayList<Asset>();
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private ReadedPost readedPost = new ReadedPost();
+    private ReadPost readPost = new ReadPost();
 }

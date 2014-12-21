@@ -5,6 +5,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.obdo.data.models.User;
+import com.obdo.data.repos.Repo;
+
 
 public class ObdoActivity extends ActionBarActivity {
     private CustomActionBar customActionBar;

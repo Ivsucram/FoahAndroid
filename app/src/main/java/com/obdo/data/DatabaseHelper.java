@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
@@ -15,14 +14,14 @@ import com.obdo.data.models.Comment;
 import com.obdo.data.models.Location;
 import com.obdo.data.models.Pin;
 import com.obdo.data.models.Post;
-import com.obdo.data.models.ReadedPost;
+import com.obdo.data.models.ReadPost;
 import com.obdo.data.models.User;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- * Created by Ivsucram on 12/20/2014.
+ * SQLite database open helper which manage when the application needs to create or upgrade its database.
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "db.sqlite";
@@ -34,22 +33,47 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Comment, String> commentDao = null;
     private Dao<Asset, String> assetDao = null;
     private Dao<Pin, String> pinDao = null;
-    private Dao<ReadedPost, String> readedPostDao = null;
+    private Dao<ReadPost, String> readPostDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
-        DatabaseInitializer initializer = new DatabaseInitializer(context);
+    @Override
+    public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         try {
-            initializer.createDatabase();
-            initializer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            Log.i(DatabaseHelper.class.getName(), "onCreate");
+            TableUtils.createTable(connectionSource, User.class);
+            TableUtils.createTable(connectionSource, Post.class);
+            TableUtils.createTable(connectionSource, Location.class);
+            TableUtils.createTable(connectionSource, Comment.class);
+            TableUtils.createTable(connectionSource, Asset.class);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+        try {
+            Log.i(DatabaseHelper.class.getName(), "onUpgrade");
+            TableUtils.dropTable(connectionSource, User.class, true);
+            TableUtils.dropTable(connectionSource, Post.class, true);
+            TableUtils.dropTable(connectionSource, Location.class, true);
+            TableUtils.dropTable(connectionSource, Comment.class, true);
+            TableUtils.dropTable(connectionSource, Asset.class, true);
+            onCreate(db);
+        } catch (SQLException e) {
+            Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
+            throw new RuntimeException(e);
         }
     }
 
     public Dao<User, String> getUserDao() throws SQLException {
         if (userDao == null) {
+            //userDao = getDao(User.class);
             userDao = DaoManager.createDao(getConnectionSource(), User.class);
         }
         return userDao;
@@ -90,48 +114,22 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return pinDao;
     }
 
-    public Dao<ReadedPost, String> getReadedPostDao() throws SQLException {
-        if (readedPostDao == null) {
-            readedPostDao = DaoManager.createDao(getConnectionSource(), ReadedPost.class);
+    public Dao<ReadPost, String> getReadPostDao() throws SQLException {
+        if (readPostDao == null) {
+            readPostDao = DaoManager.createDao(getConnectionSource(), ReadPost.class);
         }
-        return readedPostDao;
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
-        try {
-            Log.i(DatabaseHelper.class.getName(), "onCreate");
-            TableUtils.createTable(connectionSource, User.class);
-            TableUtils.createTable(connectionSource, Post.class);
-            TableUtils.createTable(connectionSource, Location.class);
-            TableUtils.createTable(connectionSource, Comment.class);
-            TableUtils.createTable(connectionSource, Asset.class);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        try {
-            Log.i(DatabaseHelper.class.getName(), "onUpgrade");
-            TableUtils.dropTable(connectionSource, User.class, true);
-            TableUtils.dropTable(connectionSource, Post.class, true);
-            TableUtils.dropTable(connectionSource, Location.class, true);
-            TableUtils.dropTable(connectionSource, Comment.class, true);
-            TableUtils.dropTable(connectionSource, Asset.class, true);
-            onCreate(db);
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
-            throw new RuntimeException(e);
-        }
+        return readPostDao;
     }
 
     @Override
     public void close() {
         super.close();
         userDao = null;
+        postDao = null;
+        locationDao = null;
+        commentDao = null;
+        assetDao = null;
+        pinDao = null;
+        readPostDao = null;
     }
 }

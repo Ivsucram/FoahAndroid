@@ -2,6 +2,7 @@ package com.obdo.data.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+import com.obdo.data.repos.Repo;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +37,20 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.picture = picture;
+    }
+
+    public int save(Repo repo) {
+        int response;
+        if (repo.Users.getByPhoneNumber(phoneNumber) == null) {
+            response = repo.Users.create(this);
+        } else {
+            response = repo.Users.update(this);
+        }
+        return response;
+    }
+
+    public int delete(Repo repo) {
+        return repo.Users.delete(this);
     }
 
     public String toString() {

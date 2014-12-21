@@ -10,6 +10,8 @@ import java.util.Collection;
  * Created by Ivsucram on 12/20/2014.
  */
 public class Pin {
+    @DatabaseField(id = true)
+    private int id;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private User user = new User();
     @ForeignCollectionField(eager = false)
