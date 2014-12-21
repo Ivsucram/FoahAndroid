@@ -1,5 +1,7 @@
 package com.obdo.data.repos;
 
+import android.content.Intent;
+
 import com.j256.ormlite.dao.Dao;
 import com.obdo.data.DatabaseHelper;
 import com.obdo.data.models.Asset;
@@ -7,10 +9,11 @@ import com.obdo.data.models.Comment;
 import com.obdo.data.models.Post;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A
+ * Asset custom DAO
  * @author Marcus Vinícius de Carvalho
  * @since 12/22/2014
  * @version 1.0
@@ -18,6 +21,9 @@ import java.util.List;
  * @see com.obdo.data.models.Asset
  */
 public class RepoAssets {
+    /**
+     * Asset DAO - ORMlite version
+     */
     Dao<Asset, String> assetDao;
 
     public RepoAssets(DatabaseHelper db) {
@@ -33,57 +39,75 @@ public class RepoAssets {
         }
     }
 
-    public int create(Asset asset) {
+    /**
+     * Create an Asset record
+     * @param asset record to be created
+     * @return true if success, false if failure
+     */
+    public boolean create(Asset asset) {
         try {
-            return assetDao.create(asset);
+            return assetDao.create(asset)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
 
-    public int update(Asset asset) {
+    /**
+     * Update an Asset record
+     * @param asset record to be updated
+     * @return true if success, false if failure
+     */
+    public boolean update(Asset asset) {
         try {
-            return assetDao.update(asset);
+            return assetDao.update(asset)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
 
-    public int delete(Asset asset) {
+    /**
+     * Delete an Asset record
+     * @param asset record to be deleted
+     * @return true if success, false if failure
+     */
+    public boolean delete(Asset asset) {
         try {
-            return assetDao.delete(asset);
+            return assetDao.delete(asset)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
 
+    /**
+     * Get a list of Assets existing in one Post
+     * @param post Post that contain the assets
+     * @return List of assets. It can be empty if there is no asset
+     * @see com.obdo.data.models.Post
+     */
     public List<Asset> getByPost(Post post) {
         try {
             return assetDao.queryForEq("post", post);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<Asset>();
     }
 
+    /**
+     * Get a list of Assets existing in one comment
+     * @param comment Comment that contain the assets
+     * @return List of assets. It can be empty if there is no asset
+     * @see com.obdo.data.models.Comment
+     */
     public List<Asset> getByComment(Comment comment) {
         try {
             return assetDao.queryForEq("comment", comment);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
-    }
-
-    public List<Asset> getAll() {
-        try {
-            return assetDao.queryForAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return new ArrayList<Asset>();
     }
 }
