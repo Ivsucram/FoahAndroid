@@ -41,7 +41,12 @@ public class CustomWritePostChangeViewImageButton extends LinearLayout {
      * @see android.app.Activity
      */
     private Activity activity;
-    //TODO: javadoc
+    /**
+     * Reference to the Activity ViewSwitcher
+     * @since 12/23/2014
+     * @see com.obdo.ObdoActivity
+     * @see android.widget.ViewSwitcher
+     */
     private ViewSwitcher viewSwitcher;
 
     public CustomWritePostChangeViewImageButton(Activity activity, ViewSwitcher viewSwitcher) {
