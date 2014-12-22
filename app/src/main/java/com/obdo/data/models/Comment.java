@@ -37,6 +37,7 @@ public class Comment {
      */
     public boolean save(Repo repo) {
         boolean response = false;
+        //TODO: create a better check
         if (id!=null && !id.isEmpty()) {
             response = repo.Comments.update(this);
         } else {

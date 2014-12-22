@@ -27,6 +27,7 @@ public class Asset {
      */
     public boolean save(Repo repo) {
         boolean response = false;
+        //TODO: create a better check
         if (id!=null && !id.isEmpty()) {
             response = repo.Assets.update(this);
         } else {

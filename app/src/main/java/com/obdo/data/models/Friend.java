@@ -13,9 +13,9 @@ import com.obdo.data.repos.Repo;
 public class Friend {
     @DatabaseField(generatedId = true)
     private String id;
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private User userA;
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private User userB;
 
     Friend() {}
@@ -32,7 +32,7 @@ public class Friend {
      */
     public boolean save(Repo repo) {
         boolean response = false;
-        if (repo.Friends.getByUsers(userA,userB)==null) {
+        if (repo.Friends.checkFriendship(userA, userB)==null) {
             response = repo.Friends.create(this);
         } else {
             response = repo.Friends.update(this);

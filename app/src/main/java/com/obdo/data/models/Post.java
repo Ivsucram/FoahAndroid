@@ -40,4 +40,8 @@ public class Post {
     public Location getLocation(Repo repo) {
         return repo.Locations.getByPost(this);
     }
+
+    public Pin isPin(Repo repo) {
+        return repo.Pins.checkPin(this);
+    }
 }

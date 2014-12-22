@@ -73,7 +73,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @see com.obdo.data.repos.RepoPins
      * @see com.obdo.data.models.Pin
      */
-    private Dao<Pin, String> pinDAO = null;
+    private Dao<Pin, Integer> pinDAO = null;
     /**
      * Post DAO - ORMlite version
      * @since 12/22/2014
@@ -199,7 +199,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Pin DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Pin, String> getPinDAO() throws SQLException {
+    public Dao<Pin, Integer> getPinDAO() throws SQLException {
         if (pinDAO == null) {
             pinDAO = DaoManager.createDao(getConnectionSource(), Pin.class);
         }

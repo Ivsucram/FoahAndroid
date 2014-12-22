@@ -5,6 +5,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.obdo.data.DatabaseHelper;
 import com.obdo.data.models.Pin;
+import com.obdo.data.models.Post;
 import com.obdo.data.models.User;
 
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ public class RepoPins {
     /**
      * Pin DAO - ORMlite version
      */
-    Dao<Pin, String> pinDAO;
+    Dao<Pin, Integer> pinDAO;
 
     public RepoPins(DatabaseHelper db) {
         try {
@@ -79,16 +80,16 @@ public class RepoPins {
     }
 
     /**
-     * Get Pin of a user
-     * @param user User to bring pins
-     * @return Pin of the user or null if there is none
+     * Check if post is pinned
+     * @param post Post to check if is pinned
+     * @return Pin with pinned post if is pinned or null if it is not pinned
      * @see com.obdo.data.models.Post
      */
-    public Pin getByUser(User user) {
+    public Pin checkPin(Post post) {
         try {
-            QueryBuilder<Pin, String> qb = pinDAO.queryBuilder();
+            QueryBuilder<Pin, Integer> qb = pinDAO.queryBuilder();
 
-            qb.where().eq("user", user);
+            qb.where().eq("post", post);
 
             PreparedQuery<Pin> pq = qb.prepare();
             return pinDAO.queryForFirst(pq);

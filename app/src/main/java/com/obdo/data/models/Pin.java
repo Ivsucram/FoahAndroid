@@ -1,19 +1,43 @@
 package com.obdo.data.models;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import com.obdo.data.repos.Repo;
 
 /**
- * Created by Ivsucram on 12/20/2014.
+ * Pin model
+ * Note: The server DB have a different representation of this model, including the User on it. This model was created on the smartphone having in mind that only one user use the system at once.
+ * @author Marcus Vinícius de Carvalho
+ * @since 12/22/2014
+ * @version 1.0
+ * @see com.obdo.data.repos.RepoLocations
  */
 public class Pin {
     @DatabaseField(id = true)
-    private String id;
+    private Integer id;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private User user = new User();
-    @ForeignCollectionField(eager = false)
-    private Collection<Post> posts = new ArrayList<Post>();
+    private Post post = new Post();
+
+    /**
+     * Save pin record on db
+     * @param repo db
+     * @return true if success, false if failure
+     */
+    public boolean save(Repo repo) {
+        boolean response = false;
+        if (repo.Pins.checkPin(post)==null) {
+            response = repo.Pins.create(this);
+        } else {
+            response = repo.Pins.update(this);
+        }
+        return response;
+    }
+
+    /**
+     * Delete pin record from db
+     * @param repo db
+     * @return true if success, false if failure
+     */
+    public boolean delete(Repo repo) {
+        return repo.Pins.delete(this);
+    }
 }

@@ -29,6 +29,7 @@ public class Location {
      */
     public boolean save(Repo repo) {
         boolean response = false;
+        //TODO: Create a better check
         if (id!=null && !id.isEmpty()) {
             response = repo.Locations.update(this);
         } else {

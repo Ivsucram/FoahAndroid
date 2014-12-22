@@ -92,7 +92,7 @@ public class RepoFriends {
      * @param userB User B
      * @return Friend record if exists, null if not
      */
-    public Friend getByUsers(User userA, User userB) {
+    public Friend checkFriendship(User userA, User userB) {
         try {
             QueryBuilder<Friend, String> qb = friendDAO.queryBuilder();
             Where left = qb.where();
