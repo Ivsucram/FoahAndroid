@@ -94,7 +94,7 @@ public class RepoPosts {
      * @return List of posts. It can be empty if there is no asset
      * @see com.obdo.data.models.User
      */
-    public List<Post> getByPost(User user) {
+    public List<Post> getByUser(User user) {
         try {
             return postDAO.queryForEq("user", user);
         } catch (SQLException e) {
@@ -115,9 +115,9 @@ public class RepoPosts {
             double earthRadius = 6371000;//meters
 
             QueryBuilder<Location, String> qb = locationDAO.queryBuilder();
-            qb.where().between("latitude", location.getLatitude()-(radius/earthRadius), location.getLatitude()+(radius/earthRadius));
+            qb.where().between("latitude", location.getLatitude() - (radius / earthRadius), location.getLatitude() + (radius / earthRadius));
             qb.where().and();
-            qb.where().between("longitude", location.getLongitude()-(radius/earthRadius), location.getLongitude()+(radius/earthRadius));
+            qb.where().between("longitude", location.getLongitude() - (radius / earthRadius), location.getLongitude() + (radius / earthRadius));
             PreparedQuery<Location> pq = qb.prepare();
 
             List<Location> listLocation = locationDAO.query(pq);

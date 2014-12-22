@@ -58,6 +58,10 @@ public class User {
         return repo.Friends.getByUser(this);
     }
 
+    public List<Post> getPosts(Repo repo) {
+        return repo.Posts.getByUser(this);
+    }
+
     public String toString() {
         return "";
     }

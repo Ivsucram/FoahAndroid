@@ -9,7 +9,7 @@ import com.obdo.data.repos.Repo;
  * @author Marcus Vinícius de Carvalho
  * @since 12/22/2014
  * @version 1.0
- * @see com.obdo.data.repos.RepoLocations
+ * @see com.obdo.data.repos.RepoPins
  */
 public class Pin {
     @DatabaseField(id = true)
@@ -39,5 +39,21 @@ public class Pin {
      */
     public boolean delete(Repo repo) {
         return repo.Pins.delete(this);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }
