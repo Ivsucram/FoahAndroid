@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.obdo.data.DatabaseHelper;
 import com.obdo.data.DatabaseManager;
+import com.obdo.data.models.Friend;
 
 /**
  * Repository (database) controller
@@ -43,6 +44,13 @@ public class Repo {
      *  @see com.obdo.data.models.Comment
      */
     public RepoComments Comments;
+    /**
+     *  Friend DAO
+     *  @since 12/22/2014
+     *  @see com.obdo.data.repos.RepoFriends
+     *  @see com.obdo.data.models.Friend
+     */
+    public RepoFriends Friends;
     /**
      *  Location DAO
      *  @since 12/22/2014
@@ -85,6 +93,7 @@ public class Repo {
 
         Assets = new RepoAssets(db);
         Comments = new RepoComments(db);
+        Friends = new RepoFriends(db);
         Locations = new RepoLocations(db);
         Pins = new RepoPins(db);
         Posts = new RepoPosts(db);

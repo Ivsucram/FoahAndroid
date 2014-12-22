@@ -30,7 +30,7 @@ public class Comment {
     private ReadPost readPost = new ReadPost();
 
     /**
-     * Save comment record from db
+     * Save comment record on db
      * @param repo db
      * @return true if success, false if failure
      */

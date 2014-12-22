@@ -21,7 +21,7 @@ public class Asset {
     private Comment comment = new Comment();
 
     /**
-     * Save asset record from db
+     * Save asset record on db
      * @param repo db
      * @return true if success, false if failure
      */

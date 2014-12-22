@@ -6,6 +6,7 @@ import com.obdo.data.repos.Repo;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Ivsucram on 12/20/2014.
@@ -51,6 +52,10 @@ public class User {
 
     public int delete(Repo repo) {
         return repo.Users.delete(this);
+    }
+
+    public List<Friend> getComments(Repo repo) {
+        return repo.Friends.getByUser(this);
     }
 
     public String toString() {
