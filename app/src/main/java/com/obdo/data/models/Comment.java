@@ -20,14 +20,15 @@ public class Comment {
     private String id;
     @DatabaseField(canBeNull = true)
     private String text;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
     private User user = new User();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
     private Post post = new Post();
-    @ForeignCollectionField(eager = false)
-    private Collection<Asset> assets = new ArrayList<Asset>();
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private ReadPost readPost = new ReadPost();
+    @ForeignCollectionField(eager = true)
+    private Collection<Asset> assets = new ArrayList<Asset>();
+
 
     /**
      * Save comment record on db
@@ -95,19 +96,19 @@ public class Comment {
         this.post = post;
     }
 
-    public Collection<Asset> getAssets() {
-        return assets;
-    }
-
-    public void setAssets(Collection<Asset> assets) {
-        this.assets = assets;
-    }
-
     public ReadPost getReadPost() {
         return readPost;
     }
 
     public void setReadPost(ReadPost readPost) {
         this.readPost = readPost;
+    }
+
+    public Collection<Asset> getAssets() {
+        return assets;
+    }
+
+    public void setAssets(Collection<Asset> assets) {
+        this.assets = assets;
     }
 }

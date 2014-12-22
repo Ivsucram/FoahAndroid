@@ -22,7 +22,7 @@ public class Post {
     private ReadPost readPost = new ReadPost();
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Pin pin = new Pin();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
     private Location location = new Location();
     @ForeignCollectionField(eager = false)
     private Collection<Comment> comments = new ArrayList<Comment>();
@@ -35,5 +35,9 @@ public class Post {
 
     public List<Comment> getComments(Repo repo) {
         return repo.Comments.getByPost(this);
+    }
+
+    public Location getLocation(Repo repo) {
+        return repo.Locations.getByPost(this);
     }
 }

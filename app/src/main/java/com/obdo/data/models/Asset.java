@@ -11,13 +11,13 @@ import com.obdo.data.repos.Repo;
  * @see com.obdo.data.repos.RepoAssets
  */
 public class Asset {
-    @DatabaseField(id = true)
+    @DatabaseField(id = true, canBeNull = false)
     private String id;
-    @DatabaseField(canBeNull = true)
+    @DatabaseField(canBeNull = false)
     private String file;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private Post post = new Post();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private Comment comment = new Comment();
 
     /**
