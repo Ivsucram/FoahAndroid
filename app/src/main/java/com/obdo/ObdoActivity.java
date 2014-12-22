@@ -11,6 +11,7 @@ import android.widget.ViewSwitcher;
  * @author Marcus Vinícius de Carvalho
  * @since 12/23/2014
  * @version 1.0
+ * @see com.obdo.WritePostActivity
  */
 public class ObdoActivity extends ActionBarActivity {
     /**
