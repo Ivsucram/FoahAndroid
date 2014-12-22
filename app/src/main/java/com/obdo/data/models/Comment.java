@@ -29,6 +29,7 @@ public class Comment {
     @ForeignCollectionField(eager = true)
     private Collection<Asset> assets = new ArrayList<Asset>();
 
+    public Comment() {}
 
     /**
      * Save comment record on db

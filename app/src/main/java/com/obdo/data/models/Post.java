@@ -33,6 +33,8 @@ public class Post {
     @ForeignCollectionField(eager = false)
     private Collection<Asset> assets = new ArrayList<Asset>();
 
+    public Post() {}
+
     /**
      * Save post record on db
      * @param repo db
@@ -96,6 +98,16 @@ public class Post {
      */
     public Pin isPin(Repo repo) {
         return repo.Pins.checkPin(this);
+    }
+
+    /**
+     * Check if post was read
+     * @param repo db
+     * @return ReadPost with read post if it was read or null if it is was not read yet
+     * @see com.obdo.data.models.ReadPost
+     */
+    public ReadPost isRead(Repo repo) {
+        return repo.ReadPosts.checkPostIsRead(this);
     }
 
     public String getId() {

@@ -1,7 +1,11 @@
 package com.obdo.data.repos;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.obdo.data.DatabaseHelper;
+import com.obdo.data.models.Location;
+import com.obdo.data.models.Post;
 import com.obdo.data.models.ReadPost;
 
 import java.sql.SQLException;
@@ -20,7 +24,7 @@ public class RepoReadPosts {
     /**
      * ReadPost DAO - ORMlite version
      */
-    Dao<ReadPost, String> readedPostDAO;
+    Dao<ReadPost, Integer> readedPostDAO;
 
     public RepoReadPosts(DatabaseHelper db) {
         try {
@@ -78,8 +82,27 @@ public class RepoReadPosts {
     }
 
     /**
+     * Check if post is read
+     * @param post Post to check
+     * @return ReadPost if post was read, null if not
+     */
+    public ReadPost checkPostIsRead(Post post) {
+        try {
+            QueryBuilder<ReadPost, Integer> qb = readedPostDAO.queryBuilder();
+
+            qb.where().eq("post", post);
+
+            PreparedQuery<ReadPost> pq = qb.prepare();
+            return readedPostDAO.queryForFirst(pq);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * Get all ReadPost
-     * @return List of ReadPost, empyt is there is none
+     * @return List of ReadPost, empty is there is none
      */
     public List<ReadPost> getAll() {
         try {

@@ -20,6 +20,8 @@ public class Asset {
     @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
     private Comment comment = new Comment();
 
+    public Asset() {}
+
     /**
      * Save asset record on db
      * @param repo db

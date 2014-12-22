@@ -17,6 +17,8 @@ public class Pin {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Post post = new Post();
 
+    public Pin() {}
+
     /**
      * Save pin record on db
      * @param repo db

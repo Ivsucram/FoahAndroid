@@ -22,6 +22,8 @@ public class Location {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Post post = new Post();
 
+    public Location() {}
+
     /**
      * Save location record on db
      * @param repo db
