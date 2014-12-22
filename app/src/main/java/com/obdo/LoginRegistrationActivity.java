@@ -86,16 +86,12 @@ public class LoginRegistrationActivity extends ActionBarActivity {
 
     /**
      * Initialize EditText and its behaviors.
-     * Field is initialized with  line 1 number of the cellphone. In case it is not possible to retrieve the line 1 number, the field will be initialized with null.
      * @since 12/10/2014
      * @see android.widget.EditText
      * @see android.telephony.TelephonyManager
      */
     private void onCreateEditTextPhoneNumber() {
         editTextPhoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
-
-        TelephonyManager telephonyManager = (TelephonyManager)getApplicationContext().getSystemService(getApplicationContext().TELEPHONY_SERVICE);
-        editTextPhoneNumber.setText(telephonyManager.getLine1Number());
 
         editTextPhoneNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
