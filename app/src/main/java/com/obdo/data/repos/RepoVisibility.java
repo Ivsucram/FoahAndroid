@@ -2,7 +2,6 @@ package com.obdo.data.repos;
 
 import com.j256.ormlite.dao.Dao;
 import com.obdo.data.DatabaseHelper;
-import com.obdo.data.models.User;
 import com.obdo.data.models.Visibility;
 
 import java.sql.SQLException;
