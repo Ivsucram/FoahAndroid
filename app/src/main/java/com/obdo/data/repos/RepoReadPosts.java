@@ -5,61 +5,88 @@ import com.obdo.data.DatabaseHelper;
 import com.obdo.data.models.ReadPost;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Ivsucram on 12/20/2014.
+ * ReadPost custom DAO
+ * @author Marcus Vinícius de Carvalho
+ * @since 12/22/2014
+ * @version 1.0
+ * @see com.obdo.data.repos.Repo
+ * @see com.obdo.data.models.ReadPost
  */
 public class RepoReadPosts {
+    /**
+     * ReadPost DAO - ORMlite version
+     */
     Dao<ReadPost, String> readedPostDao;
 
     public RepoReadPosts(DatabaseHelper db) {
         try {
             readedPostDao = db.getReadPostDAO();
         } catch (SQLException e) {
-            e.printStackTrace();
+            db.onCreate(db.getReadableDatabase(), db.getConnectionSource());
+            try {
+                readedPostDao = db.getReadPostDAO();
+            } catch (SQLException e2) {
+                e2.printStackTrace();
+            }
         }
     }
 
-    public int create(ReadPost readPost)
-    {
+    /**
+     * Create a ReadPost record
+     * @param readPost record to be created
+     * @return true if success, false if failure
+     */
+    public boolean create(ReadPost readPost) {
         try {
-            return readedPostDao.create(readPost);
+            return readedPostDao.create(readPost)>0?true:false;
         } catch (SQLException e) {
-            // TODO: Exception Handling
             e.printStackTrace();
         }
-        return 0;
-    }
-    public int update(ReadPost readPost)
-    {
-        try {
-            return readedPostDao.update(readPost);
-        } catch (SQLException e) {
-            // TODO: Exception Handling
-            e.printStackTrace();
-        }
-        return 0;
-    }
-    public int delete(ReadPost readPost)
-    {
-        try {
-            return readedPostDao.delete(readPost);
-        } catch (SQLException e) {
-            // TODO: Exception Handling
-            e.printStackTrace();
-        }
-        return 0;
+        return false;
     }
 
-    public List<ReadPost> getAll()
-    {
+    /**
+     * Update a ReadPost record
+     * @param readPost record to be updated
+     * @return true if success, false if failure
+     */
+    public boolean update(ReadPost readPost) {
+        try {
+            return readedPostDao.update(readPost)>0?true:false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Delete a ReadPost record
+     * @param readPost record to be deleted
+     * @return true if success, false if failure
+     */
+    public boolean delete(ReadPost readPost) {
+        try {
+            return readedPostDao.delete(readPost)>0?true:false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Get all ReadPost
+     * @return List of ReadPost, empyt is there is none
+     */
+    public List<ReadPost> getAll() {
         try {
             return readedPostDao.queryForAll();
         } catch (SQLException e) {
-            // TODO: Exception Handling
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<ReadPost>();
     }
 }
