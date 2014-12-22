@@ -29,6 +29,36 @@ public class Comment {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private ReadPost readPost = new ReadPost();
 
+    /**
+     * Save comment record from db
+     * @param repo db
+     * @return true if success, false if failure
+     */
+    public boolean save(Repo repo) {
+        boolean response = false;
+        if (id!=null && !id.isEmpty()) {
+            response = repo.Comments.update(this);
+        } else {
+            response = repo.Comments.create(this);
+        }
+        return response;
+    }
+
+    /**
+     * Delete comment record from db
+     * @param repo db
+     * @return true if success, false if failure
+     */
+    public boolean delete(Repo repo) {
+        return repo.Comments.delete(this);
+    }
+
+    /**
+     * Get list of assets from the db
+     * @param repo db
+     * @return List of Assets. It can be empty if there is no asset
+     * @see com.obdo.data.models.Asset
+     */
     public List<Asset> getAssets(Repo repo) {
         return repo.Assets.getByComment(this);
     }

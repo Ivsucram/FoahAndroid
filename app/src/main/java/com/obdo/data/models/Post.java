@@ -32,4 +32,8 @@ public class Post {
     public List<Asset> getAssets(Repo repo) {
         return repo.Assets.getByPost(this);
     }
+
+    public List<Comment> getComments(Repo repo) {
+        return repo.Comments.getByPost(this);
+    }
 }

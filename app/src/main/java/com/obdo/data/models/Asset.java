@@ -21,8 +21,8 @@ public class Asset {
     private Comment comment = new Comment();
 
     /**
-     * Save asset record
-     * @param repo database
+     * Save asset record from db
+     * @param repo db
      * @return true if success, false if failure
      */
     public boolean save(Repo repo) {
@@ -36,8 +36,8 @@ public class Asset {
     }
 
     /**
-     * Delete asset record
-     * @param repo database
+     * Delete asset record from db
+     * @param repo db
      * @return true if success, false if failure
      */
     public boolean delete(Repo repo) {
