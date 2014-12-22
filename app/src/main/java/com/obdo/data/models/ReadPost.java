@@ -8,7 +8,7 @@ import com.j256.ormlite.field.ForeignCollectionField;
  */
 public class ReadPost {
     @DatabaseField(id = true)
-    private String id;
+    private Integer id;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Post post = new Post();
     @DatabaseField(foreign = true, foreignAutoRefresh = true)

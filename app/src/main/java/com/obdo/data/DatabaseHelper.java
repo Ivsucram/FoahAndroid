@@ -17,6 +17,7 @@ import com.obdo.data.models.Pin;
 import com.obdo.data.models.Post;
 import com.obdo.data.models.ReadPost;
 import com.obdo.data.models.User;
+import com.obdo.data.models.Visibility;
 
 import java.sql.SQLException;
 
@@ -86,7 +87,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @see com.obdo.data.repos.RepoReadPosts
      * @see com.obdo.data.models.ReadPost
      */
-    private Dao<ReadPost, String> readPostDAO = null;
+    private Dao<ReadPost, Integer> readPostDAO = null;
     /**
      * User DAO - ORMlite version
      * @since 12/22/2014
@@ -94,6 +95,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @see com.obdo.data.models.User
      */
     private Dao<User, String> userDAO = null;
+    /**
+     * Visibility DAO - ORMlite version
+     * @since 12/22/2014
+     * @see com.obdo.data.repos.RepoVisibility
+     * @see com.obdo.data.models.Visibility
+     */
+    private Dao<Visibility, String> visibilityDAO = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -111,6 +119,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Post.class);
             TableUtils.createTable(connectionSource, ReadPost.class);
             TableUtils.createTable(connectionSource, User.class);
+            TableUtils.createTable(connectionSource, Visibility.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -129,6 +138,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Post.class, true);
             TableUtils.dropTable(connectionSource, ReadPost.class, true);
             TableUtils.dropTable(connectionSource, User.class, true);
+            TableUtils.dropTable(connectionSource, Visibility.class, true);
             onCreate(db);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
@@ -137,39 +147,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     * Create a link between the database and the User DAO object
-     * @return User DAO object
+     * Create a link between the database and the Asset DAO object
+     * @return Asset DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<User, String> getUserDAO() throws SQLException {
-        if (userDAO == null) {
-            userDAO = DaoManager.createDao(getConnectionSource(), User.class);
+    public Dao<Asset, String> getAssetDAO() throws SQLException {
+        if (assetDAO == null) {
+            assetDAO = DaoManager.createDao(getConnectionSource(), Asset.class);
         }
-        return userDAO;
-    }
-
-    /**
-     * Create a link between the database and the Post DAO object
-     * @return Post DAO object
-     * @throws java.sql.SQLException
-     */
-    public Dao<Post, String> getPostDAO() throws SQLException {
-        if (postDAO == null) {
-            postDAO = DaoManager.createDao(getConnectionSource(), Post.class);
-        }
-        return postDAO;
-    }
-
-    /**
-     * Create a link between the database and the Location DAO object
-     * @return Location DAO object
-     * @throws java.sql.SQLException
-     */
-    public Dao<Location, String> getLocationDAO() throws SQLException {
-        if (locationDAO == null) {
-            locationDAO = DaoManager.createDao(getConnectionSource(), Location.class);
-        }
-        return locationDAO;
+        return assetDAO;
     }
 
     /**
@@ -197,15 +183,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
-     * Create a link between the database and the Asset DAO object
-     * @return Asset DAO object
+     * Create a link between the database and the Location DAO object
+     * @return Location DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Asset, String> getAssetDAO() throws SQLException {
-        if (assetDAO == null) {
-            assetDAO = DaoManager.createDao(getConnectionSource(), Asset.class);
+    public Dao<Location, String> getLocationDAO() throws SQLException {
+        if (locationDAO == null) {
+            locationDAO = DaoManager.createDao(getConnectionSource(), Location.class);
         }
-        return assetDAO;
+        return locationDAO;
     }
 
     /**
@@ -221,15 +207,51 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     }
 
     /**
+     * Create a link between the database and the Post DAO object
+     * @return Post DAO object
+     * @throws java.sql.SQLException
+     */
+    public Dao<Post, String> getPostDAO() throws SQLException {
+        if (postDAO == null) {
+            postDAO = DaoManager.createDao(getConnectionSource(), Post.class);
+        }
+        return postDAO;
+    }
+
+    /**
      * Create a link between the database and the ReadPost DAO object
      * @return ReadPost DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<ReadPost, String> getReadPostDAO() throws SQLException {
+    public Dao<ReadPost, Integer> getReadPostDAO() throws SQLException {
         if (readPostDAO == null) {
             readPostDAO = DaoManager.createDao(getConnectionSource(), ReadPost.class);
         }
         return readPostDAO;
+    }
+
+    /**
+     * Create a link between the database and the User DAO object
+     * @return User DAO object
+     * @throws java.sql.SQLException
+     */
+    public Dao<User, String> getUserDAO() throws SQLException {
+        if (userDAO == null) {
+            userDAO = DaoManager.createDao(getConnectionSource(), User.class);
+        }
+        return userDAO;
+    }
+
+    /**
+     * Create a link between the database and the ReadPost DAO object
+     * @return ReadPost DAO object
+     * @throws java.sql.SQLException
+     */
+    public Dao<Visibility, String> getVisibilityDAO() throws SQLException {
+        if (visibilityDAO == null) {
+            visibilityDAO = DaoManager.createDao(getConnectionSource(), Visibility.class);
+        }
+        return visibilityDAO;
     }
 
     @Override
@@ -237,10 +259,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         super.close();
         assetDAO = null;
         commentDAO = null;
+        friendDAO = null;
         locationDAO = null;
         pinDAO = null;
         postDAO = null;
         readPostDAO = null;
         userDAO = null;
+        visibilityDAO = null;
     }
 }
