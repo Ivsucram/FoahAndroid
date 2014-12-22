@@ -27,6 +27,7 @@
         <activity android:name=".NickActivity"/>
         <activity android:name=".ObdoActivity"/>
         <activity android:name=".MapActivity"/>
+        <activity android:name=".WritePostActivity"/>
 
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyASNmyXBMRPO4J3vb9y9nuokPx45N1EZy4" />
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />

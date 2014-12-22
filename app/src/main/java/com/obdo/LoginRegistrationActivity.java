@@ -70,8 +70,18 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private Button buttonLoginRegister;
+    /**
+     * HTTP Request Controller for the LoginRegistrationActivity
+     * @since 12/23/2014
+     * @see com.obdo.HTTPRequestLoginRegisrationController
+     */
     private HTTPRequestLoginRegisrationController httpRequestController;
 
+    /**
+     * Initialize Activity.
+     * Check if user is logged. If affirmative, goes straight to the ObdoActivity.
+     * @since 12/23/2014
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +98,6 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * Initialize EditText and its behaviors.
      * @since 12/10/2014
      * @see android.widget.EditText
-     * @see android.telephony.TelephonyManager
      */
     private void onCreateEditTextPhoneNumber() {
         editTextPhoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
@@ -194,9 +203,27 @@ public class LoginRegistrationActivity extends ActionBarActivity {
  * @version 1.0
  */
 class HTTPRequestLoginRegisrationController  {
+    /**
+     * HTTP Client
+     * @since 12/23/2014
+     * @see com.litesuits.http.LiteHttpClient
+     */
     private LiteHttpClient liteHttpClient;
+    /**
+     * HTTP Asynchronous Executor
+     * @since 12/23/2014
+     * @see com.litesuits.http.async.HttpAsyncExecutor
+     */
     private HttpAsyncExecutor asyncExecutor;
+    /**
+     * Activity that calls this class
+     * @since 12/23/2014
+     */
     private Activity activity;
+    /**
+     * Server Address saved on the url.xml
+     * @since 12/23/2014
+     */
     private String serverAddress;
 
     /**
@@ -213,6 +240,10 @@ class HTTPRequestLoginRegisrationController  {
         serverAddress = activity.getApplicationContext().getString(R.string.server_address);
     }
 
+    /**
+     * Check if cellphone already contain someone logged on it or not, and if it matches with the UID on the server
+     * @since 12/23/2014
+     */
     public void checkPhoneIsActivated() {
         Map<SharedPreferencesUserInformationENUM, String> dictionary = restorePreferences();
         if (dictionary.get(SharedPreferencesUserInformationENUM.PHONENUMBER)==null || dictionary.get(SharedPreferencesUserInformationENUM.UID)==null) return;
@@ -249,6 +280,7 @@ class HTTPRequestLoginRegisrationController  {
      * If no: register user
      * @param phoneNumber User cellphone
      * @param uid smartphone UID
+     * @since 12/23/2014
      */
     public void checkUserExists(final String phoneNumber, final String uid) {
         Request request = new Request(serverAddress)
@@ -281,6 +313,7 @@ class HTTPRequestLoginRegisrationController  {
      * Register user on the server database and login it on the cellphone
      * @param phoneNumber user cellphone
      * @param uid smartphone UID
+     * @since 12/23/2014
      */
     public void registerUser(final String phoneNumber,final String uid) {
         Request request = new Request(serverAddress)
@@ -318,6 +351,7 @@ class HTTPRequestLoginRegisrationController  {
      * Login user (new cellphone) on the server
      * @param phoneNumber User cellphone
      * @param uid Smartphone UID
+     * @since 12/23/2014
      */
     public void loginUser(final String phoneNumber,final String uid) {
         Request request = new Request(serverAddress)
@@ -354,6 +388,7 @@ class HTTPRequestLoginRegisrationController  {
      * Save Shared Preferences with user information: Phonenumber and smartphone UID
      * @param phoneNumber User cellphone to be saved
      * @param uid smartphone UID to be saved
+     * @since 12/23/2014
      */
     private void savePreferences(String phoneNumber, String uid) {
         SharedPreferences settings = activity.getSharedPreferences(activity.getApplicationContext().getString(R.string.preferencesFileName), 0);
@@ -366,6 +401,7 @@ class HTTPRequestLoginRegisrationController  {
     /**
      * Load Shared Preferences with user information: phonenumber and smartphone UID
      * @return a dictionary with the phonenumber and smartphone UID values
+     * @since 12/23/2014
      */
     private Map<SharedPreferencesUserInformationENUM, String> restorePreferences() {
         SharedPreferences settings = activity.getSharedPreferences(activity.getApplicationContext().getString(R.string.preferencesFileName), 0);

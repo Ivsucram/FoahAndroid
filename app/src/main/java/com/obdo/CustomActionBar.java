@@ -36,6 +36,11 @@ public class CustomActionBar extends LinearLayout {
      * @see android.widget.ImageButton
      */
     private ImageButton imageButtonSearch;
+    /**
+     * Activity that calls this Custom Layout
+     * @since 12/22/2014
+     * @see android.app.Activity
+     */
     private Activity activity;
 
     public CustomActionBar(Activity activity) {
@@ -46,6 +51,11 @@ public class CustomActionBar extends LinearLayout {
         onCreateImageButtonSearch();
     }
 
+    /**
+     * Initialize ImageButtonMenu and its behaviors.
+     * @since 12/23/2014
+     * @see android.widget.ImageButton
+     */
     private void onCreateImageButtonMenu() {
         imageButtonMenu = (ImageButton) activity.findViewById(R.id.imageButtonMenu);
 
@@ -57,10 +67,20 @@ public class CustomActionBar extends LinearLayout {
         });
     }
 
+    /**
+     * Initialize TextViewScreenTitle and its behaviors.
+     * @since 12/23/2014
+     * @see android.widget.ImageButton
+     */
     private void onCreateTextViewScreenTitle() {
         textViewScreenTitle = (TextView) findViewById(R.id.textViewScreenTitle);
     }
 
+    /**
+     * Initialize ImageButtonSearch and its behaviors.
+     * @since 12/23/2014
+     * @see android.widget.ImageButton
+     */
     private void onCreateImageButtonSearch() {
         imageButtonSearch = (ImageButton) activity.findViewById(R.id.imageButtonSearch);
 
@@ -72,17 +92,27 @@ public class CustomActionBar extends LinearLayout {
         });
     }
 
-    public TextView getTextViewScreenTitle() {
-        return textViewScreenTitle;
-    }
-
-    public void setTextViewScreenTitle(TextView textViewScreenTitle) {
-        this.textViewScreenTitle = textViewScreenTitle;
-    }
-
     //TODO: implementation and javadoc
     public void showHideMenu() {}
 
     //TODO: implementation and javadoc
     public void search() {}
+
+    /**
+     * Get View name that is showed on screen
+     * @return View name
+     * @since 12/23/2014
+     */
+    public String getScreenTitle() {
+        return textViewScreenTitle.getText().toString();
+    }
+
+    /**
+     * Set View name to be show on screen
+     * @param screenTitle
+     * @since 12/23/2014
+     */
+    public void setScreenTitle(String screenTitle) {
+        textViewScreenTitle.setText(screenTitle);
+    }
 }
