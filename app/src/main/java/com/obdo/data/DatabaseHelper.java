@@ -11,6 +11,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.obdo.data.models.Asset;
 import com.obdo.data.models.Comment;
+import com.obdo.data.models.Friend;
 import com.obdo.data.models.Location;
 import com.obdo.data.models.Pin;
 import com.obdo.data.models.Post;
@@ -51,6 +52,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @see com.obdo.data.models.Comment
      */
     private Dao<Comment, String> commentDAO = null;
+    /**
+     * Friend DAO - ORMlite version
+     * @since 12/22/2014
+     * @see com.obdo.data.repos.RepoFriends
+     * @see com.obdo.data.models.Friend
+     */
+    private Dao<Friend, String> friendDAO = null;
     /**
      * Location DAO - ORMlite version
      * @since 12/22/2014
@@ -95,11 +103,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
         try {
             Log.i(DatabaseHelper.class.getName(), "onCreate");
-            TableUtils.createTable(connectionSource, User.class);
-            TableUtils.createTable(connectionSource, Post.class);
-            TableUtils.createTable(connectionSource, Location.class);
-            TableUtils.createTable(connectionSource, Comment.class);
             TableUtils.createTable(connectionSource, Asset.class);
+            TableUtils.createTable(connectionSource, Comment.class);
+            TableUtils.createTable(connectionSource, Friend.class);
+            TableUtils.createTable(connectionSource, Location.class);
+            TableUtils.createTable(connectionSource, Pin.class);
+            TableUtils.createTable(connectionSource, Post.class);
+            TableUtils.createTable(connectionSource, ReadPost.class);
+            TableUtils.createTable(connectionSource, User.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -110,11 +121,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
             Log.i(DatabaseHelper.class.getName(), "onUpgrade");
-            TableUtils.dropTable(connectionSource, User.class, true);
-            TableUtils.dropTable(connectionSource, Post.class, true);
-            TableUtils.dropTable(connectionSource, Location.class, true);
-            TableUtils.dropTable(connectionSource, Comment.class, true);
             TableUtils.dropTable(connectionSource, Asset.class, true);
+            TableUtils.dropTable(connectionSource, Comment.class, true);
+            TableUtils.dropTable(connectionSource, Friend.class, true);
+            TableUtils.dropTable(connectionSource, Location.class, true);
+            TableUtils.dropTable(connectionSource, Pin.class, true);
+            TableUtils.dropTable(connectionSource, Post.class, true);
+            TableUtils.dropTable(connectionSource, ReadPost.class, true);
+            TableUtils.dropTable(connectionSource, User.class, true);
             onCreate(db);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
@@ -168,6 +182,18 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             commentDAO = DaoManager.createDao(getConnectionSource(), Comment.class);
         }
         return commentDAO;
+    }
+
+    /**
+     * Create a link between the database and the Friend DAO object
+     * @return Friend DAO object
+     * @throws java.sql.SQLException
+     */
+    public Dao<Friend, String> getFriendDAO() throws SQLException {
+        if (friendDAO == null) {
+            friendDAO = DaoManager.createDao(getConnectionSource(), Friend.class);
+        }
+        return friendDAO;
     }
 
     /**

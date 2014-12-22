@@ -20,15 +20,15 @@ public class RepoReadPosts {
     /**
      * ReadPost DAO - ORMlite version
      */
-    Dao<ReadPost, String> readedPostDao;
+    Dao<ReadPost, String> readedPostDAO;
 
     public RepoReadPosts(DatabaseHelper db) {
         try {
-            readedPostDao = db.getReadPostDAO();
+            readedPostDAO = db.getReadPostDAO();
         } catch (SQLException e) {
             db.onCreate(db.getReadableDatabase(), db.getConnectionSource());
             try {
-                readedPostDao = db.getReadPostDAO();
+                readedPostDAO = db.getReadPostDAO();
             } catch (SQLException e2) {
                 e2.printStackTrace();
             }
@@ -42,7 +42,7 @@ public class RepoReadPosts {
      */
     public boolean create(ReadPost readPost) {
         try {
-            return readedPostDao.create(readPost)>0?true:false;
+            return readedPostDAO.create(readPost)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class RepoReadPosts {
      */
     public boolean update(ReadPost readPost) {
         try {
-            return readedPostDao.update(readPost)>0?true:false;
+            return readedPostDAO.update(readPost)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ public class RepoReadPosts {
      */
     public boolean delete(ReadPost readPost) {
         try {
-            return readedPostDao.delete(readPost)>0?true:false;
+            return readedPostDAO.delete(readPost)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class RepoReadPosts {
      */
     public List<ReadPost> getAll() {
         try {
-            return readedPostDao.queryForAll();
+            return readedPostDAO.queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }

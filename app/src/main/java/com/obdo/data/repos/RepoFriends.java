@@ -2,31 +2,31 @@ package com.obdo.data.repos;
 
 import com.j256.ormlite.dao.Dao;
 import com.obdo.data.DatabaseHelper;
-import com.obdo.data.models.User;
+import com.obdo.data.models.Friend;
 
 import java.sql.SQLException;
 
 /**
- * User custom DAO
+ * Friend custom DAO
  * @author Marcus Vinícius de Carvalho
  * @since 12/22/2014
  * @version 1.0
  * @see com.obdo.data.repos.Repo
- * @see com.obdo.data.models.User
+ * @see com.obdo.data.models.Friend
  */
-public class RepoUsers {
+public class RepoFriends {
     /**
      * User DAO - ORMlite version
      */
-    Dao<User, String> userDAO;
+    Dao<Friend, String> friendDAO;
 
-    public RepoUsers(DatabaseHelper db) {
+    public RepoFriends(DatabaseHelper db) {
         try {
-            userDAO = db.getUserDAO();
+            friendDAO = db.getFriendDAO();
         } catch (SQLException e) {
             db.onCreate(db.getReadableDatabase(), db.getConnectionSource());
             try {
-                userDAO = db.getUserDAO();
+                friendDAO = db.getFriendDAO();
             } catch (SQLException e2) {
                 e2.printStackTrace();
             }
@@ -34,13 +34,13 @@ public class RepoUsers {
     }
 
     /**
-     * Create a User record
-     * @param user record to be created
+     * Create a friend record
+     * @param friend record to be created
      * @return true if success, false if failure
      */
-    public boolean create(User user) {
+    public boolean create(Friend friend) {
         try {
-            return userDAO.create(user)>0?true:false;
+            return friendDAO.create(friend)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,13 +48,13 @@ public class RepoUsers {
     }
 
     /**
-     * Update a User record
-     * @param user record to be updated
+     * Update a Friend record
+     * @param friend record to be updated
      * @return true if success, false if failure
      */
-    public boolean update(User user) {
+    public boolean update(Friend friend) {
         try {
-            return userDAO.update(user)>0?true:false;
+            return friendDAO.update(friend)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,13 +62,13 @@ public class RepoUsers {
     }
 
     /**
-     * Delete a User record
-     * @param user record to be deleted
+     * Delete a Friend record
+     * @param friend record to be deleted
      * @return true if success, false if failure
      */
-    public boolean delete(User user) {
+    public boolean delete(Friend friend) {
         try {
-            return userDAO.delete(user)>0?true:false;
+            return friendDAO.delete(friend)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
