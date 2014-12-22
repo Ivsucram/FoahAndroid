@@ -17,7 +17,6 @@ import com.obdo.data.models.Post;
 import com.obdo.data.models.ReadPost;
 import com.obdo.data.models.User;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 /**
@@ -44,49 +43,49 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @see com.obdo.data.repos.RepoAssets
      * @see com.obdo.data.models.Asset
      */
-    private Dao<Asset, String> assetDao = null;
+    private Dao<Asset, String> assetDAO = null;
     /**
      * Comment DAO - ORMlite version
      * @since 12/22/2014
      * @see com.obdo.data.repos.RepoComments
      * @see com.obdo.data.models.Comment
      */
-    private Dao<Comment, String> commentDao = null;
+    private Dao<Comment, String> commentDAO = null;
     /**
      * Location DAO - ORMlite version
      * @since 12/22/2014
      * @see com.obdo.data.repos.RepoLocations
      * @see com.obdo.data.models.Location
      */
-    private Dao<Location, String> locationDao = null;
+    private Dao<Location, String> locationDAO = null;
     /**
      * Pin DAO - ORMlite version
      * @since 12/22/2014
      * @see com.obdo.data.repos.RepoPins
      * @see com.obdo.data.models.Pin
      */
-    private Dao<Pin, String> pinDao = null;
+    private Dao<Pin, String> pinDAO = null;
     /**
      * Post DAO - ORMlite version
      * @since 12/22/2014
      * @see com.obdo.data.repos.RepoPosts
      * @see com.obdo.data.models.Post
      */
-    private Dao<Post, String> postDao = null;
+    private Dao<Post, String> postDAO = null;
     /**
      * ReadPost DAO - ORMlite version
      * @since 12/22/2014
      * @see com.obdo.data.repos.RepoReadPosts
      * @see com.obdo.data.models.ReadPost
      */
-    private Dao<ReadPost, String> readPostDao = null;
+    private Dao<ReadPost, String> readPostDAO = null;
     /**
      * User DAO - ORMlite version
      * @since 12/22/2014
      * @see com.obdo.data.repos.RepoUsers
      * @see com.obdo.data.models.User
      */
-    private Dao<User, String> userDao = null;
+    private Dao<User, String> userDAO = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -128,11 +127,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return User DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<User, String> getUserDao() throws SQLException {
-        if (userDao == null) {
-            userDao = DaoManager.createDao(getConnectionSource(), User.class);
+    public Dao<User, String> getUserDAO() throws SQLException {
+        if (userDAO == null) {
+            userDAO = DaoManager.createDao(getConnectionSource(), User.class);
         }
-        return userDao;
+        return userDAO;
     }
 
     /**
@@ -140,11 +139,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Post DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Post, String> getPostDao() throws SQLException {
-        if (postDao == null) {
-            postDao = DaoManager.createDao(getConnectionSource(), Post.class);
+    public Dao<Post, String> getPostDAO() throws SQLException {
+        if (postDAO == null) {
+            postDAO = DaoManager.createDao(getConnectionSource(), Post.class);
         }
-        return postDao;
+        return postDAO;
     }
 
     /**
@@ -152,11 +151,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Location DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Location, String> getLocationDao() throws SQLException {
-        if (locationDao == null) {
-            locationDao = DaoManager.createDao(getConnectionSource(), Location.class);
+    public Dao<Location, String> getLocationDAO() throws SQLException {
+        if (locationDAO == null) {
+            locationDAO = DaoManager.createDao(getConnectionSource(), Location.class);
         }
-        return locationDao;
+        return locationDAO;
     }
 
     /**
@@ -165,10 +164,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @throws java.sql.SQLException
      */
     public Dao<Comment, String> getCommentDAO() throws SQLException {
-        if (commentDao == null) {
-            commentDao = DaoManager.createDao(getConnectionSource(), Comment.class);
+        if (commentDAO == null) {
+            commentDAO = DaoManager.createDao(getConnectionSource(), Comment.class);
         }
-        return commentDao;
+        return commentDAO;
     }
 
     /**
@@ -177,10 +176,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @throws java.sql.SQLException
      */
     public Dao<Asset, String> getAssetDAO() throws SQLException {
-        if (assetDao == null) {
-            assetDao = DaoManager.createDao(getConnectionSource(), Asset.class);
+        if (assetDAO == null) {
+            assetDAO = DaoManager.createDao(getConnectionSource(), Asset.class);
         }
-        return assetDao;
+        return assetDAO;
     }
 
     /**
@@ -188,11 +187,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Pin DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Pin, String> getPinDao() throws SQLException {
-        if (pinDao == null) {
-            pinDao = DaoManager.createDao(getConnectionSource(), Pin.class);
+    public Dao<Pin, String> getPinDAO() throws SQLException {
+        if (pinDAO == null) {
+            pinDAO = DaoManager.createDao(getConnectionSource(), Pin.class);
         }
-        return pinDao;
+        return pinDAO;
     }
 
     /**
@@ -200,22 +199,22 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return ReadPost DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<ReadPost, String> getReadPostDao() throws SQLException {
-        if (readPostDao == null) {
-            readPostDao = DaoManager.createDao(getConnectionSource(), ReadPost.class);
+    public Dao<ReadPost, String> getReadPostDAO() throws SQLException {
+        if (readPostDAO == null) {
+            readPostDAO = DaoManager.createDao(getConnectionSource(), ReadPost.class);
         }
-        return readPostDao;
+        return readPostDAO;
     }
 
     @Override
     public void close() {
         super.close();
-        assetDao = null;
-        commentDao = null;
-        locationDao = null;
-        pinDao = null;
-        postDao = null;
-        readPostDao = null;
-        userDao = null;
+        assetDAO = null;
+        commentDAO = null;
+        locationDAO = null;
+        pinDAO = null;
+        postDAO = null;
+        readPostDAO = null;
+        userDAO = null;
     }
 }

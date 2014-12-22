@@ -4,12 +4,10 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.obdo.data.DatabaseHelper;
-import com.obdo.data.models.Location;
 import com.obdo.data.models.Pin;
 import com.obdo.data.models.User;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Pin custom DAO
@@ -23,15 +21,15 @@ public class RepoPins {
     /**
      * Pin DAO - ORMlite version
      */
-    Dao<Pin, String> pinDao;
+    Dao<Pin, String> pinDAO;
 
     public RepoPins(DatabaseHelper db) {
         try {
-            pinDao = db.getPinDao();
+            pinDAO = db.getPinDAO();
         } catch (SQLException e) {
             db.onCreate(db.getReadableDatabase(), db.getConnectionSource());
             try {
-                pinDao = db.getPinDao();
+                pinDAO = db.getPinDAO();
             } catch (SQLException e2) {
                 e2.printStackTrace();
             }
@@ -45,7 +43,7 @@ public class RepoPins {
      */
     public boolean create(Pin pin) {
         try {
-            return pinDao.create(pin)>0?true:false;
+            return pinDAO.create(pin)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,7 +57,7 @@ public class RepoPins {
      */
     public boolean update(Pin pin) {
         try {
-            return pinDao.update(pin)>0?true:false;
+            return pinDAO.update(pin)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,7 +71,7 @@ public class RepoPins {
      */
     public boolean delete(Pin pin) {
         try {
-            return pinDao.delete(pin)>0?true:false;
+            return pinDAO.delete(pin)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -88,12 +86,12 @@ public class RepoPins {
      */
     public Pin getByUser(User user) {
         try {
-            QueryBuilder<Pin, String> qb = pinDao.queryBuilder();
+            QueryBuilder<Pin, String> qb = pinDAO.queryBuilder();
 
             qb.where().eq("user", user);
 
             PreparedQuery<Pin> pq = qb.prepare();
-            return pinDao.queryForFirst(pq);
+            return pinDAO.queryForFirst(pq);
         } catch (SQLException e) {
             e.printStackTrace();
         }

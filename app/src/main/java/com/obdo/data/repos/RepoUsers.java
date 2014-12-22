@@ -18,7 +18,7 @@ public class RepoUsers {
 
     public RepoUsers(DatabaseHelper db) {
         try {
-            userDao = db.getUserDao();
+            userDao = db.getUserDAO();
         } catch (SQLException e) {
             e.printStackTrace();
         }

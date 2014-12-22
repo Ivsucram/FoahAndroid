@@ -21,15 +21,15 @@ public class RepoLocations {
     /**
      * Location DAO - ORMlite version
      */
-    Dao<Location, String> locationDao;
+    Dao<Location, String> locationDAO;
 
     public RepoLocations(DatabaseHelper db) {
         try {
-            locationDao = db.getLocationDao();
+            locationDAO = db.getLocationDAO();
         } catch (SQLException e) {
             db.onCreate(db.getReadableDatabase(), db.getConnectionSource());
             try {
-                locationDao = db.getLocationDao();
+                locationDAO = db.getLocationDAO();
             } catch (SQLException e2) {
                 e2.printStackTrace();
             }
@@ -43,7 +43,7 @@ public class RepoLocations {
      */
     public boolean create(Location location) {
         try {
-            return locationDao.create(location)>0?true:false;
+            return locationDAO.create(location)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class RepoLocations {
      */
     public boolean update(Location location) {
         try {
-            return locationDao.update(location)>0?true:false;
+            return locationDAO.update(location)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class RepoLocations {
      */
     public boolean delete(Location location) {
         try {
-            return locationDao.delete(location)>0?true:false;
+            return locationDAO.delete(location)>0?true:false;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,12 +86,12 @@ public class RepoLocations {
      */
     public Location getByPost(Post post) {
         try {
-            QueryBuilder<Location, String> qb = locationDao.queryBuilder();
+            QueryBuilder<Location, String> qb = locationDAO.queryBuilder();
 
             qb.where().eq("post", post);
 
             PreparedQuery<Location> pq = qb.prepare();
-            return locationDao.queryForFirst(pq);
+            return locationDAO.queryForFirst(pq);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -15,7 +15,7 @@ public class RepoReadPosts {
 
     public RepoReadPosts(DatabaseHelper db) {
         try {
-            readedPostDao = db.getReadPostDao();
+            readedPostDao = db.getReadPostDAO();
         } catch (SQLException e) {
             e.printStackTrace();
         }
