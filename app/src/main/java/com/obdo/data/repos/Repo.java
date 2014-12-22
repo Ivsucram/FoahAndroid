@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.obdo.data.DatabaseHelper;
 import com.obdo.data.DatabaseManager;
-import com.obdo.data.models.Friend;
 
 /**
  * Repository (database) controller

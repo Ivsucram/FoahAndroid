@@ -5,9 +5,7 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.obdo.data.DatabaseHelper;
-import com.obdo.data.models.Comment;
 import com.obdo.data.models.Friend;
-import com.obdo.data.models.Location;
 import com.obdo.data.models.User;
 
 import java.sql.SQLException;

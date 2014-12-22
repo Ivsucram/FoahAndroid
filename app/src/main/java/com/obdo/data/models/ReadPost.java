@@ -1,7 +1,6 @@
 package com.obdo.data.models;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.obdo.data.repos.Repo;
 
 /**

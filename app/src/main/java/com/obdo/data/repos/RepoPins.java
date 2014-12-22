@@ -6,7 +6,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.obdo.data.DatabaseHelper;
 import com.obdo.data.models.Pin;
 import com.obdo.data.models.Post;
-import com.obdo.data.models.User;
 
 import java.sql.SQLException;
 

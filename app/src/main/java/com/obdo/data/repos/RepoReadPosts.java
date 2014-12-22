@@ -4,7 +4,6 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.obdo.data.DatabaseHelper;
-import com.obdo.data.models.Location;
 import com.obdo.data.models.Post;
 import com.obdo.data.models.ReadPost;
 

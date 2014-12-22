@@ -1,6 +1,8 @@
 package com.obdo.data.repos;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.obdo.data.DatabaseHelper;
 import com.obdo.data.models.User;
 
@@ -73,5 +75,24 @@ public class RepoUsers {
             e.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Get User by phone number
+     * @param phoneNumber User phone number
+     * @return User that has that phone number if it exist or null if there is none
+     */
+    public User getByPhoneNumber(String phoneNumber) {
+        try {
+            QueryBuilder<User, String> qb = userDAO.queryBuilder();
+
+            qb.where().eq("phoneNumber", phoneNumber);
+
+            PreparedQuery<User> pq = qb.prepare();
+            return userDAO.queryForFirst(pq);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
