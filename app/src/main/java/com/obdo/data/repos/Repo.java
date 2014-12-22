@@ -8,9 +8,15 @@ import com.obdo.data.DatabaseManager;
 /**
  * Repository (database) controller
  * How to use it:
+ * Example 1 - One record manipulation
  * Repo repo = new Repo(Context);
  * Model model = new Model("field1", "field2");
  * model.save(repo);
+ *
+ * Example 2 - Several records manipulation
+ * Repo repo = new Repo(Context);
+ * repo.Users.getAll();
+ *
  * @author Marcus Vinícius de Carvalho
  * @since 12/22/2014
  * @version 1.0

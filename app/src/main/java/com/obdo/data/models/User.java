@@ -28,8 +28,6 @@ public class User {
     private Collection<Post> posts = new ArrayList<Post>();
     @ForeignCollectionField(eager = false)
     private Collection<Comment> comments = new ArrayList<Comment>();
-    @ForeignCollectionField(eager = false)
-    private Collection<Pin> pins = new ArrayList<Pin>();
 
     public User() {}
 
@@ -138,13 +136,5 @@ public class User {
 
     public void setComments(Collection<Comment> comments) {
         this.comments = comments;
-    }
-
-    public Collection<Pin> getPins() {
-        return pins;
-    }
-
-    public void setPins(Collection<Pin> pins) {
-        this.pins = pins;
     }
 }
