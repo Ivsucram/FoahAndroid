@@ -11,7 +11,7 @@ import com.obdo.data.repos.Repo;
  * @see com.obdo.data.repos.RepoFriends
  */
 public class Friend {
-    @DatabaseField(generatedId = true)
+    @DatabaseField(id = true)
     private String id;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private User userA;

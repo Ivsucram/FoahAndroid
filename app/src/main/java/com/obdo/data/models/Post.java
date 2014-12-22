@@ -110,6 +110,16 @@ public class Post {
         return repo.ReadPosts.checkPostIsRead(this);
     }
 
+    /**
+     * Check if post is visible by cellphone user
+     * @param repo db
+     * @return Visible if post is visible, null if not
+     * @see com.obdo.data.models.Visible
+     */
+    public Visible isVisible(Repo repo) {
+        return repo.Visibles.checkPostIsVisible(this);
+    }
+
     public String getId() {
         return id;
     }

@@ -4,43 +4,47 @@ import com.j256.ormlite.field.DatabaseField;
 import com.obdo.data.repos.Repo;
 
 /**
- * Pin model
+ * Visible model
  * Note: The server DB have a different representation of this model, including the User on it. This model was created on the smartphone having in mind that only one user use the system at once.
  * @author Marcus Vinícius de Carvalho
  * @since 12/22/2014
  * @version 1.0
  * @see com.obdo.data.repos.RepoPins
  */
-public class Pin {
+public class Visible {
     @DatabaseField(generatedId = true)
     private Integer id;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Post post = new Post();
+    @DatabaseField(foreign = true)
+    private Post post;
 
-    public Pin() {}
+    Visible() {}
+
+    public Visible(Post post) {
+        this.post = post;
+    }
 
     /**
-     * Save pin record on db
+     * Save visible record on db
      * @param repo db
      * @return true if success, false if failure
      */
     public boolean save(Repo repo) {
         boolean response = false;
-        if (repo.Pins.checkPin(post)==null) {
-            response = repo.Pins.create(this);
+        if (repo.Visibles.checkPostIsVisible(post)==null) {
+            response = repo.Visibles.create(this);
         } else {
-            response = repo.Pins.update(this);
+            response = repo.Visibles.update(this);
         }
         return response;
     }
 
     /**
-     * Delete pin record from db
+     * Delete visible record from db
      * @param repo db
      * @return true if success, false if failure
      */
     public boolean delete(Repo repo) {
-        return repo.Pins.delete(this);
+        return repo.Visibles.delete(this);
     }
 
     public Integer getId() {

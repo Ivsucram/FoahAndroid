@@ -17,7 +17,7 @@ import com.obdo.data.models.Pin;
 import com.obdo.data.models.Post;
 import com.obdo.data.models.ReadPost;
 import com.obdo.data.models.User;
-import com.obdo.data.models.Visibility;
+import com.obdo.data.models.Visible;
 
 import java.sql.SQLException;
 
@@ -96,12 +96,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      */
     private Dao<User, String> userDAO = null;
     /**
-     * Visibility DAO - ORMlite version
+     * Visible DAO - ORMlite version
      * @since 12/22/2014
-     * @see com.obdo.data.repos.RepoVisibility
-     * @see com.obdo.data.models.Visibility
+     * @see com.obdo.data.repos.RepoVisibles
+     * @see com.obdo.data.models.Visible
      */
-    private Dao<Visibility, String> visibilityDAO = null;
+    private Dao<Visible, Integer> visibleDAO = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -119,7 +119,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Post.class);
             TableUtils.createTable(connectionSource, ReadPost.class);
             TableUtils.createTable(connectionSource, User.class);
-            TableUtils.createTable(connectionSource, Visibility.class);
+            TableUtils.createTable(connectionSource, Visible.class);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
             throw new RuntimeException(e);
@@ -138,7 +138,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, Post.class, true);
             TableUtils.dropTable(connectionSource, ReadPost.class, true);
             TableUtils.dropTable(connectionSource, User.class, true);
-            TableUtils.dropTable(connectionSource, Visibility.class, true);
+            TableUtils.dropTable(connectionSource, Visible.class, true);
             onCreate(db);
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
@@ -247,11 +247,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return ReadPost DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Visibility, String> getVisibilityDAO() throws SQLException {
-        if (visibilityDAO == null) {
-            visibilityDAO = DaoManager.createDao(getConnectionSource(), Visibility.class);
+    public Dao<Visible, Integer> getVisibleDAO() throws SQLException {
+        if (visibleDAO == null) {
+            visibleDAO = DaoManager.createDao(getConnectionSource(), Visible.class);
         }
-        return visibilityDAO;
+        return visibleDAO;
     }
 
     @Override
@@ -265,6 +265,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         postDAO = null;
         readPostDAO = null;
         userDAO = null;
-        visibilityDAO = null;
+        visibleDAO = null;
     }
 }

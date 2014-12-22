@@ -85,6 +85,13 @@ public class Repo {
      *  @see com.obdo.data.models.User
      */
     public RepoUsers Users;
+    /**
+     *  Visible DAO
+     *  @since 12/22/2014
+     *  @see RepoVisibles
+     *  @see com.obdo.data.models.Visible
+     */
+    public RepoVisibles Visibles;
 
     public Repo(Context context) {
         DatabaseManager<DatabaseHelper> manager = new DatabaseManager<DatabaseHelper>();
@@ -98,5 +105,6 @@ public class Repo {
         Posts = new RepoPosts(db);
         ReadPosts = new RepoReadPosts(db);
         Users = new RepoUsers(db);
+        Visibles = new RepoVisibles(db);
     }
 }
