@@ -2,9 +2,11 @@ package com.obdo.data.models;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+import com.obdo.data.repos.Repo;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Ivsucram on 12/20/2014.
@@ -26,4 +28,8 @@ public class Post {
     private Collection<Comment> comments = new ArrayList<Comment>();
     @ForeignCollectionField(eager = false)
     private Collection<Asset> assets = new ArrayList<Asset>();
+
+    public List<Asset> getAssets(Repo repo) {
+        return repo.Assets.getByPost(this);
+    }
 }

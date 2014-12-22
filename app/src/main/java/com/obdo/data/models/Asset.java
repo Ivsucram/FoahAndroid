@@ -1,6 +1,7 @@
 package com.obdo.data.models;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.obdo.data.repos.Repo;
 
 /**
  * Asset model
@@ -11,7 +12,7 @@ import com.j256.ormlite.field.DatabaseField;
  */
 public class Asset {
     @DatabaseField(id = true)
-    private String string;
+    private String id;
     @DatabaseField(canBeNull = true)
     private String file;
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
@@ -19,12 +20,36 @@ public class Asset {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Comment comment = new Comment();
 
-    public String getString() {
-        return string;
+    /**
+     * Save asset record
+     * @param repo database
+     * @return true if success, false if failure
+     */
+    public boolean save(Repo repo) {
+        boolean response = false;
+        if (id!=null && !id.isEmpty()) {
+            response = repo.Assets.update(this);
+        } else {
+            response = repo.Assets.create(this);
+        }
+        return response;
     }
 
-    public void setString(String string) {
-        this.string = string;
+    /**
+     * Delete asset record
+     * @param repo database
+     * @return true if success, false if failure
+     */
+    public boolean delete(Repo repo) {
+        return repo.Assets.delete(this);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFile() {
