@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.1"
     defaultConfig {
         applicationId "com.obdo"
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -24,5 +24,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.google.android.gms:play-services:6.5.87'
+<<<<<<< HEAD
     compile 'com.j256.ormlite:ormlite-android:4.45'
+=======
+
+>>>>>>> progress on map view of posts
 }
