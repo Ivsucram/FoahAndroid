@@ -21,7 +21,7 @@ public class RepoVisibles {
     /**
      * Visible DAO - ORMlite version
      */
-    Dao<Visible, Integer> visibilityDAO;
+    private Dao<Visible, Integer> visibilityDAO;
 
     public RepoVisibles(DatabaseHelper db) {
         try {
@@ -43,7 +43,7 @@ public class RepoVisibles {
      */
     public boolean create(Visible visible) {
         try {
-            return visibilityDAO.create(visible)>0?true:false;
+            return visibilityDAO.create(visible) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class RepoVisibles {
      */
     public boolean update(Visible visible) {
         try {
-            return visibilityDAO.update(visible)>0?true:false;
+            return visibilityDAO.update(visible) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class RepoVisibles {
      */
     public boolean delete(Visible visible) {
         try {
-            return visibilityDAO.delete(visible)>0?true:false;
+            return visibilityDAO.delete(visible) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

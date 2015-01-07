@@ -29,7 +29,7 @@ public class Visible {
      * @return true if success, false if failure
      */
     public boolean save(Repo repo) {
-        boolean response = false;
+        boolean response;
         if (repo.Visibles.checkPostIsVisible(post)==null) {
             response = repo.Visibles.create(this);
         } else {

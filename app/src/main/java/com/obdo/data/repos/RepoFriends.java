@@ -46,7 +46,7 @@ public class RepoFriends {
      */
     public boolean create(Friend friend) {
         try {
-            return friendDAO.create(friend)>0?true:false;
+            return friendDAO.create(friend) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class RepoFriends {
      */
     public boolean update(Friend friend) {
         try {
-            return friendDAO.update(friend)>0?true:false;
+            return friendDAO.update(friend) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,12 +76,12 @@ public class RepoFriends {
         boolean response1, response2;
         response1 = response2 = false;
         try {
-            response1 = friendDAO.delete(friend)>0?true:false;
-            response2 = friendDAO.delete(new Friend(friend.getUserB(),friend.getUserA()))>0?true:false;
+            response1 = friendDAO.delete(friend) > 0;
+            response2 = friendDAO.delete(new Friend(friend.getUserB(), friend.getUserA())) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return (response1 || response2)?true:false;
+        return (response1 || response2);
     }
 
     /**
@@ -129,6 +129,6 @@ public class RepoFriends {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<Friend>();
+        return new ArrayList<>();
     }
 }

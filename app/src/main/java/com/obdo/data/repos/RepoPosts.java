@@ -25,11 +25,11 @@ public class RepoPosts {
     /**
      * Post DAO - ORMlite version
      */
-    Dao<Post, Integer> postDAO;
+    private Dao<Post, Integer> postDAO;
     /**
      * Location DAO - ORMlite version
      */
-    Dao<Location, Integer> locationDAO;
+    private Dao<Location, Integer> locationDAO;
 
     public RepoPosts(DatabaseHelper db) {
         try {
@@ -53,7 +53,7 @@ public class RepoPosts {
      */
     public boolean create(Post post) {
         try {
-            return postDAO.create(post)>0?true:false;
+            return postDAO.create(post) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,7 +67,7 @@ public class RepoPosts {
      */
     public boolean update(Post post) {
         try {
-            return postDAO.update(post)>0?true:false;
+            return postDAO.update(post) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,7 +81,7 @@ public class RepoPosts {
      */
     public boolean delete(Post post) {
         try {
-            return postDAO.delete(post)>0?true:false;
+            return postDAO.delete(post) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public class RepoPosts {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<Post>();
+        return new ArrayList<>();
     }
 
     /**
@@ -122,7 +122,7 @@ public class RepoPosts {
 
             List<Location> listLocation = locationDAO.query(pq);
 
-            List<Post> listPost = new ArrayList<Post>();
+            List<Post> listPost = new ArrayList<>();
             for (Location l : listLocation) {
                 double fi1 = Math.toRadians(location.getLatitude());
                 double fi2 = Math.toRadians((l.getLatitude()));
@@ -141,6 +141,6 @@ public class RepoPosts {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<Post>();
+        return new ArrayList<>();
     }
 }

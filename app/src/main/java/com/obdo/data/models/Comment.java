@@ -3,8 +3,6 @@ package com.obdo.data.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.obdo.data.repos.Repo;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class Comment {
     @DatabaseField(foreign = true, canBeNull = false)
     private Post post = new Post();
     @ForeignCollectionField(eager = true)
-    private Collection<Asset> assets = new ArrayList<Asset>();
+    private Collection<Asset> assets;
 
     public Comment() {}
 
@@ -35,7 +33,7 @@ public class Comment {
      * @return true if success, false if failure
      */
     public boolean save(Repo repo) {
-        boolean response = false;
+        boolean response;
         if (id!=null) {
             response = repo.Comments.update(this);
         } else {

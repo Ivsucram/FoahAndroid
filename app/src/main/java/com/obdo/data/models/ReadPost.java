@@ -32,7 +32,7 @@ public class ReadPost {
      * @return true if success, false if failure
      */
     public boolean save(Repo repo) {
-        boolean response = false;
+        boolean response;
         if (repo.ReadPosts.checkPostIsRead(post)==null) {
             response = repo.ReadPosts.create(this);
         } else {
@@ -48,5 +48,29 @@ public class ReadPost {
      */
     public boolean delete(Repo repo) {
         return repo.ReadPosts.delete(this);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public Comment getLastComment() {
+        return lastComment;
+    }
+
+    public void setLastComment(Comment lastComment) {
+        this.lastComment = lastComment;
     }
 }

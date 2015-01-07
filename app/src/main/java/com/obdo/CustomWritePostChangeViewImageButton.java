@@ -1,5 +1,6 @@
 package com.obdo;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ViewSwitcher;
  * @see android.widget.ImageButton
  * @see android.widget.ViewSwitcher
  */
+@SuppressLint("ViewConstructor")
 public class CustomWritePostChangeViewImageButton extends LinearLayout {
     /**
      * ImageButton that hold show/hide the 2 mains buttons

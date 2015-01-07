@@ -18,7 +18,7 @@ public class Friend {
     @DatabaseField(foreign = true)
     private User userB;
 
-    Friend() {}
+    public Friend() {}
 
     public Friend(User userA, User userB) {
         this.userA = userA;

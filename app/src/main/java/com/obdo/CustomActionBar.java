@@ -1,13 +1,11 @@
 package com.obdo;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Custom action bar that shows the name of the screen that the user is right now and show the buttons to activate the menu and the search
@@ -17,6 +15,7 @@ import android.widget.Toast;
  * @see android.widget.ImageButton
  * @see android.widget.TextView
  */
+@SuppressLint("ViewConstructor")
 public class CustomActionBar extends LinearLayout {
     /**
      * ImageButton that hold the menu button
@@ -109,7 +108,7 @@ public class CustomActionBar extends LinearLayout {
 
     /**
      * Set View name to be show on screen
-     * @param screenTitle
+     * @param screenTitle Text to be showed as the title of the screen
      * @since 12/23/2014
      */
     public void setScreenTitle(String screenTitle) {

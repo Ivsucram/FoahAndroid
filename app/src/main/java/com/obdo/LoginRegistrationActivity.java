@@ -2,11 +2,9 @@ package com.obdo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -31,9 +29,6 @@ import com.litesuits.http.response.handler.HttpResponseHandler;
 import com.obdo.controllers.SharedPreferencesController;
 import com.obdo.data.models.User;
 import com.obdo.data.repos.Repo;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This is the main activity of the application. It have 3 main behaviors:
@@ -158,7 +153,7 @@ public class LoginRegistrationActivity extends ActionBarActivity {
                 if (j > 1) {
                     for (int i = newText.length() - 1; i > 0 ; i--) {
                         if (newText.charAt(i)=='+') {
-                            String beforeText = newText.substring(0,i==0?0:i);
+                            String beforeText = newText.substring(0, i);
                             String afterText = i+1>=newText.length()?"":newText.substring(i+1);
                             newText = beforeText+afterText;
                         }

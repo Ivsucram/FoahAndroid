@@ -34,7 +34,7 @@ public class SharedPreferencesController {
     }
 
     public SharedPreferencesController(Activity activity) {
-        this.activity = activity;
+        SharedPreferencesController.activity = activity;
     }
 
     /**
@@ -46,7 +46,7 @@ public class SharedPreferencesController {
         SharedPreferences settings = activity.getSharedPreferences(activity.getApplicationContext().getString(R.string.preferencesFileName), 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(SharedPreferencesUserInformationENUM.PHONENUMBER.toString(),phoneNumber);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -58,7 +58,7 @@ public class SharedPreferencesController {
         SharedPreferences settings = activity.getSharedPreferences(activity.getApplicationContext().getString(R.string.preferencesFileName), 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(SharedPreferencesUserInformationENUM.UID.toString(), uid);
-        editor.commit();
+        editor.apply();
     }
 
     /**

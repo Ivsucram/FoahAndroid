@@ -1,7 +1,6 @@
 package com.obdo;
 
 import android.app.Activity;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,9 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.litesuits.http.LiteHttpClient;
@@ -23,11 +19,9 @@ import com.litesuits.http.request.Request;
 import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpResponseHandler;
-import com.obdo.controllers.LocationController;
 import com.obdo.controllers.SharedPreferencesController;
 import com.obdo.data.models.Location;
 import com.obdo.data.models.Post;
-import com.obdo.data.models.ReadPost;
 import com.obdo.data.models.User;
 import com.obdo.data.repos.Repo;
 
@@ -169,7 +163,8 @@ public class WritePostActivity extends ActionBarActivity {
         User user = repo.Users.getByPhoneNumber(sharedPreferencesController.loadPhoneNumber());
 
         //Set Location
-        LocationManager locationManager = (LocationManager) this.getSystemService(getApplicationContext().LOCATION_SERVICE);
+        getApplicationContext();
+        LocationManager locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
         android.location.Location locationTemp = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         Location location = new Location();

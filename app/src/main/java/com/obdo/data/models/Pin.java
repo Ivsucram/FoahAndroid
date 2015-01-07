@@ -25,7 +25,7 @@ public class Pin {
      * @return true if success, false if failure
      */
     public boolean save(Repo repo) {
-        boolean response = false;
+        boolean response;
         if (repo.Pins.checkPin(post)==null) {
             response = repo.Pins.create(this);
         } else {

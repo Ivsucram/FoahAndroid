@@ -25,9 +25,9 @@ public class Post {
     @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     private Location location = new Location();
     @ForeignCollectionField(eager = false)
-    private Collection<Comment> comments = new ArrayList<Comment>();
+    private Collection<Comment> comments;
     @ForeignCollectionField(eager = false)
-    private Collection<Asset> assets = new ArrayList<Asset>();
+    private Collection<Asset> assets;
 
     public Post() {}
 

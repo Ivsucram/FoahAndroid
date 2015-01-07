@@ -30,12 +30,6 @@ import com.obdo.data.DatabaseManager;
  */
 public class Repo {
     /**
-     * SQLite database open helper. Manage when the application needs to create or upgrade its database.
-     * @since 12/22/2014
-     * @see com.obdo.data.DatabaseHelper
-     */
-    private DatabaseHelper db;
-    /**
      *  Asset DAO
      *  @since 12/22/2014
      *  @see com.obdo.data.repos.RepoAssets
@@ -100,8 +94,8 @@ public class Repo {
     public RepoVisibles Visibles;
 
     public Repo(Context context) {
-        DatabaseManager<DatabaseHelper> manager = new DatabaseManager<DatabaseHelper>();
-        db = manager.getHelper(context);
+        DatabaseManager<DatabaseHelper> manager = new DatabaseManager<>();
+        DatabaseHelper db = manager.getHelper(context);
 
         Assets = new RepoAssets(db);
         Comments = new RepoComments(db);

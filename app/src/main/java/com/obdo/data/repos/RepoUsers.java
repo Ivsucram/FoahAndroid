@@ -20,7 +20,7 @@ public class RepoUsers {
     /**
      * User DAO - ORMlite version
      */
-    Dao<User, Integer> userDAO;
+    private Dao<User, Integer> userDAO;
 
     public RepoUsers(DatabaseHelper db) {
         try {
@@ -42,7 +42,7 @@ public class RepoUsers {
      */
     public boolean create(User user) {
         try {
-            return userDAO.create(user)>0?true:false;
+            return userDAO.create(user) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class RepoUsers {
      */
     public boolean update(User user) {
         try {
-            return userDAO.update(user)>0?true:false;
+            return userDAO.update(user) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ public class RepoUsers {
      */
     public boolean delete(User user) {
         try {
-            return userDAO.delete(user)>0?true:false;
+            return userDAO.delete(user) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
