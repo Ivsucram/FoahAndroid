@@ -16,17 +16,13 @@ import java.util.List;
  * @see com.obdo.data.repos.RepoPosts
  */
 public class Post {
-    @DatabaseField(id = true)
-    private String id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
     @DatabaseField(canBeNull = true)
     private String text;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     private User user = new User();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private ReadPost readPost = new ReadPost();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Pin pin = new Pin();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     private Location location = new Location();
     @ForeignCollectionField(eager = false)
     private Collection<Comment> comments = new ArrayList<Comment>();
@@ -43,7 +39,7 @@ public class Post {
     public boolean save(Repo repo) {
         boolean response = false;
         //TODO: create a better check
-        if (id!=null && !id.isEmpty()) {
+        if (id!=null) {
             response = repo.Posts.update(this);
         } else {
             response = repo.Posts.create(this);
@@ -120,11 +116,11 @@ public class Post {
         return repo.Visibles.checkPostIsVisible(this);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -142,22 +138,6 @@ public class Post {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public ReadPost getReadPost() {
-        return readPost;
-    }
-
-    public void setReadPost(ReadPost readPost) {
-        this.readPost = readPost;
-    }
-
-    public Pin getPin() {
-        return pin;
-    }
-
-    public void setPin(Pin pin) {
-        this.pin = pin;
     }
 
     public Location getLocation() {

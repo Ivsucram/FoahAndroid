@@ -28,6 +28,9 @@ import com.litesuits.http.request.Request;
 import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpResponseHandler;
+import com.obdo.controllers.SharedPreferencesController;
+import com.obdo.data.models.User;
+import com.obdo.data.repos.Repo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -226,13 +229,6 @@ class HTTPRequestLoginRegisrationController  {
      */
     private String serverAddress;
 
-    /**
-     * Enum with keys for the shared preferences file
-     */
-    private enum SharedPreferencesUserInformationENUM {
-        PHONENUMBER, UID
-    }
-
     public HTTPRequestLoginRegisrationController(Activity activity) {
         this.activity = activity;
         liteHttpClient = LiteHttpClient.newApacheHttpClient(activity.getApplicationContext());
@@ -245,15 +241,15 @@ class HTTPRequestLoginRegisrationController  {
      * @since 12/23/2014
      */
     public void checkPhoneIsActivated() {
-        Map<SharedPreferencesUserInformationENUM, String> dictionary = restorePreferences();
-        if (dictionary.get(SharedPreferencesUserInformationENUM.PHONENUMBER)==null || dictionary.get(SharedPreferencesUserInformationENUM.UID)==null) return;
+        SharedPreferencesController sharedPreferencesController = new SharedPreferencesController(activity);
+        if (sharedPreferencesController.loadPhoneNumber()==null || sharedPreferencesController.loadUID()==null) return;
 
         Request request = new Request(serverAddress)
                 .setMethod(HttpMethod.Get)
                 .addUrlPrifix("http://")
                 .addUrlSuffix(activity.getApplicationContext().getString(R.string.url_check_phone_activated_GET))
-                .addUrlParam("number", dictionary.get(SharedPreferencesUserInformationENUM.PHONENUMBER))
-                .addUrlParam("uid", dictionary.get(SharedPreferencesUserInformationENUM.UID))
+                .addUrlParam("number", sharedPreferencesController.loadPhoneNumber())
+                .addUrlParam("uid", sharedPreferencesController.loadUID())
                 .addHeader("Accept", "application/json");
 
         asyncExecutor.execute(request, new HttpResponseHandler() {
@@ -332,6 +328,12 @@ class HTTPRequestLoginRegisrationController  {
                 if (jsonObject.get("success").getAsBoolean()) {
                     //TODO: check SMS
                     savePreferences(phoneNumber, uid);
+
+                    Repo repo = new Repo(activity);
+                    User user = new User();
+                    user.setPhoneNumber(phoneNumber);
+                    user.save(repo);
+
                     Intent intent = new Intent(activity, NickActivity.class);
                     intent.putExtra("EXTRA_PHONE_NUMBER", phoneNumber);
                     activity.startActivity(intent);
@@ -369,6 +371,7 @@ class HTTPRequestLoginRegisrationController  {
                 JsonObject jsonObject = jsonParser.parse(res.getString()).getAsJsonObject();
                 if (jsonObject.get("success").getAsBoolean()) {
                     //TODO: check SMS
+                    //TODO: Connect to the server, retrieve the user data to internal storage
                     savePreferences(phoneNumber, uid);
                     Intent intent = new Intent(activity, ObdoActivity.class);
                     activity.startActivity(intent);
@@ -391,25 +394,8 @@ class HTTPRequestLoginRegisrationController  {
      * @since 12/23/2014
      */
     private void savePreferences(String phoneNumber, String uid) {
-        SharedPreferences settings = activity.getSharedPreferences(activity.getApplicationContext().getString(R.string.preferencesFileName), 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(activity.getApplicationContext().getString(R.string.phoneNumber),phoneNumber);
-        editor.putString(activity.getApplicationContext().getString(R.string.uid), uid);
-        editor.commit();
-    }
-
-    /**
-     * Load Shared Preferences with user information: phonenumber and smartphone UID
-     * @return a dictionary with the phonenumber and smartphone UID values
-     * @since 12/23/2014
-     */
-    private Map<SharedPreferencesUserInformationENUM, String> restorePreferences() {
-        SharedPreferences settings = activity.getSharedPreferences(activity.getApplicationContext().getString(R.string.preferencesFileName), 0);
-        String phoneNumber = settings.getString(activity.getApplicationContext().getString(R.string.phoneNumber), null);
-        String uid = settings.getString(activity.getApplicationContext().getString(R.string.uid), null);
-        Map<SharedPreferencesUserInformationENUM, String> dictionary = new HashMap<SharedPreferencesUserInformationENUM, String>();
-        dictionary.put(SharedPreferencesUserInformationENUM.PHONENUMBER, phoneNumber);
-        dictionary.put(SharedPreferencesUserInformationENUM.UID, uid);
-        return dictionary;
+        SharedPreferencesController sharedPreferencesController = new SharedPreferencesController(activity);
+        sharedPreferencesController.savePhoneNumber(phoneNumber);
+        sharedPreferencesController.saveUID(uid);
     }
 }

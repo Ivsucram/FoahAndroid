@@ -21,7 +21,7 @@ public class RepoComments {
     /**
      * Comment DAO - ORMlite version
      */
-    Dao<Comment, String> commentDAO;
+    Dao<Comment, Integer> commentDAO;
 
     public RepoComments(DatabaseHelper db) {
         try {

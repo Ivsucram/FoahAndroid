@@ -11,13 +11,13 @@ import com.obdo.data.repos.Repo;
  * @see com.obdo.data.repos.RepoAssets
  */
 public class Asset {
-    @DatabaseField(id = true, canBeNull = false)
-    private String id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
     @DatabaseField(canBeNull = false)
     private String file;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
+    @DatabaseField(foreign = true, canBeNull = true)
     private Post post = new Post();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = true)
+    @DatabaseField(foreign = true, canBeNull = true)
     private Comment comment = new Comment();
 
     public Asset() {}
@@ -29,8 +29,7 @@ public class Asset {
      */
     public boolean save(Repo repo) {
         boolean response = false;
-        //TODO: create a better check
-        if (id!=null && !id.isEmpty()) {
+        if (id!=null) {
             response = repo.Assets.update(this);
         } else {
             response = repo.Assets.create(this);
@@ -47,11 +46,11 @@ public class Asset {
         return repo.Assets.delete(this);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

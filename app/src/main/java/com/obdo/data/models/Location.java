@@ -11,16 +11,14 @@ import com.obdo.data.repos.Repo;
  * @see com.obdo.data.repos.RepoLocations
  */
 public class Location {
-    @DatabaseField(id = true)
-    private String id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
     @DatabaseField(canBeNull = false)
-    private float latitude;
+    private double latitude;
     @DatabaseField(canBeNull = false)
-    private float longitude;
+    private double longitude;
     @DatabaseField(canBeNull = true)
-    private float radius;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Post post = new Post();
+    private double radius;
 
     public Location() {}
 
@@ -31,8 +29,7 @@ public class Location {
      */
     public boolean save(Repo repo) {
         boolean response = false;
-        //TODO: Create a better check
-        if (id!=null && !id.isEmpty()) {
+        if (id!=null) {
             response = repo.Locations.update(this);
         } else {
             response = repo.Locations.create(this);
@@ -49,43 +46,35 @@ public class Location {
         return repo.Locations.delete(this);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public float getRadius() {
+    public double getRadius() {
         return radius;
     }
 
-    public void setRadius(float radius) {
+    public void setRadius(double radius) {
         this.radius = radius;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
     }
 }

@@ -16,16 +16,14 @@ import java.util.List;
  * @see com.obdo.data.repos.RepoComments
  */
 public class Comment {
-    @DatabaseField(id = true)
-    private String id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
     @DatabaseField(canBeNull = true)
     private String text;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false)
     private User user = new User();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false)
     private Post post = new Post();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private ReadPost readPost = new ReadPost();
     @ForeignCollectionField(eager = true)
     private Collection<Asset> assets = new ArrayList<Asset>();
 
@@ -38,8 +36,7 @@ public class Comment {
      */
     public boolean save(Repo repo) {
         boolean response = false;
-        //TODO: create a better check
-        if (id!=null && !id.isEmpty()) {
+        if (id!=null) {
             response = repo.Comments.update(this);
         } else {
             response = repo.Comments.create(this);
@@ -66,11 +63,11 @@ public class Comment {
         return repo.Assets.getByComment(this);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -96,14 +93,6 @@ public class Comment {
 
     public void setPost(Post post) {
         this.post = post;
-    }
-
-    public ReadPost getReadPost() {
-        return readPost;
-    }
-
-    public void setReadPost(ReadPost readPost) {
-        this.readPost = readPost;
     }
 
     public Collection<Asset> getAssets() {

@@ -14,7 +14,7 @@ import com.obdo.data.repos.Repo;
 public class Pin {
     @DatabaseField(generatedId = true)
     private Integer id;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true)
     private Post post = new Post();
 
     public Pin() {}

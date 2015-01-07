@@ -45,28 +45,28 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @see com.obdo.data.repos.RepoAssets
      * @see com.obdo.data.models.Asset
      */
-    private Dao<Asset, String> assetDAO = null;
+    private Dao<Asset, Integer> assetDAO = null;
     /**
      * Comment DAO - ORMlite version
      * @since 12/22/2014
      * @see com.obdo.data.repos.RepoComments
      * @see com.obdo.data.models.Comment
      */
-    private Dao<Comment, String> commentDAO = null;
+    private Dao<Comment, Integer> commentDAO = null;
     /**
      * Friend DAO - ORMlite version
      * @since 12/22/2014
      * @see com.obdo.data.repos.RepoFriends
      * @see com.obdo.data.models.Friend
      */
-    private Dao<Friend, String> friendDAO = null;
+    private Dao<Friend, Integer> friendDAO = null;
     /**
      * Location DAO - ORMlite version
      * @since 12/22/2014
      * @see com.obdo.data.repos.RepoLocations
      * @see com.obdo.data.models.Location
      */
-    private Dao<Location, String> locationDAO = null;
+    private Dao<Location, Integer> locationDAO = null;
     /**
      * Pin DAO - ORMlite version
      * @since 12/22/2014
@@ -80,7 +80,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @see com.obdo.data.repos.RepoPosts
      * @see com.obdo.data.models.Post
      */
-    private Dao<Post, String> postDAO = null;
+    private Dao<Post, Integer> postDAO = null;
     /**
      * ReadPost DAO - ORMlite version
      * @since 12/22/2014
@@ -94,7 +94,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @see com.obdo.data.repos.RepoUsers
      * @see com.obdo.data.models.User
      */
-    private Dao<User, String> userDAO = null;
+    private Dao<User, Integer> userDAO = null;
     /**
      * Visible DAO - ORMlite version
      * @since 12/22/2014
@@ -151,7 +151,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Asset DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Asset, String> getAssetDAO() throws SQLException {
+    public Dao<Asset, Integer> getAssetDAO() throws SQLException {
         if (assetDAO == null) {
             assetDAO = DaoManager.createDao(getConnectionSource(), Asset.class);
         }
@@ -163,7 +163,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Comment DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Comment, String> getCommentDAO() throws SQLException {
+    public Dao<Comment, Integer> getCommentDAO() throws SQLException {
         if (commentDAO == null) {
             commentDAO = DaoManager.createDao(getConnectionSource(), Comment.class);
         }
@@ -175,7 +175,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Friend DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Friend, String> getFriendDAO() throws SQLException {
+    public Dao<Friend, Integer> getFriendDAO() throws SQLException {
         if (friendDAO == null) {
             friendDAO = DaoManager.createDao(getConnectionSource(), Friend.class);
         }
@@ -187,7 +187,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Location DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Location, String> getLocationDAO() throws SQLException {
+    public Dao<Location, Integer> getLocationDAO() throws SQLException {
         if (locationDAO == null) {
             locationDAO = DaoManager.createDao(getConnectionSource(), Location.class);
         }
@@ -211,7 +211,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return Post DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<Post, String> getPostDAO() throws SQLException {
+    public Dao<Post, Integer> getPostDAO() throws SQLException {
         if (postDAO == null) {
             postDAO = DaoManager.createDao(getConnectionSource(), Post.class);
         }
@@ -235,7 +235,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      * @return User DAO object
      * @throws java.sql.SQLException
      */
-    public Dao<User, String> getUserDAO() throws SQLException {
+    public Dao<User, Integer> getUserDAO() throws SQLException {
         if (userDAO == null) {
             userDAO = DaoManager.createDao(getConnectionSource(), User.class);
         }

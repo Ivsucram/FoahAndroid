@@ -12,11 +12,11 @@ import com.obdo.data.repos.Repo;
  * @see com.obdo.data.repos.RepoReadPosts
  */
 public class ReadPost {
-    @DatabaseField(id = true)
+    @DatabaseField(generatedId = true)
     private Integer id;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false)
     private Post post = new Post();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = true)
     private Comment lastComment = new Comment();
 
     public ReadPost() {}

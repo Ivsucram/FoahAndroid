@@ -73,7 +73,7 @@ public class CustomActionBar extends LinearLayout {
      * @see android.widget.ImageButton
      */
     private void onCreateTextViewScreenTitle() {
-        textViewScreenTitle = (TextView) findViewById(R.id.textViewScreenTitle);
+        textViewScreenTitle = (TextView) activity.findViewById(R.id.textViewScreenTitle);
     }
 
     /**

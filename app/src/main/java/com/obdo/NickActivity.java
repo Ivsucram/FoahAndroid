@@ -25,6 +25,8 @@ import com.litesuits.http.request.Request;
 import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpResponseHandler;
+import com.obdo.data.models.User;
+import com.obdo.data.repos.Repo;
 
 /**
  * The user will be able to update his nickname information at this screen
@@ -203,7 +205,7 @@ class HTTPRequestNickController  {
      * @param phoneNumber User cellphone number
      * @param nick new nickname
      */
-    public void updateUserNickname(String phoneNumber, String nick) {
+    public void updateUserNickname(final String phoneNumber,final String nick) {
         Request request = new Request(serverAddress)
                 .setMethod(HttpMethod.Post)
                 .addUrlPrifix("http://")
@@ -215,6 +217,11 @@ class HTTPRequestNickController  {
         asyncExecutor.execute(request, new HttpResponseHandler() {
             @Override
             protected void onSuccess(Response res, HttpStatus status, NameValuePair[] headers) {
+                Repo repo = new Repo(activity);
+                User user = repo.Users.getByPhoneNumber(phoneNumber);
+                user.setName(nick);
+                user.save(repo);
+
                 Intent intent = new Intent(activity, ObdoActivity.class);
                 activity.startActivity(intent);
             }

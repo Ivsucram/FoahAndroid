@@ -20,7 +20,7 @@ public class RepoUsers {
     /**
      * User DAO - ORMlite version
      */
-    Dao<User, String> userDAO;
+    Dao<User, Integer> userDAO;
 
     public RepoUsers(DatabaseHelper db) {
         try {
@@ -84,7 +84,7 @@ public class RepoUsers {
      */
     public User getByPhoneNumber(String phoneNumber) {
         try {
-            QueryBuilder<User, String> qb = userDAO.queryBuilder();
+            QueryBuilder<User, Integer> qb = userDAO.queryBuilder();
 
             qb.where().eq("phoneNumber", phoneNumber);
 

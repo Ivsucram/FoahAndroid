@@ -15,9 +15,9 @@ public class Visible {
     @DatabaseField(generatedId = true)
     private Integer id;
     @DatabaseField(foreign = true)
-    private Post post;
+    private Post post = new Post();
 
-    Visible() {}
+    public Visible() {}
 
     public Visible(Post post) {
         this.post = post;

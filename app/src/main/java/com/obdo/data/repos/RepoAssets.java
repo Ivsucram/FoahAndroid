@@ -22,7 +22,7 @@ public class RepoAssets {
     /**
      * Asset DAO - ORMlite version
      */
-    Dao<Asset, String> assetDAO;
+    Dao<Asset, Integer> assetDAO;
 
     public RepoAssets(DatabaseHelper db) {
         try {

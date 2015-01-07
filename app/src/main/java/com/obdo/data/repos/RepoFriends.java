@@ -24,7 +24,7 @@ public class RepoFriends {
     /**
      * User DAO - ORMlite version
      */
-    Dao<Friend, String> friendDAO;
+    Dao<Friend, Integer> friendDAO;
 
     public RepoFriends(DatabaseHelper db) {
         try {
@@ -92,7 +92,7 @@ public class RepoFriends {
      */
     public Friend checkFriendship(User userA, User userB) {
         try {
-            QueryBuilder<Friend, String> qb = friendDAO.queryBuilder();
+            QueryBuilder<Friend, Integer> qb = friendDAO.queryBuilder();
             Where left = qb.where();
             Where right = qb.where();
             left.eq("userA", userA).and().eq("userB", userB);
@@ -116,7 +116,7 @@ public class RepoFriends {
      */
     public List<Friend> getByUser(User user) {
         try {
-            QueryBuilder<Friend, String> qb = friendDAO.queryBuilder();
+            QueryBuilder<Friend, Integer> qb = friendDAO.queryBuilder();
             Where left = qb.where();
             Where right = qb.where();
             left.eq("userA", user);
