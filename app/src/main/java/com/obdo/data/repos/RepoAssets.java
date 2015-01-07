@@ -22,7 +22,7 @@ public class RepoAssets {
     /**
      * Asset DAO - ORMlite version
      */
-    Dao<Asset, String> assetDAO;
+    Dao<Asset, Integer> assetDAO;
 
     public RepoAssets(DatabaseHelper db) {
         try {
@@ -44,7 +44,7 @@ public class RepoAssets {
      */
     public boolean create(Asset asset) {
         try {
-            return assetDAO.create(asset)>0?true:false;
+            return assetDAO.create(asset) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,7 +58,7 @@ public class RepoAssets {
      */
     public boolean update(Asset asset) {
         try {
-            return assetDAO.update(asset)>0?true:false;
+            return assetDAO.update(asset) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class RepoAssets {
      */
     public boolean delete(Asset asset) {
         try {
-            return assetDAO.delete(asset)>0?true:false;
+            return assetDAO.delete(asset) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,7 +91,7 @@ public class RepoAssets {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<Asset>();
+        return new ArrayList<>();
     }
 
     /**
@@ -106,6 +106,6 @@ public class RepoAssets {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<Asset>();
+        return new ArrayList<>();
     }
 }

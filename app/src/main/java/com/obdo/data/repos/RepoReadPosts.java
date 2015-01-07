@@ -23,7 +23,7 @@ public class RepoReadPosts {
     /**
      * ReadPost DAO - ORMlite version
      */
-    Dao<ReadPost, Integer> readedPostDAO;
+    private Dao<ReadPost, Integer> readedPostDAO;
 
     public RepoReadPosts(DatabaseHelper db) {
         try {
@@ -45,7 +45,7 @@ public class RepoReadPosts {
      */
     public boolean create(ReadPost readPost) {
         try {
-            return readedPostDAO.create(readPost)>0?true:false;
+            return readedPostDAO.create(readPost) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -59,7 +59,7 @@ public class RepoReadPosts {
      */
     public boolean update(ReadPost readPost) {
         try {
-            return readedPostDAO.update(readPost)>0?true:false;
+            return readedPostDAO.update(readPost) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,7 +73,7 @@ public class RepoReadPosts {
      */
     public boolean delete(ReadPost readPost) {
         try {
-            return readedPostDAO.delete(readPost)>0?true:false;
+            return readedPostDAO.delete(readPost) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,6 +109,6 @@ public class RepoReadPosts {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<ReadPost>();
+        return new ArrayList<>();
     }
 }

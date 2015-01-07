@@ -21,7 +21,7 @@ public class RepoPins {
     /**
      * Pin DAO - ORMlite version
      */
-    Dao<Pin, Integer> pinDAO;
+    private Dao<Pin, Integer> pinDAO;
 
     public RepoPins(DatabaseHelper db) {
         try {
@@ -43,7 +43,7 @@ public class RepoPins {
      */
     public boolean create(Pin pin) {
         try {
-            return pinDAO.create(pin)>0?true:false;
+            return pinDAO.create(pin) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class RepoPins {
      */
     public boolean update(Pin pin) {
         try {
-            return pinDAO.update(pin)>0?true:false;
+            return pinDAO.update(pin) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class RepoPins {
      */
     public boolean delete(Pin pin) {
         try {
-            return pinDAO.delete(pin)>0?true:false;
+            return pinDAO.delete(pin) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

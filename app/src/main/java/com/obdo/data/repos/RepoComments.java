@@ -21,7 +21,7 @@ public class RepoComments {
     /**
      * Comment DAO - ORMlite version
      */
-    Dao<Comment, String> commentDAO;
+    private Dao<Comment, Integer> commentDAO;
 
     public RepoComments(DatabaseHelper db) {
         try {
@@ -43,7 +43,7 @@ public class RepoComments {
      */
     public boolean create(Comment comment) {
         try {
-            return commentDAO.create(comment)>0?true:false;
+            return commentDAO.create(comment) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class RepoComments {
      */
     public boolean update(Comment comment) {
         try {
-            return commentDAO.update(comment)>0?true:false;
+            return commentDAO.update(comment) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class RepoComments {
      */
     public boolean delete(Comment comment) {
         try {
-            return commentDAO.delete(comment)>0?true:false;
+            return commentDAO.delete(comment) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -90,6 +90,6 @@ public class RepoComments {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<Comment>();
+        return new ArrayList<>();
     }
 }

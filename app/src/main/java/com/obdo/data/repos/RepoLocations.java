@@ -21,7 +21,7 @@ public class RepoLocations {
     /**
      * Location DAO - ORMlite version
      */
-    Dao<Location, String> locationDAO;
+    Dao<Location, Integer> locationDAO;
 
     public RepoLocations(DatabaseHelper db) {
         try {
@@ -43,7 +43,7 @@ public class RepoLocations {
      */
     public boolean create(Location location) {
         try {
-            return locationDAO.create(location)>0?true:false;
+            return locationDAO.create(location) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class RepoLocations {
      */
     public boolean update(Location location) {
         try {
-            return locationDAO.update(location)>0?true:false;
+            return locationDAO.update(location) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class RepoLocations {
      */
     public boolean delete(Location location) {
         try {
-            return locationDAO.delete(location)>0?true:false;
+            return locationDAO.delete(location) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,7 +86,7 @@ public class RepoLocations {
      */
     public Location getByPost(Post post) {
         try {
-            QueryBuilder<Location, String> qb = locationDAO.queryBuilder();
+            QueryBuilder<Location, Integer> qb = locationDAO.queryBuilder();
 
             qb.where().eq("post", post);
 

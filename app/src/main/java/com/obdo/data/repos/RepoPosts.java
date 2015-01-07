@@ -25,11 +25,11 @@ public class RepoPosts {
     /**
      * Post DAO - ORMlite version
      */
-    Dao<Post, String> postDAO;
+    private Dao<Post, Integer> postDAO;
     /**
      * Location DAO - ORMlite version
      */
-    Dao<Location, String> locationDAO;
+    private Dao<Location, Integer> locationDAO;
 
     public RepoPosts(DatabaseHelper db) {
         try {
@@ -53,7 +53,7 @@ public class RepoPosts {
      */
     public boolean create(Post post) {
         try {
-            return postDAO.create(post)>0?true:false;
+            return postDAO.create(post) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,7 +67,7 @@ public class RepoPosts {
      */
     public boolean update(Post post) {
         try {
-            return postDAO.update(post)>0?true:false;
+            return postDAO.update(post) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,7 +81,7 @@ public class RepoPosts {
      */
     public boolean delete(Post post) {
         try {
-            return postDAO.delete(post)>0?true:false;
+            return postDAO.delete(post) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public class RepoPosts {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<Post>();
+        return new ArrayList<>();
     }
 
     /**
@@ -114,15 +114,15 @@ public class RepoPosts {
         try {
             double earthRadius = 6371000;//meters
 
-            QueryBuilder<Location, String> qb = locationDAO.queryBuilder();
-            qb.where().between("latitude", location.getLatitude() - (radius / earthRadius), location.getLatitude() + (radius / earthRadius));
-            qb.where().and();
-            qb.where().between("longitude", location.getLongitude() - (radius / earthRadius), location.getLongitude() + (radius / earthRadius));
-            PreparedQuery<Location> pq = qb.prepare();
+            QueryBuilder<Location, Integer> qblocation = locationDAO.queryBuilder();
+            qblocation.where().between("latitude", location.getLatitude() - (radius / earthRadius), location.getLatitude() + (radius / earthRadius));
+            qblocation.where().and();
+            qblocation.where().between("longitude", location.getLongitude() - (radius / earthRadius), location.getLongitude() + (radius / earthRadius));
+            PreparedQuery<Location> pq = qblocation.prepare();
 
             List<Location> listLocation = locationDAO.query(pq);
 
-            List<Post> listPost = new ArrayList<Post>();
+            List<Post> listPost = new ArrayList<>();
             for (Location l : listLocation) {
                 double fi1 = Math.toRadians(location.getLatitude());
                 double fi2 = Math.toRadians((l.getLatitude()));
@@ -133,12 +133,14 @@ public class RepoPosts {
                 double c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
                 double d = earthRadius * c;
 
-                if (radius <= d) listPost.add(l.getPost());
+                QueryBuilder<Post, Integer> qbpost = postDAO.queryBuilder();
+                qbpost.where().eq("location", l);
+                if (radius <= d) listPost.add(postDAO.queryForFirst(qbpost.prepare()));
             }
             return listPost;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<Post>();
+        return new ArrayList<>();
     }
 }

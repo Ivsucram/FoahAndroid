@@ -11,14 +11,14 @@ import com.obdo.data.repos.Repo;
  * @see com.obdo.data.repos.RepoFriends
  */
 public class Friend {
-    @DatabaseField(id = true)
-    private String id;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(generatedId = true)
+    private Integer id;
+    @DatabaseField(foreign = true)
     private User userA;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true)
     private User userB;
 
-    Friend() {}
+    public Friend() {}
 
     public Friend(User userA, User userB) {
         this.userA = userA;
@@ -49,11 +49,11 @@ public class Friend {
         return repo.Friends.delete(this);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

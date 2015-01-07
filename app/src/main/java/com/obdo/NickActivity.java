@@ -25,6 +25,8 @@ import com.litesuits.http.request.Request;
 import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpResponseHandler;
+import com.obdo.data.models.User;
+import com.obdo.data.repos.Repo;
 
 /**
  * The user will be able to update his nickname information at this screen
@@ -46,7 +48,16 @@ public class NickActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private Button buttonUpdateNick;
+    /**
+     * HTTP Request Controller for the NickActivity
+     * @since 12/23/2014
+     * @see com.obdo.NickActivity
+     */
     private HTTPRequestNickController httpRequestController;
+    /**
+     * User phone number
+     * @since 12/23/2014
+     */
     private String phoneNumber;
 
     @Override
@@ -60,20 +71,6 @@ public class NickActivity extends ActionBarActivity {
         onCreateEditTextNickname();
         onCreateButtonUpdateNick();
     }
-
-    /**
-     * Update User nickname. Call Obdo Activity after it
-     * @since 12/12/2014
-     * @see com.obdo.controllers.SessionControllerSingleton
-     * @see com.obdo.ObdoActivity
-     */
-    /*public void updateUserNickname() {
-        SessionControllerSingleton sessionControllerSingleton = SessionControllerSingleton.getInstance(getApplicationContext());
-        sessionControllerSingleton.setNick(editTextNickname.getText().toString());
-        sessionControllerSingleton.updateNickUser();
-        Intent intent = new Intent(NickActivity.this, ObdoActivity.class);
-        startActivity(intent);
-    }*/
 
     /**
      * Initialize EditText and its behaviors.
@@ -173,9 +170,27 @@ public class NickActivity extends ActionBarActivity {
  * @version 1.0
  */
 class HTTPRequestNickController  {
+    /**
+     * HTTP Client
+     * @since 12/23/2014
+     * @see com.litesuits.http.LiteHttpClient
+     */
     private LiteHttpClient liteHttpClient;
+    /**
+     * HTTP Asynchronous Executor
+     * @since 12/23/2014
+     * @see com.litesuits.http.async.HttpAsyncExecutor
+     */
     private HttpAsyncExecutor asyncExecutor;
+    /**
+     * Activity that calls this class
+     * @since 12/23/2014
+     */
     private Activity activity;
+    /**
+     * Server Address saved on the url.xml
+     * @since 12/23/2014
+     */
     private String serverAddress;
 
     public HTTPRequestNickController(Activity activity) {
@@ -190,7 +205,7 @@ class HTTPRequestNickController  {
      * @param phoneNumber User cellphone number
      * @param nick new nickname
      */
-    public void updateUserNickname(String phoneNumber, String nick) {
+    public void updateUserNickname(final String phoneNumber,final String nick) {
         Request request = new Request(serverAddress)
                 .setMethod(HttpMethod.Post)
                 .addUrlPrifix("http://")
@@ -202,6 +217,11 @@ class HTTPRequestNickController  {
         asyncExecutor.execute(request, new HttpResponseHandler() {
             @Override
             protected void onSuccess(Response res, HttpStatus status, NameValuePair[] headers) {
+                Repo repo = new Repo(activity);
+                User user = repo.Users.getByPhoneNumber(phoneNumber);
+                user.setName(nick);
+                user.save(repo);
+
                 Intent intent = new Intent(activity, ObdoActivity.class);
                 activity.startActivity(intent);
             }

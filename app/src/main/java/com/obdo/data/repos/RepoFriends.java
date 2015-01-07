@@ -24,7 +24,7 @@ public class RepoFriends {
     /**
      * User DAO - ORMlite version
      */
-    Dao<Friend, String> friendDAO;
+    Dao<Friend, Integer> friendDAO;
 
     public RepoFriends(DatabaseHelper db) {
         try {
@@ -46,7 +46,7 @@ public class RepoFriends {
      */
     public boolean create(Friend friend) {
         try {
-            return friendDAO.create(friend)>0?true:false;
+            return friendDAO.create(friend) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class RepoFriends {
      */
     public boolean update(Friend friend) {
         try {
-            return friendDAO.update(friend)>0?true:false;
+            return friendDAO.update(friend) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -76,12 +76,12 @@ public class RepoFriends {
         boolean response1, response2;
         response1 = response2 = false;
         try {
-            response1 = friendDAO.delete(friend)>0?true:false;
-            response2 = friendDAO.delete(new Friend(friend.getUserB(),friend.getUserA()))>0?true:false;
+            response1 = friendDAO.delete(friend) > 0;
+            response2 = friendDAO.delete(new Friend(friend.getUserB(), friend.getUserA())) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return (response1 || response2)?true:false;
+        return (response1 || response2);
     }
 
     /**
@@ -92,7 +92,7 @@ public class RepoFriends {
      */
     public Friend checkFriendship(User userA, User userB) {
         try {
-            QueryBuilder<Friend, String> qb = friendDAO.queryBuilder();
+            QueryBuilder<Friend, Integer> qb = friendDAO.queryBuilder();
             Where left = qb.where();
             Where right = qb.where();
             left.eq("userA", userA).and().eq("userB", userB);
@@ -116,7 +116,7 @@ public class RepoFriends {
      */
     public List<Friend> getByUser(User user) {
         try {
-            QueryBuilder<Friend, String> qb = friendDAO.queryBuilder();
+            QueryBuilder<Friend, Integer> qb = friendDAO.queryBuilder();
             Where left = qb.where();
             Where right = qb.where();
             left.eq("userA", user);
@@ -129,6 +129,6 @@ public class RepoFriends {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ArrayList<Friend>();
+        return new ArrayList<>();
     }
 }

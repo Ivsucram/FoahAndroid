@@ -16,8 +16,8 @@ import java.util.List;
  * @see com.obdo.data.repos.RepoUsers
  */
 public class User {
-    @DatabaseField(id = true)
-    private String id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
     @DatabaseField(canBeNull = false)
     private String phoneNumber;
     @DatabaseField(canBeNull = true)
@@ -25,9 +25,9 @@ public class User {
     @DatabaseField(canBeNull = true)
     private String picture;
     @ForeignCollectionField(eager = false)
-    private Collection<Post> posts = new ArrayList<Post>();
+    private Collection<Post> posts;
     @ForeignCollectionField(eager = false)
-    private Collection<Comment> comments = new ArrayList<Comment>();
+    private Collection<Comment> comments;
 
     public User() {}
 
@@ -90,11 +90,11 @@ public class User {
         return repo.Posts.getByUser(this);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

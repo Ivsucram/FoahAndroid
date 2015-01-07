@@ -14,7 +14,7 @@ import com.obdo.data.repos.Repo;
 public class Pin {
     @DatabaseField(generatedId = true)
     private Integer id;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true)
     private Post post = new Post();
 
     public Pin() {}
@@ -25,7 +25,7 @@ public class Pin {
      * @return true if success, false if failure
      */
     public boolean save(Repo repo) {
-        boolean response = false;
+        boolean response;
         if (repo.Pins.checkPin(post)==null) {
             response = repo.Pins.create(this);
         } else {

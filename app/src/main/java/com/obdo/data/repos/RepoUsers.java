@@ -20,7 +20,7 @@ public class RepoUsers {
     /**
      * User DAO - ORMlite version
      */
-    Dao<User, String> userDAO;
+    private Dao<User, Integer> userDAO;
 
     public RepoUsers(DatabaseHelper db) {
         try {
@@ -42,7 +42,7 @@ public class RepoUsers {
      */
     public boolean create(User user) {
         try {
-            return userDAO.create(user)>0?true:false;
+            return userDAO.create(user) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class RepoUsers {
      */
     public boolean update(User user) {
         try {
-            return userDAO.update(user)>0?true:false;
+            return userDAO.update(user) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ public class RepoUsers {
      */
     public boolean delete(User user) {
         try {
-            return userDAO.delete(user)>0?true:false;
+            return userDAO.delete(user) > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class RepoUsers {
      */
     public User getByPhoneNumber(String phoneNumber) {
         try {
-            QueryBuilder<User, String> qb = userDAO.queryBuilder();
+            QueryBuilder<User, Integer> qb = userDAO.queryBuilder();
 
             qb.where().eq("phoneNumber", phoneNumber);
 

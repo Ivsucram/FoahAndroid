@@ -2,11 +2,9 @@ package com.obdo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -28,9 +26,9 @@ import com.litesuits.http.request.Request;
 import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.response.Response;
 import com.litesuits.http.response.handler.HttpResponseHandler;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.obdo.controllers.SharedPreferencesController;
+import com.obdo.data.models.User;
+import com.obdo.data.repos.Repo;
 
 /**
  * This is the main activity of the application. It have 3 main behaviors:
@@ -70,8 +68,18 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * @see android.widget.Button
      */
     private Button buttonLoginRegister;
+    /**
+     * HTTP Request Controller for the LoginRegistrationActivity
+     * @since 12/23/2014
+     * @see com.obdo.HTTPRequestLoginRegisrationController
+     */
     private HTTPRequestLoginRegisrationController httpRequestController;
 
+    /**
+     * Initialize Activity.
+     * Check if user is logged. If affirmative, goes straight to the ObdoActivity.
+     * @since 12/23/2014
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +96,6 @@ public class LoginRegistrationActivity extends ActionBarActivity {
      * Initialize EditText and its behaviors.
      * @since 12/10/2014
      * @see android.widget.EditText
-     * @see android.telephony.TelephonyManager
      */
     private void onCreateEditTextPhoneNumber() {
         editTextPhoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
@@ -146,7 +153,7 @@ public class LoginRegistrationActivity extends ActionBarActivity {
                 if (j > 1) {
                     for (int i = newText.length() - 1; i > 0 ; i--) {
                         if (newText.charAt(i)=='+') {
-                            String beforeText = newText.substring(0,i==0?0:i);
+                            String beforeText = newText.substring(0, i);
                             String afterText = i+1>=newText.length()?"":newText.substring(i+1);
                             newText = beforeText+afterText;
                         }
@@ -194,17 +201,28 @@ public class LoginRegistrationActivity extends ActionBarActivity {
  * @version 1.0
  */
 class HTTPRequestLoginRegisrationController  {
-    private LiteHttpClient liteHttpClient;
-    private HttpAsyncExecutor asyncExecutor;
-    private Activity activity;
-    private String serverAddress;
-
     /**
-     * Enum with keys for the shared preferences file
+     * HTTP Client
+     * @since 12/23/2014
+     * @see com.litesuits.http.LiteHttpClient
      */
-    private enum SharedPreferencesUserInformationENUM {
-        PHONENUMBER, UID
-    }
+    private LiteHttpClient liteHttpClient;
+    /**
+     * HTTP Asynchronous Executor
+     * @since 12/23/2014
+     * @see com.litesuits.http.async.HttpAsyncExecutor
+     */
+    private HttpAsyncExecutor asyncExecutor;
+    /**
+     * Activity that calls this class
+     * @since 12/23/2014
+     */
+    private Activity activity;
+    /**
+     * Server Address saved on the url.xml
+     * @since 12/23/2014
+     */
+    private String serverAddress;
 
     public HTTPRequestLoginRegisrationController(Activity activity) {
         this.activity = activity;
@@ -213,16 +231,20 @@ class HTTPRequestLoginRegisrationController  {
         serverAddress = activity.getApplicationContext().getString(R.string.server_address);
     }
 
+    /**
+     * Check if cellphone already contain someone logged on it or not, and if it matches with the UID on the server
+     * @since 12/23/2014
+     */
     public void checkPhoneIsActivated() {
-        Map<SharedPreferencesUserInformationENUM, String> dictionary = restorePreferences();
-        if (dictionary.get(SharedPreferencesUserInformationENUM.PHONENUMBER)==null || dictionary.get(SharedPreferencesUserInformationENUM.UID)==null) return;
+        SharedPreferencesController sharedPreferencesController = new SharedPreferencesController(activity);
+        if (sharedPreferencesController.loadPhoneNumber()==null || sharedPreferencesController.loadUID()==null) return;
 
         Request request = new Request(serverAddress)
                 .setMethod(HttpMethod.Get)
                 .addUrlPrifix("http://")
                 .addUrlSuffix(activity.getApplicationContext().getString(R.string.url_check_phone_activated_GET))
-                .addUrlParam("number", dictionary.get(SharedPreferencesUserInformationENUM.PHONENUMBER))
-                .addUrlParam("uid", dictionary.get(SharedPreferencesUserInformationENUM.UID))
+                .addUrlParam("number", sharedPreferencesController.loadPhoneNumber())
+                .addUrlParam("uid", sharedPreferencesController.loadUID())
                 .addHeader("Accept", "application/json");
 
         asyncExecutor.execute(request, new HttpResponseHandler() {
@@ -249,6 +271,7 @@ class HTTPRequestLoginRegisrationController  {
      * If no: register user
      * @param phoneNumber User cellphone
      * @param uid smartphone UID
+     * @since 12/23/2014
      */
     public void checkUserExists(final String phoneNumber, final String uid) {
         Request request = new Request(serverAddress)
@@ -281,6 +304,7 @@ class HTTPRequestLoginRegisrationController  {
      * Register user on the server database and login it on the cellphone
      * @param phoneNumber user cellphone
      * @param uid smartphone UID
+     * @since 12/23/2014
      */
     public void registerUser(final String phoneNumber,final String uid) {
         Request request = new Request(serverAddress)
@@ -299,6 +323,12 @@ class HTTPRequestLoginRegisrationController  {
                 if (jsonObject.get("success").getAsBoolean()) {
                     //TODO: check SMS
                     savePreferences(phoneNumber, uid);
+
+                    Repo repo = new Repo(activity);
+                    User user = new User();
+                    user.setPhoneNumber(phoneNumber);
+                    user.save(repo);
+
                     Intent intent = new Intent(activity, NickActivity.class);
                     intent.putExtra("EXTRA_PHONE_NUMBER", phoneNumber);
                     activity.startActivity(intent);
@@ -318,6 +348,7 @@ class HTTPRequestLoginRegisrationController  {
      * Login user (new cellphone) on the server
      * @param phoneNumber User cellphone
      * @param uid Smartphone UID
+     * @since 12/23/2014
      */
     public void loginUser(final String phoneNumber,final String uid) {
         Request request = new Request(serverAddress)
@@ -335,6 +366,7 @@ class HTTPRequestLoginRegisrationController  {
                 JsonObject jsonObject = jsonParser.parse(res.getString()).getAsJsonObject();
                 if (jsonObject.get("success").getAsBoolean()) {
                     //TODO: check SMS
+                    //TODO: Connect to the server, retrieve the user data to internal storage
                     savePreferences(phoneNumber, uid);
                     Intent intent = new Intent(activity, ObdoActivity.class);
                     activity.startActivity(intent);
@@ -354,26 +386,11 @@ class HTTPRequestLoginRegisrationController  {
      * Save Shared Preferences with user information: Phonenumber and smartphone UID
      * @param phoneNumber User cellphone to be saved
      * @param uid smartphone UID to be saved
+     * @since 12/23/2014
      */
     private void savePreferences(String phoneNumber, String uid) {
-        SharedPreferences settings = activity.getSharedPreferences(activity.getApplicationContext().getString(R.string.preferencesFileName), 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(activity.getApplicationContext().getString(R.string.phoneNumber),phoneNumber);
-        editor.putString(activity.getApplicationContext().getString(R.string.uid), uid);
-        editor.commit();
-    }
-
-    /**
-     * Load Shared Preferences with user information: phonenumber and smartphone UID
-     * @return a dictionary with the phonenumber and smartphone UID values
-     */
-    private Map<SharedPreferencesUserInformationENUM, String> restorePreferences() {
-        SharedPreferences settings = activity.getSharedPreferences(activity.getApplicationContext().getString(R.string.preferencesFileName), 0);
-        String phoneNumber = settings.getString(activity.getApplicationContext().getString(R.string.phoneNumber), null);
-        String uid = settings.getString(activity.getApplicationContext().getString(R.string.uid), null);
-        Map<SharedPreferencesUserInformationENUM, String> dictionary = new HashMap<SharedPreferencesUserInformationENUM, String>();
-        dictionary.put(SharedPreferencesUserInformationENUM.PHONENUMBER, phoneNumber);
-        dictionary.put(SharedPreferencesUserInformationENUM.UID, uid);
-        return dictionary;
+        SharedPreferencesController sharedPreferencesController = new SharedPreferencesController(activity);
+        sharedPreferencesController.savePhoneNumber(phoneNumber);
+        sharedPreferencesController.saveUID(uid);
     }
 }

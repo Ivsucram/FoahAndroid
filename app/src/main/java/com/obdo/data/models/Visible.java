@@ -15,9 +15,9 @@ public class Visible {
     @DatabaseField(generatedId = true)
     private Integer id;
     @DatabaseField(foreign = true)
-    private Post post;
+    private Post post = new Post();
 
-    Visible() {}
+    public Visible() {}
 
     public Visible(Post post) {
         this.post = post;
@@ -29,7 +29,7 @@ public class Visible {
      * @return true if success, false if failure
      */
     public boolean save(Repo repo) {
-        boolean response = false;
+        boolean response;
         if (repo.Visibles.checkPostIsVisible(post)==null) {
             response = repo.Visibles.create(this);
         } else {

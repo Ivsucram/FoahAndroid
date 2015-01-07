@@ -3,8 +3,6 @@ package com.obdo.data.models;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.obdo.data.repos.Repo;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,18 +14,16 @@ import java.util.List;
  * @see com.obdo.data.repos.RepoComments
  */
 public class Comment {
-    @DatabaseField(id = true)
-    private String id;
+    @DatabaseField(generatedId = true)
+    private Integer id;
     @DatabaseField(canBeNull = true)
     private String text;
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false)
     private User user = new User();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false)
     private Post post = new Post();
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private ReadPost readPost = new ReadPost();
     @ForeignCollectionField(eager = true)
-    private Collection<Asset> assets = new ArrayList<Asset>();
+    private Collection<Asset> assets;
 
     public Comment() {}
 
@@ -37,9 +33,8 @@ public class Comment {
      * @return true if success, false if failure
      */
     public boolean save(Repo repo) {
-        boolean response = false;
-        //TODO: create a better check
-        if (id!=null && !id.isEmpty()) {
+        boolean response;
+        if (id!=null) {
             response = repo.Comments.update(this);
         } else {
             response = repo.Comments.create(this);
@@ -66,11 +61,11 @@ public class Comment {
         return repo.Assets.getByComment(this);
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -96,14 +91,6 @@ public class Comment {
 
     public void setPost(Post post) {
         this.post = post;
-    }
-
-    public ReadPost getReadPost() {
-        return readPost;
-    }
-
-    public void setReadPost(ReadPost readPost) {
-        this.readPost = readPost;
     }
 
     public Collection<Asset> getAssets() {
